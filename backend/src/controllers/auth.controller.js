@@ -2,7 +2,6 @@ import { validationResult } from "express-validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import UserModel from "../models/user.model.js";
-import dotenv from "dotenv";
 
 class AuthController {
   async registerUser(req, res) {
@@ -70,7 +69,7 @@ class AuthController {
 
       const token = jwt.sign(
         {
-          _id: user.id,
+          id: user.id,
         },
         process.env.JWT_SECRET,
         {
@@ -91,14 +90,14 @@ class AuthController {
 
   async getMe(req, res) {
     try {
-      const { id } = req.body;
-      const user = await UserModel.findUserById(id);
+      const userId = req.user.id;
+      console.log(userId);
+      const user = await UserModel.findUserById(userId);
 
-      res.status(201).json({
-        user: user,
-      });
+      res.status(200).json({ user });
     } catch (error) {
       console.log(error);
+      res.status(500).json({ message: "Server error" });
     }
   }
 }
