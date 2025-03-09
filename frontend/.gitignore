@@ -1,0 +1,59 @@
+#node_modules і залежності
+node_modules/
+.pnp/
+.pnp.js
+
+# Лог-файли
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+debug.log*
+.eslintcache
+
+# Файли оточення
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Кеши та збірки
+.cache/
+.nuxt/
+out/
+build/
+dist/
+tmp/
+.turbo
+
+# IDE/редактор
+.idea/
+.vscode/
+*.swp
+.DS_Store
+.npm/
+.yarn/
+
+# TypeScript
+*.tsbuildinfo
+.turbo/
+
+# React
+public/*.cache
+public/static
+.parcel-cache/
+.expo/
+
+# Next.js
+.next/
+.vercel/
+.swc/
+
+# Storybook
+storybook-static/
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
