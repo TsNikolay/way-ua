@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import tokenModel from "../models/token.model.js";
+import userModel from "../models/user.model.js";
 
 class TokenService {
   generateTokens(payload) {
@@ -14,16 +15,39 @@ class TokenService {
     return { accessToken, refreshToken };
   }
 
-  async createOrUpdateRefreshToken(userId, refreshToken) {
+  async createOrUpdate(userId, refreshToken) {
     const tokenData = await tokenModel.findByUserId(userId);
     if (tokenData) {
       //Якщо юзер вже логінився
-      const token = await tokenModel.updateRefreshToken(userId, refreshToken); // Перезапис токена
+      const token = await tokenModel.update(userId, refreshToken); // Перезапис токена
       return token;
     }
     // Якщо юзер логіниться вперше
-    const token = await tokenModel.createRefreshToken(userId, refreshToken); // Створення нового токена
+    const token = await tokenModel.create(userId, refreshToken); // Створення нового токена
     return token;
+  }
+
+  async remove(refreshToken) {
+    const token = await tokenModel.remove(refreshToken);
+    return token;
+  }
+
+  async validateAccessToken(accessToken) {
+    try {
+      const userData = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET);
+      return userData;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  async validateRefreshToken(refreshToken) {
+    try {
+      const userData = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+      return userData;
+    } catch (err) {
+      return null;
+    }
   }
 }
 

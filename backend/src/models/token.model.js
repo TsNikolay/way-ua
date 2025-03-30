@@ -8,8 +8,16 @@ class TokenModel {
     return result.rows[0];
   }
 
+  async findToken(refreshToken) {
+    const result = await db.query(
+      `SELECT * FROM tokens WHERE refresh_token = $1;`,
+      [refreshToken],
+    );
+    return result.rows[0];
+  }
+
   //Наступні команди відносяться до RefreshToken'у, якщо в майбутньому тут будуть оброблятися інші токени то методи мінять ім'я
-  async updateRefreshToken(userId, newRefreshToken) {
+  async update(userId, newRefreshToken) {
     const updated_at = new Date();
     const result = await db.query(
       `UPDATE tokens SET refresh_token = $1, created_at = $2 WHERE user_id = $3 RETURNING *;`,
@@ -18,12 +26,20 @@ class TokenModel {
     return result.rows[0];
   }
 
-  async createRefreshToken(userId, refreshToken) {
+  async create(userId, refreshToken) {
     const created_at = new Date();
     const result = await db.query(
       `INSERT INTO tokens (user_id, refresh_token, created_at) 
              VALUES ($1, $2, $3) RETURNING *;`,
       [userId, refreshToken, created_at],
+    );
+    return result.rows[0];
+  }
+
+  async remove(refreshToken) {
+    const result = await db.query(
+      `DELETE FROM tokens WHERE refresh_token = $1 RETURNING *;`,
+      [refreshToken],
     );
     return result.rows[0];
   }
