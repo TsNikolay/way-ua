@@ -15,7 +15,7 @@ export const checkToken = (req, res, next) => {
     }
 
     const token = tokenParts[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
 
     console.log("Decoded token:", decoded);
     req.user = decoded;

@@ -1,13 +1,23 @@
 import db from "../config/db.js";
+import bcrypt from "bcrypt";
 
 class UserModel {
-  async createUser(email, name, password_hash, avatar_url) {
+  async createUser(email, name, password_hash, avatar_url, activation_link) {
     const timestamp = new Date(Date.now());
+    const is_activated = false;
 
     const result = await db.query(
-      `INSERT INTO users (email, name, password_hash, avatar_url, created_at) 
-             VALUES ($1, $2, $3, $4, $5) RETURNING *;`,
-      [email, name, password_hash, avatar_url, timestamp],
+      `INSERT INTO users (email, name, password_hash, avatar_url, created_at, is_activated, activation_link) 
+             VALUES ($1, $2, $3, $4, $5, $6 ,$7) RETURNING *;`,
+      [
+        email,
+        name,
+        password_hash,
+        avatar_url,
+        timestamp,
+        is_activated,
+        activation_link,
+      ],
     );
 
     return result.rows[0];

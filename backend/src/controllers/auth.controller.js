@@ -2,6 +2,9 @@ import { validationResult } from "express-validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import UserModel from "../models/user.model.js";
+import * as uuid from "uuid";
+import mailService from "../services/mail.service.js";
+import tokenService from "../services/token.service.js";
 
 class AuthController {
   async registerUser(req, res) {
@@ -20,28 +23,38 @@ class AuthController {
 
       const salt = await bcrypt.genSalt(10);
       const password_hash = await bcrypt.hash(password, salt);
-
+      const activation_link = uuid.v4();
       const newUser = await UserModel.createUser(
         email,
         name,
         password_hash,
         avatar_url,
+        activation_link,
       );
 
-      const token = jwt.sign(
-        {
-          _id: newUser.id,
-        },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: process.env.JWT_EXPIRES,
-        },
+      await mailService.sendActivationEmail(email, activation_link);
+      console.log(newUser);
+      const tokens = tokenService.generateTokens({
+        id: newUser.id,
+        email,
+        is_activated: newUser.is_activated,
+      });
+      //Зберігаємо або оновлюємо рефреш токен в базі даних
+      await tokenService.createOrUpdateRefreshToken(
+        newUser.id,
+        tokens.refreshToken,
       );
+
+      //Зберігаємо рефреш токен в cookies
+      res.cookie("refreshToken", tokens.refreshToken, {
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      });
 
       res.status(201).json({
         message: "User registered successfully",
         user: newUser,
-        token: token,
+        ...tokens,
       });
     } catch (error) {
       console.log(error);
@@ -71,9 +84,9 @@ class AuthController {
         {
           id: user.id,
         },
-        process.env.JWT_SECRET,
+        process.env.JWT_ACCESS_SECRET,
         {
-          expiresIn: process.env.JWT_EXPIRES,
+          expiresIn: process.env.JWT_ACCESS_EXPIRES,
         },
       );
 
@@ -86,6 +99,19 @@ class AuthController {
       console.log(error);
       res.status(500).json({ message: "Authorization failed" });
     }
+  }
+
+  async logoutUser(req, res) {
+    try {
+    } catch (err) {}
+  }
+  async activateAccount(req, res) {
+    try {
+    } catch (err) {}
+  }
+  async refreshToken(req, res) {
+    try {
+    } catch (err) {}
   }
 
   async getMe(req, res) {
