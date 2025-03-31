@@ -16,7 +16,8 @@ export const checkToken = async (req, res, next) => {
     }
 
     const token = tokenParts[1];
-    const userData = await tokenService.validateAccessToken(token);
+
+    const userData = await tokenService.validateAccessToken(token); //Поверенться пейлоад (зашиті дані юзера)
     if (!userData) {
       return res.status(401).json({ message: "Token not valid." });
     }

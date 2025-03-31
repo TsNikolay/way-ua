@@ -3,6 +3,7 @@ import * as uuid from "uuid";
 import userModel from "../models/user.model.js";
 import mailService from "./mail.service.js";
 import tokenService from "./token.service.js";
+import tokenModel from "../models/token.model.js";
 
 class AuthService {
   async register({ email, name, password, avatar_url }) {
@@ -74,6 +75,7 @@ class AuthService {
     }
 
     await userModel.updateUser(user.id, { is_activated: true });
+    return { user };
   }
 
   async refresh(refreshToken) {
@@ -81,8 +83,8 @@ class AuthService {
       throw new Error("Refresh token is missing");
     }
 
-    const userData = tokenService.validateRefreshToken(refreshToken);
-    const tokenFromDB = await tokenService.find(refreshToken);
+    const userData = await tokenService.validateRefreshToken(refreshToken);
+    const tokenFromDB = await tokenModel.findToken(refreshToken);
     if (!userData || !tokenFromDB) {
       throw new Error("User is not authorized");
     }

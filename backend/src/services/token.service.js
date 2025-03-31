@@ -18,11 +18,11 @@ class TokenService {
   async createOrUpdate(userId, refreshToken) {
     const tokenData = await tokenModel.findByUserId(userId);
     if (tokenData) {
-      //Якщо юзер вже логінився
+      //Якщо юзер вже логінився і рефреш токен є та потребує оновлення
       const token = await tokenModel.update(userId, refreshToken); // Перезапис токена
       return token;
     }
-    // Якщо юзер логіниться вперше
+    // Якщо юзер логіниться вперше або якщо рефреш токен вже пропав
     const token = await tokenModel.create(userId, refreshToken); // Створення нового токена
     return token;
   }

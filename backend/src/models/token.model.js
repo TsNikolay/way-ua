@@ -1,6 +1,7 @@
 import db from "../config/db.js";
 
 class TokenModel {
+  //Наступні команди відносяться до RefreshToken'у, якщо в майбутньому тут будуть оброблятися інші токени то методи мінять ім'я
   async findByUserId(userId) {
     const result = await db.query(`SELECT * FROM tokens WHERE user_id = $1;`, [
       userId,
@@ -16,7 +17,6 @@ class TokenModel {
     return result.rows[0];
   }
 
-  //Наступні команди відносяться до RefreshToken'у, якщо в майбутньому тут будуть оброблятися інші токени то методи мінять ім'я
   async update(userId, newRefreshToken) {
     const updated_at = new Date();
     const result = await db.query(

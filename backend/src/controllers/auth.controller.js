@@ -33,7 +33,7 @@ class AuthController {
       res.status(201).json({
         message: "User registered successfully",
         user,
-        ...tokens,
+        //...tokens,
       });
     } catch (error) {
       console.log(error);
@@ -55,7 +55,7 @@ class AuthController {
       res.status(201).json({
         message: "Log in successfully",
         user: user,
-        ...tokens,
+        //...tokens,
       });
     } catch (error) {
       console.log(error);
@@ -67,6 +67,8 @@ class AuthController {
     try {
       const { refreshToken } = req.cookies;
       const token = await tokenService.remove(refreshToken);
+
+      //Прибираємо рефреш токен з кукізів
       res.clearCookie("refreshToken");
       return res.json({ message: "User logged out", token });
     } catch (err) {}
@@ -89,13 +91,19 @@ class AuthController {
       const { user, tokens } = await authService.refresh(refreshToken);
 
       //Зберігаємо рефреш токен в cookies
-      res.cookie("refreshToken", token, {
+      res.cookie("refreshToken", tokens.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
       });
 
-      return res.json({ message: "Token refreshed successfully", token });
-    } catch (err) {}
+      return res.json({
+        message: "Tokens refreshed successfully",
+        //...tokens
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(401).json({ message: err.message || "Token refresh failed" });
+    }
   }
 
   async getMe(req, res) {
