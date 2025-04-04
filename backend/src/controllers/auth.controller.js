@@ -1,11 +1,7 @@
 import { validationResult } from "express-validator";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+
 import userModel from "../models/user.model.js";
-import * as uuid from "uuid";
-import mailService from "../services/mail.service.js";
 import tokenService from "../services/token.service.js";
-import tokenModel from "../models/token.model.js";
 import authService from "../services/auth.service.js";
 
 class AuthController {
@@ -55,7 +51,7 @@ class AuthController {
       res.status(201).json({
         message: "Log in successfully",
         user: user,
-        //...tokens,
+        ...tokens,
       });
     } catch (error) {
       console.log(error);
@@ -88,7 +84,7 @@ class AuthController {
   async refreshToken(req, res) {
     try {
       const { refreshToken } = req.cookies;
-      const { user, tokens } = await authService.refresh(refreshToken);
+      const { tokens } = await authService.refresh(refreshToken);
 
       //Зберігаємо рефреш токен в cookies
       res.cookie("refreshToken", tokens.refreshToken, {
