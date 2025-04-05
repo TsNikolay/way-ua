@@ -13,5 +13,5 @@ export const logoutRequest = async () => {
 };
 
 export const getMeRequest = async () => {
-  return api.get("/me");
+  return api.get("/auth/me");
 };
