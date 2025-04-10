@@ -3,6 +3,7 @@ import styles from "./Header.module.css";
 
 import ThemeSwitcher from "../../ThemeSwitcher/ThemeSwitcher";
 import LanguageSwitcher from "../../LanguageSwitcher/LanguageSwitcher";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -10,9 +11,9 @@ const Header = () => {
       <div className={styles.logo}>WAY.UA</div>
 
       <nav className={styles.nav}>
-        <a href="#">HOME</a>
-        <a href="#">ABOUT US</a>
-        <a href="#">CONTACTS</a>
+        <Link to="#">HOME</Link>
+        <Link to="#">ABOUT US</Link>
+        <Link to="#">CONTACTS</Link>
       </nav>
 
       <div className={styles.controls}>

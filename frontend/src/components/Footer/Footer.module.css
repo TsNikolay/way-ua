@@ -1,0 +1,67 @@
+.footer{
+    background: #074008;
+    height: auto;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.info{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 40px;
+    color: white;
+    font-family: 'Poppins', sans-serif  ;
+}
+
+.links a {
+    margin: 0 15px;
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 300;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+.line{
+        border: none;
+        height: 2px;
+        background-color: white;
+        width: 80%; /* или 100% по ширине родителя */
+        margin: 10px auto; /* центрирование */
+        border-radius: 10px;
+}
+
+.socMediaLinks{
+    margin: 10px 15px;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.socMediaLinks span{
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    border: 1px solid white;
+    border-radius: 50px;
+    padding: 5px;
+    font-size: 1.8rem;
+}
+
+.copyright{
+    color: white;
+    font-size: 0.9rem;
+}
+
+.logo{
+    font-size: 1.5rem;
+}
