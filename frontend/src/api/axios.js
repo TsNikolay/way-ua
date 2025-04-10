@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_URL = "http://localhost:5000";
+export const API_URL = "http://localhost:5000/api/v1";
 
 //Створюємо екземпляр аксіоса, він буде один на весь додаток, через нього шлемо запити
 const api = axios.create({

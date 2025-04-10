@@ -1,0 +1,60 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(
+            to bottom,
+            rgba(7, 64, 8, 0.45) 0%,
+            rgba(35, 151, 37, 0) 100%
+    );
+
+    padding: 20px 40px;
+    color: white;
+
+    font-family: 'Poppins', sans-serif  ;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.6rem;
+    font-weight: 450;
+    letter-spacing: 1px;
+}
+
+.nav a {
+    margin: 0 15px;
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 300;
+}
+
+.nav a:hover {
+    text-decoration: underline;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+
+.loginBtn {
+    background-color: rgba(2,91,3,0.8);
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+
+
+.loginBtn:hover {
+    background-color: #03824b;
+}

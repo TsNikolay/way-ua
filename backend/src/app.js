@@ -19,6 +19,6 @@ app.get("/", (req, res) => {
   res.send("OK");
 });
 
-app.use("/auth", authRouter);
+app.use("/api/v1/auth", authRouter);
 
 export default app;
