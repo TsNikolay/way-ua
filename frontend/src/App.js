@@ -1,11 +1,12 @@
 import LoginForm from "./components/LoginForm/LoginForm";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import AuthContext from "./contexts/AuthContext";
 import { getMeRequest } from "./api/authApi";
+import UserContext from "./contexts/UserContext";
 
 function App() {
   const { refresh, logout, ...state } = useContext(AuthContext);
-  const [userInfo, setUserInfo] = useState(null);
+  const { userInfo, setUserInfo, clearUserInfo } = useContext(UserContext);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -17,6 +18,7 @@ function App() {
   const handleLogout = async () => {
     try {
       await logout();
+      clearUserInfo();
     } catch (err) {
       console.error(
         "Logout failed:",
