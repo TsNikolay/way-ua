@@ -19,7 +19,6 @@ const Header = () => {
       <div className={styles.controls}>
         <ThemeSwitcher />
         <LanguageSwitcher />
-
         <button className={styles.loginBtn}>LOGIN</button>
       </div>
     </header>
