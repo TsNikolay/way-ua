@@ -24,3 +24,29 @@
     object-fit: cover;
     border-radius: 12px;
 }
+
+/* ================= MEDIA ================= */
+
+@media (max-width: 1024px) {
+    .aboutSection {
+        flex-direction: column;
+    }
+
+    .textBlock {
+        width: 80%;
+        font-size: 1.6rem;
+    }
+
+    .image {
+        width: 80%;
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-bottom: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+
+}
