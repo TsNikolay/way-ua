@@ -23,9 +23,23 @@ class RouteController {
     }
   }
 
-  async getRoutes(req, res) {
+  async deleteRoute(req, res) {
     try {
-    } catch (error) {}
+      const routeId = req.params.id;
+      const userId = req.user.id;
+      const deleted = await RoutesService.deleteRoute(userId, routeId);
+
+      if (!deleted) {
+        return res
+          .status(404)
+          .json({ message: "Route not found or not yours" });
+      }
+
+      res.json({ message: "Route deleted successfully" });
+    } catch (err) {
+      console.error("Error deleting route:", err);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
   }
 }
 

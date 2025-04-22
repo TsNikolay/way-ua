@@ -79,7 +79,7 @@ class RouteService {
     }
 
     // 1. Створення маршруту
-    const routeData = await RouteModel.createRoute({
+    const routeData = await RouteModel.create({
       userId,
       name,
       city,
@@ -99,6 +99,12 @@ class RouteService {
     }
 
     return routeData;
+  }
+
+  async deleteRoute(userId, routeId) {
+    const result = await RouteModel.delete(userId, routeId);
+    console.log(result);
+    return result.rowCount > 0; // перевірка чи видалився маршрут. Якщо видалилося більше 0 рядків то true
   }
 }
 

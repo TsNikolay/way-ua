@@ -1,7 +1,7 @@
 import db from "../config/db.js";
 
 class RouteModel {
-  async createRoute(routeData) {
+  async create(routeData) {
     const {
       userId,
       name,
@@ -32,6 +32,14 @@ class RouteModel {
     );
 
     return result.rows[0];
+  }
+
+  async delete(userId, routeId) {
+    const result = await db.query(
+      `DELETE FROM routes WHERE user_id = $1 AND id = $2 RETURNING *`,
+      [userId, routeId],
+    );
+    return result;
   }
 }
 
