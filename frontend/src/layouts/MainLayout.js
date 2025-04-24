@@ -2,12 +2,21 @@ import React from "react";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Headers/MainHeader/Header";
 import { Outlet } from "react-router-dom";
+import bgImage from "../assets/images/bg-lightmode.jpg";
+import styles from "./MainLayout.module.css";
 
 const MainLayout = () => {
   return (
     <>
       <Header />
-      <Outlet /> {/* Здесь рендерятся вложенные страницы */}
+      <main
+        style={{ backgroundImage: `url(${bgImage})` }}
+        className={styles.container}
+      >
+        <div className={styles.content}>
+          <Outlet /> {/* Здесь рендерятся вложенные страницы */}
+        </div>
+      </main>
       <Footer />
     </>
   );

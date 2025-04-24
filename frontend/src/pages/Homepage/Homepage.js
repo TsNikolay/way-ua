@@ -1,21 +1,20 @@
 import React from "react";
-import bgImage from "../../assets/images/bg-lightmode.jpg";
-import styles from "./Home.module.css";
-import AboutSection from "../AboutSection/AboutSection";
+import styles from "./Homepage.module.css";
+import AboutSection from "../../components/AboutSection/AboutSection";
+import { Link } from "react-router-dom";
 
-const Home = () => {
+const Homepage = () => {
   return (
-    <div
-      className={styles.container}
-      style={{ backgroundImage: `url(${bgImage})` }}
-    >
+    <div>
       <div className={styles.content}>
         <div className={styles.callToAction}>
           <div className={styles.blurredBackground}></div>
           <h1 className={styles.slogan}>
             DISCOVER <span className={styles.ukraine}>UKRAINE</span> WITH US
           </h1>
-          <button>PLAN YOUR TRIP</button>
+          <button>
+            <Link to="/planner/step1">PLAN YOUR TRIP</Link>
+          </button>
         </div>
 
         <div className={styles.quote}>
@@ -56,4 +55,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Homepage;

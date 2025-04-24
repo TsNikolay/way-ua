@@ -1,13 +1,21 @@
-import HomePage from "./pages/HomePage";
+import Homepage from "./pages/Homepage/Homepage";
 import { Route, Routes } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
+import PlannerPage from "./pages/Planner/PlannerPage";
+
+import LocationDatesPage from "./pages/Planner/LocationDatesPage";
 
 function App() {
   return (
     <>
       <Routes>
         <Route element={<MainLayout />}>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<Homepage />} />
+          <Route path="/planner" element={<PlannerPage />}>
+            <Route path="step1" element={<LocationDatesPage />} />
+            {/*<Route path="step2" element={<Step2HotelsPlaces />} />*/}
+            {/*<Route path="step3" element={<Step3Weather />} />*/}
+          </Route>
         </Route>
       </Routes>
 

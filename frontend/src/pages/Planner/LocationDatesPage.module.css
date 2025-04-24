@@ -1,0 +1,59 @@
+.title{
+    text-align: center;
+    color: white;
+    font-weight: 400;
+    font-size: 3.5em;
+}
+
+.hint{
+    text-align: center;
+    color: black;
+    font-weight: 500;
+    font-size: 1.5em;
+}
+
+.container{
+    background-color: white;
+    width: 80%;
+    justify-self: center;
+    border-radius: 15px;
+    padding: 20px 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.question{
+    font-weight: 600;
+    font-size: 1.4em;
+}
+
+.destination, .dates{
+    margin: 20px 0;
+}
+
+.button {
+    background-color: rgba(2, 91, 3, 0.8);
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 1.2em;
+    width: 20%;
+}
+
+.button:hover {
+    background-color: #03824b;
+
+}
+
+
+.dateRangePicker > *{
+    border-radius: 5px ;
+    border: 1px solid hsl(0, 0%, 80%);
+    height: 40px;
+    font-weight: 400;
+
+;
+}
+
