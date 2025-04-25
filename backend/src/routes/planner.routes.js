@@ -3,6 +3,7 @@ import PlannerController from "../controllers/planner.controller.js";
 
 const router = new Router();
 
-router.get("/suggestions", PlannerController.getSuggestions);
+router.get("/hotels", PlannerController.getHotels);
+router.get("/attractions", PlannerController.getAttractions);
 
 export default router;

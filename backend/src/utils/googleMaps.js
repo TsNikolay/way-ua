@@ -3,12 +3,12 @@ import axios from "axios";
 const API_KEY = process.env.GOOGLE_MAPS_API_KEY_SERVER;
 
 const GoogleMapsAPI = {
-  async getHotels(city) {
+  async getHotels(city, startDate, endDate) {
     const response = await axios.get(
       `https://maps.googleapis.com/maps/api/place/textsearch/json`,
       {
         params: {
-          query: `hotels in ${city}`,
+          query: `hotels in ${city} available from ${startDate} to ${endDate}`,
           key: API_KEY,
         },
       },
@@ -18,12 +18,12 @@ const GoogleMapsAPI = {
       .slice(0, 10);
   },
 
-  async getAttractions(city) {
+  async getAttractions(city, startDate, endDate) {
     const response = await axios.get(
       `https://maps.googleapis.com/maps/api/place/textsearch/json`,
       {
         params: {
-          query: `tourist attractions in ${city}`,
+          query: `tourist attractions in ${city} available from ${startDate} to ${endDate}`,
           key: API_KEY,
         },
       },

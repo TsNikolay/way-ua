@@ -4,6 +4,7 @@ import MainLayout from "./layouts/MainLayout";
 import PlannerPage from "./pages/Planner/PlannerPage";
 
 import LocationDatesPage from "./pages/Planner/LocationDatesPage";
+import HotelsAttractionsPage from "./pages/Planner/HotelsAttractionsPage";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/planner" element={<PlannerPage />}>
             <Route path="step1" element={<LocationDatesPage />} />
-            {/*<Route path="step2" element={<Step2HotelsPlaces />} />*/}
+            <Route path="step2" element={<HotelsAttractionsPage />} />
             {/*<Route path="step3" element={<Step3Weather />} />*/}
           </Route>
         </Route>

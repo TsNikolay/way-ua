@@ -1,10 +1,17 @@
 import GoogleMapsAPI from "../utils/googleMaps.js";
 
 class PlannerService {
-  async getSuggestions(city) {
-    const hotels = await GoogleMapsAPI.getHotels(city);
-    const places = await GoogleMapsAPI.getAttractions(city);
-    return { hotels, places };
+  async getHotels(city, startDate, endDate) {
+    const hotels = await GoogleMapsAPI.getHotels(city, startDate, endDate);
+    return hotels;
+  }
+  async getAttractions(city, startDate, endDate) {
+    const attractions = await GoogleMapsAPI.getAttractions(
+      city,
+      startDate,
+      endDate,
+    );
+    return attractions;
   }
 }
 
