@@ -1,18 +1,51 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./HotelCard.module.css";
+import PlannerFormContext from "../../contexts/PlannerFormContext";
 
 const HotelCard = ({ hotel }) => {
-  const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
-  const photoReference = hotel.photos[0].photo_reference;
-  const imageUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoReference}&key=${apiKey}`;
-  const htmlAttributions = hotel.photos[0].html_attributions;
+  const { setSelectedHotel, selectedHotel } = useContext(PlannerFormContext);
+  const isAnySelected = !!selectedHotel;
+  const isSelected = selectedHotel?.place_id === hotel.place_id;
+
+  const selectHotel = (hotel) => {
+    selectedHotel
+      ? hotel.place_id === selectedHotel.place_id
+        ? setSelectedHotel(null)
+        : setSelectedHotel(hotel)
+      : setSelectedHotel(hotel);
+  };
 
   return (
-    <div>
-      <img style={{ width: "100px" }} src={imageUrl} alt="No photo" />
+    <div
+      onClick={() => {
+        selectHotel(hotel);
+      }}
+      className={`
+        ${styles.card}
+        ${
+          isAnySelected
+            ? isSelected
+              ? styles.selected
+              : styles.notSelected
+            : ""
+        }
+      `}
+    >
+      <img
+        className={styles.image}
+        src={hotel.imageUrl || "/images/default-hotel.png"}
+        alt={hotel.name}
+        onError={(e) => {
+          e.target.src = "/images/default-hotel.png";
+        }}
+      />
+
+      <h2>{hotel.name}</h2>
+      <h3>📍{hotel.address}</h3>
+      <h3>⭐{hotel.rating}</h3>
       <div
         className={styles.attribution}
-        dangerouslySetInnerHTML={{ __html: htmlAttributions[0] }}
+        dangerouslySetInnerHTML={{ __html: hotel.attribution }}
       />
     </div>
   );

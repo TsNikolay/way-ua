@@ -4,6 +4,7 @@ class PlannerController {
   async getHotels(req, res) {
     try {
       const { city, startDate, endDate } = req.body;
+
       const result = await PlannerService.getHotels(city, startDate, endDate);
       res.json(result);
     } catch (err) {
@@ -14,6 +15,7 @@ class PlannerController {
   async getAttractions(req, res) {
     try {
       const { city, startDate, endDate } = req.body;
+
       const result = await PlannerService.getAttractions(
         city,
         startDate,

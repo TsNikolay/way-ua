@@ -24,6 +24,11 @@
     margin: 20px 0;
 }
 
+.buttons{
+    display: flex;
+    justify-content: end;
+}
+
 .button {
     background-color: rgba(2, 91, 3, 0.8);
     color: white;

@@ -1,19 +1,23 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import styles from "./HotelsAttractionsPage.module.css";
 
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
 import PlannerFormContext from "../../contexts/PlannerFormContext";
 import HotelList from "../../components/HotelList/HotelList";
+import { useNavigate } from "react-router-dom";
 
 const HotelsAttractionsPage = () => {
   const {
     hotels,
+    setHotels,
     attractions,
     setSelectedHotel,
     setSelectedAttractions,
     selectedHotel,
     selectedAttractions,
+    setPage,
   } = useContext(PlannerFormContext);
+  const navigate = useNavigate();
 
   const handleContinue = async (event) => {
     // event.preventDefault();
@@ -29,7 +33,36 @@ const HotelsAttractionsPage = () => {
     // }
   };
 
-  const handleBack = async (event) => {};
+  const handleBack = async () => {
+    setPage(0);
+    setHotels([]);
+    setSelectedHotel(null);
+    localStorage.removeItem("plannerHotels");
+    localStorage.removeItem("selectedHotel");
+    navigate("/planner/step1");
+  };
+
+  // Завантажуємо з localStorage при першому запуску
+  useEffect(() => {
+    const savedHotels = localStorage.getItem("plannerHotels");
+    const savedSelectedHotel = localStorage.getItem("selectedHotel");
+
+    if (savedHotels) setHotels(JSON.parse(savedHotels));
+    if (savedSelectedHotel) setSelectedHotel(JSON.parse(savedSelectedHotel));
+  }, []);
+
+  // Зберігаємо в localStorage при змінах
+  useEffect(() => {
+    if (hotels.length > 0) {
+      localStorage.setItem("plannerHotels", JSON.stringify(hotels));
+    }
+  }, [hotels]);
+
+  useEffect(() => {
+    if (selectedHotel) {
+      localStorage.setItem("selectedHotel", JSON.stringify(selectedHotel));
+    }
+  }, [selectedHotel]);
 
   return (
     <div>
@@ -40,7 +73,7 @@ const HotelsAttractionsPage = () => {
           <h3 className={styles.question}>
             🏨 Which hotel would you like to stay at?
           </h3>
-          {hotels.length <= 0 ? (
+          {hotels.length === 0 ? (
             <p>Loading hotels...</p>
           ) : (
             <HotelList hotels={hotels} />

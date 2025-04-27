@@ -18,8 +18,9 @@ const LocationDatesPage = () => {
   const handleContinue = async () => {
     try {
       setPage(1);
-      await getHotels(city, date[0], date[1]);
-      await getAttractions(city, date[0], date[1]);
+      await getHotels(city.label, date[0], date[1]);
+      await getAttractions(city.label, date[0], date[1]);
+
       navigate("/planner/step2");
     } catch (err) {
       console.error(
@@ -46,6 +47,8 @@ const LocationDatesPage = () => {
               },
             }}
             selectProps={{
+              placeholder: "Select a city",
+              value: city,
               city,
               onChange: (value) => {
                 setCity(value);
@@ -68,15 +71,19 @@ const LocationDatesPage = () => {
             value={date}
           />
         </div>
-        <button
-          className={
-            date && city ? styles.button : `${styles.button} ${styles.inactive}`
-          }
-          onClick={date && city ? () => handleContinue() : null}
-          disabled={!(city && date)}
-        >
-          Continue
-        </button>
+        <div className={styles.buttons}>
+          <button
+            className={
+              date && city
+                ? styles.button
+                : `${styles.button} ${styles.inactive}`
+            }
+            onClick={date && city ? () => handleContinue() : null}
+            disabled={!(city && date)}
+          >
+            Continue
+          </button>
+        </div>
       </div>
     </div>
   );

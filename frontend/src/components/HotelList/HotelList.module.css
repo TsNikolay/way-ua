@@ -1,0 +1,23 @@
+.list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.showMoreButton {
+    display: flex;
+    background-color: rgba(2, 91, 3, 0.8);
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-weight: 400;
+    cursor: pointer;
+    justify-self: center;
+}
+
+.showMoreButton:hover {
+    background-color: #03824b;
+}
+

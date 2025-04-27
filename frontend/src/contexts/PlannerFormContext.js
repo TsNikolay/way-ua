@@ -51,8 +51,13 @@ export const PlannerFormProvider = ({ children }) => {
 
   const setDates = (dates) => dispatch({ type: "SET_DATES", payload: dates });
 
-  const setSelectedHotel = (hotel) =>
+  const setHotels = (hotels) =>
+    dispatch({ type: "SET_HOTELS", payload: hotels });
+
+  const setSelectedHotel = (hotel) => {
+    localStorage.setItem("selectedHotel", JSON.stringify(hotel));
     dispatch({ type: "SET_SELECTED_HOTEL", payload: hotel });
+  };
 
   const setSelectedAttractions = (attractions) =>
     dispatch({ type: "SET_SELECTED_ATTRACTIONS", payload: attractions });
@@ -62,8 +67,8 @@ export const PlannerFormProvider = ({ children }) => {
   const getHotels = async (city, startDate, endDate) => {
     try {
       const response = await hotelsRequest(city, startDate, endDate);
-      console.log(response);
-      dispatch({ type: "SET_HOTELS", payload: response.hotels });
+      localStorage.setItem("plannerHotels", JSON.stringify(response.data));
+      dispatch({ type: "SET_HOTELS", payload: response.data });
     } catch (err) {
       console.error("Error fetching hotels:", err);
     }
@@ -85,6 +90,7 @@ export const PlannerFormProvider = ({ children }) => {
         setPage,
         setCity,
         setDates,
+        setHotels,
         setSelectedHotel,
         setSelectedAttractions,
         resetForm,

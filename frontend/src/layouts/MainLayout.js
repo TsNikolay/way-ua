@@ -2,7 +2,7 @@ import React from "react";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Headers/MainHeader/Header";
 import { Outlet } from "react-router-dom";
-import bgImage from "../assets/images/bg-lightmode.jpg";
+
 import styles from "./MainLayout.module.css";
 
 const MainLayout = () => {
@@ -10,7 +10,7 @@ const MainLayout = () => {
     <>
       <Header />
       <main
-        style={{ backgroundImage: `url(${bgImage})` }}
+        style={{ backgroundImage: `/images/bg-lightmode.jpg` }}
         className={styles.container}
       >
         <div className={styles.content}>
