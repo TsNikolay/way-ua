@@ -20,7 +20,6 @@ const LocationDatesPage = () => {
       setPage(1);
       await getHotels(city.label, date[0], date[1]);
       await getAttractions(city.label, date[0], date[1]);
-
       navigate("/planner/step2");
     } catch (err) {
       console.error(

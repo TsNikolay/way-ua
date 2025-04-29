@@ -10,7 +10,6 @@ const HotelList = ({ hotels }) => {
     setVisibleCount((prev) => prev + 8); // показывать ещё 6 при каждом нажатии
   };
 
-  hotels.forEach((hotel) => console.log(hotel.imageUrl));
   return (
     <div>
       <div className={styles.list}>

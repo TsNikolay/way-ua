@@ -4,7 +4,7 @@ const PlannerPage = () => {
   const location = useLocation();
 
   // Якщо маршрут просто "/planner", робимо редирект
-  if (location.pathname === "/planner") {
+  if (location.pathname === "/planner" || location.pathname === "/planner/") {
     return <Navigate to="/planner/step1" replace />;
   }
 

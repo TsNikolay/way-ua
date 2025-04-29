@@ -5,18 +5,21 @@ import ProgressBar from "../../components/ProgressBar/ProgressBar";
 import PlannerFormContext from "../../contexts/PlannerFormContext";
 import HotelList from "../../components/HotelList/HotelList";
 import { useNavigate } from "react-router-dom";
+import AttractionList from "../../components/AttractionList/AttractionList";
 
 const HotelsAttractionsPage = () => {
   const {
     hotels,
     setHotels,
     attractions,
+    setAttractions,
     setSelectedHotel,
     setSelectedAttractions,
     selectedHotel,
     selectedAttractions,
     setPage,
   } = useContext(PlannerFormContext);
+
   const navigate = useNavigate();
 
   const handleContinue = async (event) => {
@@ -37,8 +40,12 @@ const HotelsAttractionsPage = () => {
     setPage(0);
     setHotels([]);
     setSelectedHotel(null);
+    setAttractions([]);
+    setSelectedAttractions([]);
     localStorage.removeItem("plannerHotels");
     localStorage.removeItem("selectedHotel");
+    localStorage.removeItem("plannerAttractions");
+    localStorage.removeItem("selectedAttractions");
     navigate("/planner/step1");
   };
 
@@ -46,9 +53,16 @@ const HotelsAttractionsPage = () => {
   useEffect(() => {
     const savedHotels = localStorage.getItem("plannerHotels");
     const savedSelectedHotel = localStorage.getItem("selectedHotel");
+    const savedAttractions = localStorage.getItem("plannerAttractions");
+    const savedSelectedAttractions = localStorage.getItem(
+      "selectedAttractions",
+    );
 
     if (savedHotels) setHotels(JSON.parse(savedHotels));
     if (savedSelectedHotel) setSelectedHotel(JSON.parse(savedSelectedHotel));
+    if (savedAttractions) setAttractions(JSON.parse(savedAttractions));
+    if (savedSelectedAttractions)
+      setSelectedAttractions(JSON.parse(savedSelectedAttractions));
   }, []);
 
   // Зберігаємо в localStorage при змінах
@@ -63,6 +77,21 @@ const HotelsAttractionsPage = () => {
       localStorage.setItem("selectedHotel", JSON.stringify(selectedHotel));
     }
   }, [selectedHotel]);
+
+  useEffect(() => {
+    if (attractions.length > 0) {
+      localStorage.setItem("plannerAttractions", JSON.stringify(attractions));
+    }
+  }, [attractions]);
+
+  useEffect(() => {
+    if (selectedAttractions) {
+      localStorage.setItem(
+        "selectedAttractions",
+        JSON.stringify(selectedAttractions),
+      );
+    }
+  }, [selectedAttractions]);
 
   return (
     <div>
@@ -79,11 +108,18 @@ const HotelsAttractionsPage = () => {
             <HotelList hotels={hotels} />
           )}
         </div>
+
         <div className={styles.attractions}>
           <h3 className={styles.question}>
-            🎡 What attractions would you like to visit??
+            🎡 What attractions would you like to visit?
           </h3>
+          {attractions.length === 0 ? (
+            <p>Loading attractions...</p>
+          ) : (
+            <AttractionList attractions={attractions} />
+          )}
         </div>
+
         <div className={styles.buttons}>
           <button className={styles.button} onClick={() => handleBack()}>
             Back

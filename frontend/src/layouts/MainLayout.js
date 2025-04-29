@@ -10,7 +10,7 @@ const MainLayout = () => {
     <>
       <Header />
       <main
-        style={{ backgroundImage: `/images/bg-lightmode.jpg` }}
+        style={{ backgroundImage: `url(/images/bg-lightmode.jpg)` }}
         className={styles.container}
       >
         <div className={styles.content}>
