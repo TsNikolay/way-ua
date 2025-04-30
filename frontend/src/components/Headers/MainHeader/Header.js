@@ -17,9 +17,9 @@ const Header = () => {
       <div className={styles.logo}>WAY.UA</div>
 
       <nav ref={navRef} className={styles.nav}>
-        <Link to="#">HOME</Link>
-        <Link to="#">ABOUT</Link>
-        <Link to="#">CONTACTS</Link>
+        <Link to="/">HOME</Link>
+        <Link to="/#about">ABOUT</Link>
+        <Link to="/">CONTACTS</Link>
 
         <div className={styles.mobileControls}>
           <ThemeSwitcher />

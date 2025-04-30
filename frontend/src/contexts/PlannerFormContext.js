@@ -1,5 +1,9 @@
 import { createContext, useReducer } from "react";
-import { hotelsRequest, attractionsRequest } from "../api/plannerApi";
+import {
+  hotelsRequest,
+  attractionsRequest,
+  weatherRequest,
+} from "../api/plannerApi";
 
 const initialState = {
   stepEmojis: {
@@ -9,11 +13,12 @@ const initialState = {
   },
   page: 0,
   city: "",
-  date: "",
+  date: [],
   hotels: [],
   selectedHotel: null,
   attractions: [],
   selectedAttractions: [],
+  weather: {}, //Пока не знаю что тут будет за тип
 };
 
 function formReducer(state, action) {
@@ -30,6 +35,10 @@ function formReducer(state, action) {
       return { ...state, selectedHotel: action.payload };
     case "SET_ATTRACTIONS":
       return { ...state, attractions: action.payload };
+    case "SET_WEATHER":
+      return { ...state, weather: action.payload };
+    case "SET_SELECTED_ATTRACTIONS":
+      return { ...state, selectedAttractions: action.payload };
     case "ADD_SELECTED_ATTRACTION":
       return {
         ...state,
@@ -69,6 +78,9 @@ export const PlannerFormProvider = ({ children }) => {
   const setAttractions = (attractions) =>
     dispatch({ type: "SET_ATTRACTIONS", payload: attractions });
 
+  const setWeather = (weather) =>
+    dispatch({ type: "SET_WEATHER", payload: weather });
+
   const setSelectedHotel = (hotel) => {
     localStorage.setItem("selectedHotel", JSON.stringify(hotel));
     dispatch({ type: "SET_SELECTED_HOTEL", payload: hotel });
@@ -102,24 +114,48 @@ export const PlannerFormProvider = ({ children }) => {
 
   const resetForm = () => dispatch({ type: "RESET_FORM" });
 
-  const getHotels = async (city, startDate, endDate) => {
+  const getHotels = async (city) => {
     try {
-      const response = await hotelsRequest(city, startDate, endDate);
+      const response = await hotelsRequest(city);
       localStorage.setItem("plannerHotels", JSON.stringify(response.data));
-      dispatch({ type: "SET_HOTELS", payload: response.data });
+      setHotels(response.data);
     } catch (err) {
       console.error("Error fetching hotels:", err);
     }
   };
 
-  const getAttractions = async (city, startDate, endDate) => {
+  const getAttractions = async (city) => {
     try {
-      const response = await attractionsRequest(city, startDate, endDate);
+      const response = await attractionsRequest(city);
       localStorage.setItem("plannerAttractions", JSON.stringify(response.data));
-      dispatch({ type: "SET_ATTRACTIONS", payload: response.data });
+      setAttractions(response.data);
     } catch (err) {
       console.error("Error fetching attractions:", err);
     }
+  };
+
+  const getWeather = async (latitude, longitude, numberOfDays) => {
+    try {
+      const response = await weatherRequest(latitude, longitude, numberOfDays);
+      localStorage.setItem("plannerWeather", JSON.stringify(response.data));
+      setWeather(response.data);
+    } catch (err) {
+      console.error("Error fetching weather:", err);
+    }
+  };
+
+  const resetPlannerState = () => {
+    setPage(0);
+    setHotels([]);
+    setSelectedHotel(null);
+    setAttractions([]);
+    setSelectedAttractions([]);
+    setWeather({});
+    localStorage.removeItem("plannerHotels");
+    localStorage.removeItem("selectedHotel");
+    localStorage.removeItem("plannerWeather");
+    localStorage.removeItem("plannerAttractions");
+    localStorage.removeItem("selectedAttractions");
   };
 
   return (
@@ -138,6 +174,9 @@ export const PlannerFormProvider = ({ children }) => {
         resetForm,
         getHotels,
         getAttractions,
+        resetPlannerState,
+        getWeather,
+        setWeather,
       }}
     >
       {children}

@@ -8,7 +8,6 @@ const HotelCard = ({ hotel }) => {
   const { place_id, name, imageUrl, address, rating, attribution } = hotel;
   const { setSelectedHotel, selectedHotel } = useContext(PlannerFormContext);
   const isAnySelected = !!selectedHotel;
-  console.log(selectedHotel);
   const isSelected = selectedHotel?.place_id === place_id;
 
   const selectHotel = (hotel) => {

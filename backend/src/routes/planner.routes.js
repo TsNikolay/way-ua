@@ -5,5 +5,7 @@ const router = new Router();
 
 router.post("/hotels", PlannerController.getHotels);
 router.post("/attractions", PlannerController.getAttractions);
+router.post("/weather", PlannerController.getWeather);
+router.post("/coordinates", PlannerController.getCoordinates);
 
 export default router;

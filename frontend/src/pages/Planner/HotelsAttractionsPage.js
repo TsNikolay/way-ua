@@ -6,6 +6,7 @@ import PlannerFormContext from "../../contexts/PlannerFormContext";
 import HotelList from "../../components/HotelList/HotelList";
 import { useNavigate } from "react-router-dom";
 import AttractionList from "../../components/AttractionList/AttractionList";
+import { countTripDays, getCityCoordinates } from "../../utils/plannerUtils";
 
 const HotelsAttractionsPage = () => {
   const {
@@ -18,14 +19,22 @@ const HotelsAttractionsPage = () => {
     selectedHotel,
     selectedAttractions,
     setPage,
+    resetPlannerState,
+    getWeather,
+    city,
+    date,
   } = useContext(PlannerFormContext);
 
   const navigate = useNavigate();
 
   const handleContinue = async () => {
+    const numberOfDays = countTripDays(date[0], date[1]);
+
+    const { lat, lng } = await getCityCoordinates(city);
+
     try {
       setPage(2);
-      // await getWeather(city, date[0], date[1]);
+      await getWeather(lat, lng, numberOfDays);
       navigate("/planner/step3");
     } catch (err) {
       console.error(
@@ -35,16 +44,8 @@ const HotelsAttractionsPage = () => {
     }
   };
 
-  const handleBack = async () => {
-    setPage(0);
-    setHotels([]);
-    setSelectedHotel(null);
-    setAttractions([]);
-    setSelectedAttractions([]);
-    localStorage.removeItem("plannerHotels");
-    localStorage.removeItem("selectedHotel");
-    localStorage.removeItem("plannerAttractions");
-    localStorage.removeItem("selectedAttractions");
+  const handleBack = () => {
+    resetPlannerState();
     navigate("/planner/step1");
   };
 

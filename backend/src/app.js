@@ -17,10 +17,6 @@ app.use(
   }),
 );
 
-app.get("/", (req, res) => {
-  res.send("OK");
-});
-
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/routes", routesRouter);
 app.use("/api/v1/planner", plannerRouter);

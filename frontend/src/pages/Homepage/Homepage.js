@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import styles from "./Homepage.module.css";
 import AboutSection from "../../components/AboutSection/AboutSection";
-import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import PlannerFormContext from "../../contexts/PlannerFormContext";
 
 const Homepage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { resetPlannerState } = useContext(PlannerFormContext);
+
+  useEffect(() => {
+    //Щоб скролити до секції (в нашому випадку about)
+    if (location.hash) {
+      const elementToFind = document.querySelector(location.hash);
+      if (elementToFind) {
+        elementToFind.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
+
+  const handleStart = () => {
+    resetPlannerState();
+    navigate("/planner/step1");
+  };
+
   return (
     <div>
       <div className={styles.content}>
@@ -12,9 +32,7 @@ const Homepage = () => {
           <h1 className={styles.slogan}>
             DISCOVER <span className={styles.ukraine}>UKRAINE</span> WITH US
           </h1>
-          <button>
-            <Link to="/planner/step1">PLAN YOUR TRIP</Link>
-          </button>
+          <button onClick={() => handleStart()}>PLAN YOUR TRIP</button>
         </div>
 
         <div className={styles.quote}>
@@ -27,7 +45,7 @@ const Homepage = () => {
           </div>
         </div>
 
-        <div className={styles.about}>
+        <div className={styles.about} id="about">
           <h1 className={styles.aboutTitle}>ABOUT SERVICE</h1>
           <AboutSection
             title="ROUTE PLANNING"
