@@ -11,7 +11,7 @@ const HotelList = ({ hotels }) => {
   };
 
   return (
-    <div>
+    <>
       <div className={styles.list}>
         {hotels.slice(0, visibleCount).map((hotel) => (
           <HotelCard hotel={hotel} key={hotel.place_id} />
@@ -22,7 +22,7 @@ const HotelList = ({ hotels }) => {
           Show More
         </button>
       )}
-    </div>
+    </>
   );
 };
 

@@ -31,6 +31,7 @@ const GoogleMapsAPI = {
   },
 
   async getAttractions(city, startDate, endDate) {
+    console.log(city);
     const response = await axios.get(
       `https://maps.googleapis.com/maps/api/place/textsearch/json`,
       {

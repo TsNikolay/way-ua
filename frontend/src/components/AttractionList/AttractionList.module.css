@@ -5,6 +5,22 @@
     padding: 20px;
 }
 
+.showMoreButton {
+    display: flex;
+    background-color: rgba(2, 91, 3, 0.8);
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-weight: 400;
+    cursor: pointer;
+    justify-self: center;
+}
+
+.showMoreButton:hover {
+    background-color: #03824b;
+}
+
 @media (max-width: 768px) {
     .list {
         grid-template-columns: 1fr; /* 1 колонка на мобильных */

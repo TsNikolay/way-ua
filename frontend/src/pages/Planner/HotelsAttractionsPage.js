@@ -22,18 +22,17 @@ const HotelsAttractionsPage = () => {
 
   const navigate = useNavigate();
 
-  const handleContinue = async (event) => {
-    // event.preventDefault();
-    // try {
-    //   setPage(1);
-    //   await getHotels(city, date[0], date[1]);
-    //   await getAttractions(city, date[0], date[1]);
-    // } catch (err) {
-    //   console.error(
-    //     "Impossible to go to Step 2:",
-    //     err.response?.data?.message || err.message,
-    //   );
-    // }
+  const handleContinue = async () => {
+    try {
+      setPage(2);
+      // await getWeather(city, date[0], date[1]);
+      navigate("/planner/step3");
+    } catch (err) {
+      console.error(
+        "Impossible to go to Step 3:",
+        err.response?.data?.message || err.message,
+      );
+    }
   };
 
   const handleBack = async () => {

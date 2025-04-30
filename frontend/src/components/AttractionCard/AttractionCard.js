@@ -37,7 +37,14 @@ const AttractionCard = ({ attraction }) => {
       }}
     >
       <div className={styles.image}>
-        <img src={imageUrl} alt={name} />
+        <img
+          className={styles.image}
+          src={imageUrl || "/images/default-attraction.png"}
+          alt={name}
+          onError={(e) => {
+            e.target.src = "/images/default-attraction.png";
+          }}
+        />
       </div>
       <div className={styles.info}>
         <h2>{name}</h2>
