@@ -9,12 +9,12 @@ app.listen(PORT, (err) => {
   console.log(`✅ Server running on port ${PORT}`);
 });
 
-process.on("uncaughtException", (err) => {
-  console.error("Uncaught Exception:", err);
-  process.exit(1); // Завершуємо процесс якщо сервер ліг, але процесс не завершився
-});
-
-process.on("unhandledRejection", (reason) => {
-  console.error("Unhandled Rejection:", reason);
-  process.exit(1);
-});
+// process.on("uncaughtException", (err) => {
+//   console.error("Uncaught Exception:", err);
+//   process.exit(1); // Завершуємо процесс якщо сервер ліг, але процесс не завершився
+// });
+//
+// process.on("unhandledRejection", (reason) => {
+//   console.error("Unhandled Rejection:", reason);
+//   process.exit(1);
+// });

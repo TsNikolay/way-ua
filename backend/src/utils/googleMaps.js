@@ -9,7 +9,8 @@ const GoogleMapsAPI = {
         `https://maps.googleapis.com/maps/api/place/textsearch/json`,
         {
           params: {
-            query: `hotels in ${city}`, //раніше писав ще дати, але прибрав для ширшого пошуку
+            query: `hotels in ${city.label}`, //раніше писав ще дати, але прибрав для ширшого пошуку
+            location: `${city.coordinates.lat},${city.coordinates.lng}`,
             key: API_KEY,
           },
         },
@@ -43,7 +44,8 @@ const GoogleMapsAPI = {
         `https://maps.googleapis.com/maps/api/place/textsearch/json`,
         {
           params: {
-            query: `tourist attractions in ${city}`,
+            query: `tourist attractions in ${city.label}`,
+            location: `${city.coordinates.lat},${city.coordinates.lng}`,
             key: API_KEY,
           },
         },

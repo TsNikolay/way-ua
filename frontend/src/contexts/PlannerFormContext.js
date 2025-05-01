@@ -3,22 +3,21 @@ import {
   hotelsRequest,
   attractionsRequest,
   weatherRequest,
+  cityCoordinatesRequest,
 } from "../api/plannerApi";
 
+//Початковий стан або підтягуємо з локал стореджу (при наявності), або ж пусті значення
 const initialState = {
-  stepEmojis: {
-    0: "Step 1: 🗺️📅",
-    1: "Step 2: 🏨🎡",
-    2: "Step 3: 🌡️☀️",
-  },
-  page: 0,
-  city: "",
-  date: [],
-  hotels: [],
-  selectedHotel: null,
-  attractions: [],
-  selectedAttractions: [],
-  weather: {}, //Пока не знаю что тут будет за тип
+  page: Number(localStorage.getItem("plannerPage")) || 0,
+  city: JSON.parse(localStorage.getItem("selectedCity") || "{}"),
+  date: JSON.parse(localStorage.getItem("selectedDates") || "[]"),
+  hotels: JSON.parse(localStorage.getItem("plannerHotels") || "[]"),
+  selectedHotel: JSON.parse(localStorage.getItem("selectedHotel") || "null"),
+  attractions: JSON.parse(localStorage.getItem("plannerAttractions") || "[]"),
+  selectedAttractions: JSON.parse(
+    localStorage.getItem("selectedAttractions") || "[]",
+  ),
+  weather: JSON.parse(localStorage.getItem("plannerWeather") || "{}"),
 };
 
 function formReducer(state, action) {
@@ -65,12 +64,19 @@ const PlannerFormContext = createContext({});
 export const PlannerFormProvider = ({ children }) => {
   const [state, dispatch] = useReducer(formReducer, initialState);
 
-  const setPage = (pageNumber) =>
+  const setPage = (pageNumber) => {
+    localStorage.setItem("plannerPage", pageNumber);
     dispatch({ type: "SET_PAGE", payload: pageNumber });
+  };
 
-  const setCity = (city) => dispatch({ type: "SET_CITY", payload: city });
+  const setCity = (city) => {
+    dispatch({ type: "SET_CITY", payload: city });
+  };
 
-  const setDates = (dates) => dispatch({ type: "SET_DATES", payload: dates });
+  const setDates = (dates) => {
+    localStorage.setItem("selectedDates", JSON.stringify(dates));
+    dispatch({ type: "SET_DATES", payload: dates });
+  };
 
   const setHotels = (hotels) =>
     dispatch({ type: "SET_HOTELS", payload: hotels });
@@ -98,7 +104,7 @@ export const PlannerFormProvider = ({ children }) => {
     localStorage.setItem(
       "selectedAttractions",
       JSON.stringify(
-        ...state.selectedAttractions.filter(
+        state.selectedAttractions.filter(
           (selectedAttraction) =>
             selectedAttraction.place_id !== attraction.place_id,
         ),
@@ -144,18 +150,68 @@ export const PlannerFormProvider = ({ children }) => {
     }
   };
 
+  const getCityCoordinates = async (city) => {
+    try {
+      const response = await cityCoordinatesRequest(city);
+
+      localStorage.setItem(
+        "selectedCity",
+        JSON.stringify({ ...city, coordinates: response.data }),
+      );
+      setCity({ ...city, coordinates: response.data });
+    } catch (err) {
+      console.error("Error fetching coordinates:", err);
+    }
+  };
+
   const resetPlannerState = () => {
+    resetPage();
+    resetCity();
+    resetDates();
+    resetHotels();
+    resetSelectedHotels();
+    resetAttractions();
+    resetSelectedAttractions();
+  };
+
+  const resetPage = () => {
     setPage(0);
+    localStorage.removeItem("plannerPage");
+  };
+
+  const resetCity = () => {
+    setCity({});
+    localStorage.removeItem("selectedCity");
+  };
+
+  const resetDates = () => {
+    setDates([]);
+    localStorage.removeItem("selectedDates");
+  };
+
+  const resetHotels = () => {
     setHotels([]);
-    setSelectedHotel(null);
-    setAttractions([]);
-    setSelectedAttractions([]);
-    setWeather({});
     localStorage.removeItem("plannerHotels");
+  };
+
+  const resetSelectedHotels = () => {
+    setSelectedHotel(null);
     localStorage.removeItem("selectedHotel");
-    localStorage.removeItem("plannerWeather");
+  };
+
+  const resetAttractions = () => {
+    setAttractions([]);
     localStorage.removeItem("plannerAttractions");
+  };
+
+  const resetSelectedAttractions = () => {
+    setSelectedAttractions([]);
     localStorage.removeItem("selectedAttractions");
+  };
+
+  const resetWeather = () => {
+    setWeather({});
+    localStorage.removeItem("plannerWeather");
   };
 
   return (
@@ -177,6 +233,15 @@ export const PlannerFormProvider = ({ children }) => {
         resetPlannerState,
         getWeather,
         setWeather,
+        resetPage,
+        resetCity,
+        resetDates,
+        resetHotels,
+        resetSelectedHotels,
+        resetAttractions,
+        resetSelectedAttractions,
+        resetWeather,
+        getCityCoordinates,
       }}
     >
       {children}

@@ -3,7 +3,13 @@ import PlannerFormContext from "../../contexts/PlannerFormContext";
 import styles from "./ProgressBar.module.css";
 
 const ProgressBar = () => {
-  const { page, stepEmojis } = useContext(PlannerFormContext);
+  const { page } = useContext(PlannerFormContext);
+
+  const stepEmojis = {
+    0: "Step 1: 🗺️📅",
+    1: "Step 2: 🏨🎡",
+    2: "Step 3: 🌡️☀️",
+  };
 
   const interval = 100 / Object.keys(stepEmojis).length;
   const progress = ((page + 1) * interval).toFixed(2);

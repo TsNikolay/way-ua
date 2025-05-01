@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import styles from "./LocationDatesPage.module.css";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker";
@@ -12,14 +12,29 @@ import { useNavigate } from "react-router-dom";
 const LocationDatesPage = () => {
   const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
   const navigate = useNavigate();
-  const { city, date, setCity, setDates, setPage, getHotels, getAttractions } =
-    useContext(PlannerFormContext);
+  const {
+    city,
+    date,
+    setCity,
+    setDates,
+    getHotels,
+    getAttractions,
+    resetPage,
+    resetHotels,
+    resetSelectedHotels,
+    resetAttractions,
+    resetSelectedAttractions,
+    resetWeather,
+    getCityCoordinates,
+  } = useContext(PlannerFormContext);
 
   const handleContinue = async () => {
     try {
-      setPage(1);
-      await getHotels(city.label);
-      await getAttractions(city.label);
+      localStorage.setItem("selectedCity", JSON.stringify(city));
+      localStorage.setItem("selectedDates", JSON.stringify(date));
+      await getAttractions(city);
+      await getHotels(city);
+
       navigate("/planner/step2");
     } catch (err) {
       console.error(
@@ -28,6 +43,32 @@ const LocationDatesPage = () => {
       );
     }
   };
+
+  // Дії при першому рендері компоненту
+  useEffect(() => {
+    const savedCity = localStorage.getItem("selectedCity");
+    const savedDates = localStorage.getItem("selectedDates");
+
+    if (savedCity) setCity(JSON.parse(savedCity));
+    if (savedDates) setDates(JSON.parse(savedDates));
+
+    //Коли сюди переходять по кнопці чи по адресній стрічці треба чистити стейт
+    resetPage();
+    resetHotels();
+    resetSelectedHotels();
+    resetAttractions();
+    resetSelectedAttractions();
+    resetWeather();
+  }, []);
+
+  // Зберігаємо в localStorage при змінах
+  useEffect(() => {
+    localStorage.setItem("selectedCity", JSON.stringify(city));
+  }, [city]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedDates", JSON.stringify(date));
+  }, [date]);
 
   return (
     <div>
@@ -47,10 +88,11 @@ const LocationDatesPage = () => {
             }}
             selectProps={{
               placeholder: "Select a city",
-              value: city,
-              city,
+              value: city.label && city,
+              city: city.label,
               onChange: (value) => {
                 setCity(value);
+                getCityCoordinates(value);
               },
             }}
           />
@@ -73,12 +115,12 @@ const LocationDatesPage = () => {
         <div className={styles.buttons}>
           <button
             className={
-              date && city
+              date.length > 0 && city
                 ? styles.button
                 : `${styles.button} ${styles.inactive}`
             }
-            onClick={date && city ? () => handleContinue() : null}
-            disabled={!(city && date)}
+            onClick={date.length > 0 && city ? () => handleContinue() : null}
+            disabled={!(city && date.length > 0)}
           >
             Continue
           </button>

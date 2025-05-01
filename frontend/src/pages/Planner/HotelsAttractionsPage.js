@@ -6,20 +6,15 @@ import PlannerFormContext from "../../contexts/PlannerFormContext";
 import HotelList from "../../components/HotelList/HotelList";
 import { useNavigate } from "react-router-dom";
 import AttractionList from "../../components/AttractionList/AttractionList";
-import { countTripDays, getCityCoordinates } from "../../utils/plannerUtils";
+import { countTripDays } from "../../utils/plannerUtils";
 
 const HotelsAttractionsPage = () => {
   const {
     hotels,
-    setHotels,
     attractions,
-    setAttractions,
-    setSelectedHotel,
-    setSelectedAttractions,
     selectedHotel,
     selectedAttractions,
     setPage,
-    resetPlannerState,
     getWeather,
     city,
     date,
@@ -29,11 +24,8 @@ const HotelsAttractionsPage = () => {
 
   const handleContinue = async () => {
     const numberOfDays = countTripDays(date[0], date[1]);
-
-    const { lat, lng } = await getCityCoordinates(city);
-
+    const { lat, lng } = city.coordinates;
     try {
-      setPage(2);
       await getWeather(lat, lng, numberOfDays);
       navigate("/planner/step3");
     } catch (err) {
@@ -45,24 +37,23 @@ const HotelsAttractionsPage = () => {
   };
 
   const handleBack = () => {
-    resetPlannerState();
     navigate("/planner/step1");
   };
 
   // Завантажуємо з localStorage при першому запуску
   useEffect(() => {
-    const savedHotels = localStorage.getItem("plannerHotels");
-    const savedSelectedHotel = localStorage.getItem("selectedHotel");
-    const savedAttractions = localStorage.getItem("plannerAttractions");
-    const savedSelectedAttractions = localStorage.getItem(
-      "selectedAttractions",
-    );
+    //Ставимо правильну сторінку
+    setPage(1);
 
-    if (savedHotels) setHotels(JSON.parse(savedHotels));
-    if (savedSelectedHotel) setSelectedHotel(JSON.parse(savedSelectedHotel));
-    if (savedAttractions) setAttractions(JSON.parse(savedAttractions));
-    if (savedSelectedAttractions)
-      setSelectedAttractions(JSON.parse(savedSelectedAttractions));
+    //Щоб зпобігти перехід на цю сторінку через адресну стрічку якщо не заповнені минулі поля
+    if (
+      date.length === 0 ||
+      !city ||
+      hotels.length === 0 ||
+      attractions.length === 0
+    ) {
+      navigate("/planner/step1", { replace: true });
+    }
   }, []);
 
   // Зберігаємо в localStorage при змінах
@@ -85,7 +76,7 @@ const HotelsAttractionsPage = () => {
   }, [attractions]);
 
   useEffect(() => {
-    if (selectedAttractions) {
+    if (selectedAttractions.length > 0) {
       localStorage.setItem(
         "selectedAttractions",
         JSON.stringify(selectedAttractions),

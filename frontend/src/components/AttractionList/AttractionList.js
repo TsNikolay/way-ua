@@ -3,6 +3,9 @@ import AttractionCard from "../AttractionCard/AttractionCard";
 import styles from "./AttractionList.module.css";
 const AttractionList = ({ attractions }) => {
   const [visibleCount, setVisibleCount] = useState(6);
+
+  if (!Array.isArray(attractions)) return null;
+
   const handleShowMore = () => {
     setVisibleCount((prev) => prev + 6);
   };

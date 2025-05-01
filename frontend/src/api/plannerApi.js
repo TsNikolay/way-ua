@@ -19,9 +19,7 @@ export const weatherRequest = async (latitude, longitude, numberOfDays) => {
 };
 
 export const cityCoordinatesRequest = async (city) => {
-  const result = await api.post("/planner/coordinates", {
+  return api.post("/planner/coordinates", {
     city,
   });
-
-  return result;
 };
