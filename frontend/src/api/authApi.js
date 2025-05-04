@@ -12,6 +12,9 @@ export const logoutRequest = async () => {
   return api.post("/auth/logout");
 };
 
-export const getMeRequest = async () => {
-  return api.get("/auth/me");
+export const validateTokenRequest = async (token) => {
+  return api.get("/auth/validate", {
+    headers: { Authorization: `Bearer ${token}` },
+    withCredentials: true,
+  });
 };

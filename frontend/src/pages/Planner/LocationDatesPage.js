@@ -14,7 +14,7 @@ const LocationDatesPage = () => {
   const navigate = useNavigate();
   const {
     city,
-    date,
+    dates,
     setCity,
     setDates,
     getHotels,
@@ -31,7 +31,7 @@ const LocationDatesPage = () => {
   const handleContinue = async () => {
     try {
       localStorage.setItem("selectedCity", JSON.stringify(city));
-      localStorage.setItem("selectedDates", JSON.stringify(date));
+      localStorage.setItem("selectedDates", JSON.stringify(dates));
       await getAttractions(city);
       await getHotels(city);
 
@@ -67,8 +67,8 @@ const LocationDatesPage = () => {
   }, [city]);
 
   useEffect(() => {
-    localStorage.setItem("selectedDates", JSON.stringify(date));
-  }, [date]);
+    localStorage.setItem("selectedDates", JSON.stringify(dates));
+  }, [dates]);
 
   return (
     <div>
@@ -88,8 +88,8 @@ const LocationDatesPage = () => {
             }}
             selectProps={{
               placeholder: "Select a city",
-              value: city.label && city,
-              city: city.label,
+              value: city,
+              city: city,
               onChange: (value) => {
                 setCity(value);
                 getCityCoordinates(value);
@@ -101,26 +101,42 @@ const LocationDatesPage = () => {
           <h3 className={styles.question}>
             📅 What dates are you planning a trip for?
           </h3>
-          <DateRangePicker
-            className={styles.dateRangePicker}
-            format="dd/MM/yyyy"
-            dayPlaceholder={"_"}
-            monthPlaceholder={"__"}
-            yearPlaceholder={"____"}
-            rangeDivider={"-"}
-            onChange={setDates}
-            value={date}
-          />
+
+          <div className={styles.dateWrapper}>
+            <div className={styles.dateRangePicker}>
+              <DateRangePicker
+                format="dd/MM/yyyy"
+                dayPlaceholder="_"
+                monthPlaceholder="__"
+                yearPlaceholder="____"
+                rangeDivider="-"
+                onChange={(value) => setDates(value || [])} // Щоб не мати помилку коли стираємо дати
+                value={dates}
+              />
+            </div>
+
+            <div className={styles.dateRangePickerForMobile}>
+              <DateRangePicker
+                format="dd/MM/yy"
+                dayPlaceholder="_"
+                monthPlaceholder="__"
+                yearPlaceholder="____"
+                rangeDivider=""
+                onChange={(value) => setDates(value || [])}
+                value={dates}
+              />
+            </div>
+          </div>
         </div>
         <div className={styles.buttons}>
           <button
             className={
-              date.length > 0 && city
+              dates.length > 0 && city
                 ? styles.button
                 : `${styles.button} ${styles.inactive}`
             }
-            onClick={date.length > 0 && city ? () => handleContinue() : null}
-            disabled={!(city && date.length > 0)}
+            onClick={dates.length > 0 && city ? () => handleContinue() : null}
+            disabled={!city || dates.length === 0}
           >
             Continue
           </button>

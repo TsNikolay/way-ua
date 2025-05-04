@@ -11,12 +11,8 @@ class PlannerService {
     return attractions;
   }
 
-  async getWeather(latitude, longitude, numberOfDays) {
-    const weather = await OpenWeatherAPI.getWeather(
-      latitude,
-      longitude,
-      numberOfDays,
-    );
+  async getWeather(latitude, longitude) {
+    const weather = await OpenWeatherAPI.getWeather(latitude, longitude);
     return weather;
   }
 

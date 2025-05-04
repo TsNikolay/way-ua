@@ -10,7 +10,7 @@ const api = axios.create({
 
 //Перехоплювач, який ПЕРЕД відправкою будь-якого запиту додає до нього аксес токен
 api.interceptors.request.use((config) => {
-  config.headers.Authorization = `Bearer ${localStorage.getItem("token")} `;
+  config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
   return config;
 });
 
@@ -22,6 +22,7 @@ api.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
+    console.log(error);
     if (
       error.response.status === 401 &&
       error.config &&

@@ -21,3 +21,9 @@
     background-color: #03824b;
 }
 
+@media(max-width: 480px) {
+    .showMoreButton {
+        padding: 5px;
+    }
+}
+

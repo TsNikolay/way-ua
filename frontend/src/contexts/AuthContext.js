@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", response.data.accessToken);
       dispatch({ type: "LOGIN", payload: response.data.user });
     } catch (err) {
-      console.error(err);
+      throw err;
     }
   };
 
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", response.data.accessToken);
       dispatch({ type: "REGISTER", payload: response.data.user });
     } catch (err) {
-      console.error(err);
+      throw err;
     }
   };
 
@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem("token");
       dispatch({ type: "LOGOUT" });
     } catch (err) {
-      console.error(err);
+      throw err;
     }
   };
 
@@ -81,7 +81,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", response.data.accessToken);
       dispatch({ type: "REFRESH_TOKENS", payload: response.data.user });
     } catch (err) {
-      console.error(err);
+      throw err;
     }
     dispatch({ type: "LOADING", payload: false });
   };

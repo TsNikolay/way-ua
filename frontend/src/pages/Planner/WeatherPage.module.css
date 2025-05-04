@@ -15,7 +15,11 @@
     border-radius: 6px;
     font-weight: 500;
     cursor: pointer;
-    font-size: 1.2em;
+    font-size: 1.3vw;
+    width: auto;
+}
+
+.buttonBack{
     width: 20%;
 }
 
@@ -24,13 +28,130 @@
     justify-content: space-between;
 }
 
-.button:hover {
+.guestButton{
+    background-color: transparent;
+    color: grey;
+}
+
+.button:hover, .changeButton:hover {
     background-color: #03824b;
+}
+
+.guestButton:hover{
+    background-color: transparent;
 }
 
 .title{
     text-align: center;
     color: white;
     font-weight: 400;
-    font-size: 3.5em;
+    font-size: 4vw;
+}
+
+.question{
+    font-weight: 600;
+    font-size: 1.4em;
+    margin-bottom:  20px;
+}
+
+.info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:  10px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 1px 1px 4px #dcc6c6;
+
+}
+
+.info h2{
+    font-size: 1.4vw;
+    font-weight: 500;
+}
+
+.infoValue{
+    font-size: 1em;
+    font-weight: 300;
+}
+
+.changeButton{
+    font-size: 1.1vw;
+    padding: 6px 16px;
+    width: auto;
+}
+
+.weather{
+    margin-bottom: 20px;
+}
+
+@media (max-width: 756px){
+
+    .title{
+        font-size: 6vw;
+    }
+
+    .question{
+        font-weight: 600;
+        text-align: center;
+        font-size: 1.2em;
+        margin: 0 15px;
+    }
+
+
+    .info{
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        font-weight: 600;
+        box-shadow: none;
+        margin: 15px;
+    }
+
+    .info span{
+        font-weight: 500;
+    }
+    .info h2{
+        font-size: 0.9em;
+        font-weight: 600;
+
+    }
+
+    .changeButton{
+       align-self: center;
+        font-size: 3vw;
+    }
+
+    .container{
+        padding: 0;
+    }
+
+    .buttons{
+       display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .button {
+        font-size: 0.8em;
+        width: auto;
+        margin: 10px;
+        padding: 5px;
+    }
+
+    .buttonBack{
+        width: 20%;
+        order: 2;
+    }
+
+    .buttons{
+        justify-content: center;
+    }
+
+    .changeButton{
+        font-size: 1em;
+        padding: 6px 16px;
+        width: auto;
+    }
 }

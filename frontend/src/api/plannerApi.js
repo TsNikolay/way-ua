@@ -10,11 +10,10 @@ export const attractionsRequest = async (city) => {
   });
 };
 
-export const weatherRequest = async (latitude, longitude, numberOfDays) => {
+export const weatherRequest = async (latitude, longitude) => {
   return api.post("/planner/weather", {
     latitude,
     longitude,
-    numberOfDays,
   });
 };
 

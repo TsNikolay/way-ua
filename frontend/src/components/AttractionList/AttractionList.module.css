@@ -25,4 +25,11 @@
     .list {
         grid-template-columns: 1fr; /* 1 колонка на мобильных */
     }
+
+}
+
+@media(max-width: 480px) {
+    .showMoreButton {
+        padding: 5px;
+    }
 }

@@ -9,15 +9,15 @@ import {
 //Початковий стан або підтягуємо з локал стореджу (при наявності), або ж пусті значення
 const initialState = {
   page: Number(localStorage.getItem("plannerPage")) || 0,
-  city: JSON.parse(localStorage.getItem("selectedCity") || "{}"),
-  date: JSON.parse(localStorage.getItem("selectedDates") || "[]"),
+  city: JSON.parse(localStorage.getItem("selectedCity") || "null"),
+  dates: JSON.parse(localStorage.getItem("selectedDates") || "[]"),
   hotels: JSON.parse(localStorage.getItem("plannerHotels") || "[]"),
   selectedHotel: JSON.parse(localStorage.getItem("selectedHotel") || "null"),
   attractions: JSON.parse(localStorage.getItem("plannerAttractions") || "[]"),
   selectedAttractions: JSON.parse(
     localStorage.getItem("selectedAttractions") || "[]",
   ),
-  weather: JSON.parse(localStorage.getItem("plannerWeather") || "{}"),
+  weather: JSON.parse(localStorage.getItem("plannerWeather") || "null"),
 };
 
 function formReducer(state, action) {
@@ -27,7 +27,7 @@ function formReducer(state, action) {
     case "SET_CITY":
       return { ...state, city: action.payload };
     case "SET_DATES":
-      return { ...state, date: action.payload };
+      return { ...state, dates: action.payload };
     case "SET_HOTELS":
       return { ...state, hotels: action.payload };
     case "SET_SELECTED_HOTEL":
@@ -140,9 +140,9 @@ export const PlannerFormProvider = ({ children }) => {
     }
   };
 
-  const getWeather = async (latitude, longitude, numberOfDays) => {
+  const getWeather = async (latitude, longitude) => {
     try {
-      const response = await weatherRequest(latitude, longitude, numberOfDays);
+      const response = await weatherRequest(latitude, longitude);
       localStorage.setItem("plannerWeather", JSON.stringify(response.data));
       setWeather(response.data);
     } catch (err) {
@@ -180,7 +180,7 @@ export const PlannerFormProvider = ({ children }) => {
   };
 
   const resetCity = () => {
-    setCity({});
+    setCity(null);
     localStorage.removeItem("selectedCity");
   };
 
@@ -210,7 +210,7 @@ export const PlannerFormProvider = ({ children }) => {
   };
 
   const resetWeather = () => {
-    setWeather({});
+    setWeather(null);
     localStorage.removeItem("plannerWeather");
   };
 

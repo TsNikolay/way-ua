@@ -1,15 +1,39 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import styles from "./Header.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import ThemeSwitcher from "../../ThemeSwitcher/ThemeSwitcher";
 import LanguageSwitcher from "../../LanguageSwitcher/LanguageSwitcher";
+import AuthContext from "../../../contexts/AuthContext";
+import UserContext from "../../../contexts/UserContext";
 
 const Header = () => {
+  const { logout } = useContext(AuthContext);
+  const { clearUserInfo } = useContext(UserContext);
+  const { isAuth } = useContext(AuthContext);
+
   //Наступні дві константи для респонсів навбару
   const navRef = useRef();
+  const navigate = useNavigate();
+
   const toggleNavbar = () => {
     navRef.current.classList.toggle(styles.responsiveNav);
+  };
+
+  const handleLogin = () => {
+    navigate("/auth/login", { state: { from: "/dashboard" } });
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      clearUserInfo();
+    } catch (err) {
+      console.error(
+        "Logout failed:",
+        err.response?.data?.message || err.message,
+      );
+    }
   };
 
   return (
@@ -20,6 +44,7 @@ const Header = () => {
         <Link to="/">HOME</Link>
         <Link to="/#about">ABOUT</Link>
         <Link to="/">CONTACTS</Link>
+        {isAuth && <Link to="/">ACCOUNT</Link>}
 
         <div className={styles.mobileControls}>
           <ThemeSwitcher />
@@ -37,7 +62,23 @@ const Header = () => {
       <div className={styles.controls}>
         <ThemeSwitcher />
         <LanguageSwitcher />
-        <button className={styles.loginBtn}>LOGIN</button>
+        {isAuth ? (
+          <div>
+            <img
+              src="/images/default-avatar.png"
+              alt=""
+              className={styles.avatarImage}
+            />
+            <button className={styles.loginBtn} onClick={() => handleLogout()}>
+              LOGOUT
+            </button>
+          </div>
+        ) : (
+          <button className={styles.loginBtn} onClick={() => handleLogin()}>
+            LOGIN
+          </button>
+        )}
+
         <button className={styles.navBtn} onClick={toggleNavbar}>
           <FaBars />
         </button>

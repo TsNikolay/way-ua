@@ -13,11 +13,14 @@ const ProgressBar = () => {
 
   const interval = 100 / Object.keys(stepEmojis).length;
   const progress = ((page + 1) * interval).toFixed(2);
-  const steps = Object.values(stepEmojis).map((emojis, index) => {
+  const steps = Object.values(stepEmojis).map((label, index) => {
+    const [step, emoji] = label.split(":");
+
     return (
-      <h2 className={styles.barmarker} key={index}>
-        {emojis}
-      </h2>
+      <div className={styles.barmarker} key={index}>
+        <span className={styles.stepLabel}>{step}:</span>
+        <span className={styles.stepEmoji}>{emoji}</span>
+      </div>
     );
   });
 

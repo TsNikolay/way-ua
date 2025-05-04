@@ -6,6 +6,7 @@ import PlannerPage from "./pages/Planner/PlannerPage";
 import LocationDatesPage from "./pages/Planner/LocationDatesPage";
 import HotelsAttractionsPage from "./pages/Planner/HotelsAttractionsPage";
 import WeatherPage from "./pages/Planner/WeatherPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="step2" element={<HotelsAttractionsPage />} />
             <Route path="step3" element={<WeatherPage />} />
           </Route>
+          <Route path="/auth/login" element={<LoginPage />} />
         </Route>
       </Routes>
 

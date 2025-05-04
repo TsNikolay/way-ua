@@ -77,3 +77,22 @@
     right: 5px;
     font-size: 2rem;
 }
+
+@media(max-width: 480px) {
+    .card {
+        display: block;
+    }
+
+    .selected::after {
+        content: "✔️";
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+        font-size: 2rem;
+    }
+
+    .image {
+        display: flex;
+        margin: 0;
+    }
+}

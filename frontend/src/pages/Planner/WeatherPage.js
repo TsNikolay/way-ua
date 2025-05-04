@@ -3,12 +3,38 @@ import styles from "./WeatherPage.module.css";
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
 import PlannerFormContext from "../../contexts/PlannerFormContext";
 import { useNavigate } from "react-router-dom";
+import { calculateTripDays, getTripDaysWeather } from "../../utils/datesUtils";
+import WeatherList from "../../components/WeatherList/WeatherList";
+import AuthContext from "../../contexts/AuthContext";
 
 const WeatherPage = () => {
-  const { weather, setPage, date, city, selectedHotel, selectedAttractions } =
+  const { weather, setPage, dates, city, selectedHotel, selectedAttractions } =
     useContext(PlannerFormContext);
   const navigate = useNavigate();
-  console.log(weather);
+  const { isAuth } = useContext(AuthContext);
+
+  const invalidData =
+    !weather ||
+    dates.length === 0 ||
+    !city ||
+    !selectedHotel ||
+    selectedAttractions.length === 0;
+
+  useEffect(() => {
+    if (invalidData) {
+      navigate("/planner/step1", { replace: true });
+    } else {
+      //Ставимо правильну сторінку
+      setPage(2);
+    }
+  }, [invalidData]);
+
+  if (invalidData) return null;
+
+  const tripDaysWeather = getTripDaysWeather(weather, dates);
+  const numberOfTripsDays = calculateTripDays(dates);
+  const startDate = new Date(dates[0]).toLocaleDateString();
+  const endDate = new Date(dates[1]).toLocaleDateString();
 
   const handleBack = () => {
     navigate("/planner/step2");
@@ -17,19 +43,17 @@ const WeatherPage = () => {
     // бо там вже від зміни міста може залежити погода
   };
 
-  useEffect(() => {
-    if (
-      date.length === 0 ||
-      !city ||
-      !selectedHotel ||
-      selectedAttractions.length === 0
-    ) {
-      navigate("/planner/step1", { replace: true });
-    }
+  const handleEditTrip = () => {
+    navigate("/planner/step1");
+  };
 
-    //Ставимо правильну сторінку
-    setPage(2);
-  }, []);
+  const handleLogin = () => {
+    navigate("/auth/login", { state: { from: "/planner/report" } }); // Ось тут шлях ще під питанням
+  };
+
+  const handlePlanTrip = () => {
+    navigate("/planner/report");
+  };
 
   return (
     <div>
@@ -40,13 +64,61 @@ const WeatherPage = () => {
           <h3 className={styles.question}>
             ☀️ Let's check the weather for your trip
           </h3>
+          <div className={styles.info}>
+            <h2>
+              🗺️City:{" "}
+              <span className={styles.infoValue}>
+                {/*Обрізаємо "Ukraine", бо це і так очевидно*/}
+                {city.label.split(",").slice(0, 2).join(",")}
+              </span>
+            </h2>
+            <h2>
+              📅Dates:{" "}
+              <span className={styles.infoValue}>
+                {" "}
+                {startDate} - {endDate}
+              </span>
+            </h2>
+            <h2>
+              Days:{" "}
+              <span className={styles.infoValue}> {numberOfTripsDays}</span>
+            </h2>
+
+            <button
+              onClick={() => handleEditTrip()}
+              className={`${styles.button} ${styles.changeButton}`}
+            >
+              Edit trip
+            </button>
+          </div>
+
+          <WeatherList weatherDays={tripDaysWeather} />
         </div>
 
         <div className={styles.buttons}>
-          <button className={styles.button} onClick={() => handleBack()}>
+          <button
+            className={`${styles.button} ${styles.buttonBack}`}
+            onClick={() => handleBack()}
+          >
             Back
           </button>
-          <button className={styles.button}>Continue</button>
+          {isAuth ? (
+            <button className={styles.button} onClick={() => handlePlanTrip()}>
+              Plan my trip
+            </button>
+          ) : (
+            <div>
+              <button
+                className={`${styles.button} ${styles.guestButton}`}
+                onClick={() => handlePlanTrip()}
+              >
+                Plan as guest
+              </button>{" "}
+              <button className={styles.button} onClick={() => handleLogin()}>
+                Log in to save trip
+              </button>{" "}
+            </div>
+          )}
         </div>
       </div>
     </div>

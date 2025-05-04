@@ -3,6 +3,7 @@ import { validationResult } from "express-validator";
 import userModel from "../models/user.model.js";
 import tokenService from "../services/token.service.js";
 import authService from "../services/auth.service.js";
+import ApiError from "../exceptions/ApiError..js";
 
 class AuthController {
   async register(req, res) {
@@ -54,7 +55,12 @@ class AuthController {
         ...tokens,
       });
     } catch (error) {
-      console.log(error);
+      console.log("Login error:", error);
+
+      if (error instanceof ApiError) {
+        return res.status(error.status).json({ message: error.message });
+      }
+
       res.status(500).json({ message: "Authorization failed" });
     }
   }
@@ -102,7 +108,7 @@ class AuthController {
     }
   }
 
-  async getMe(req, res) {
+  async getUserInfo(req, res) {
     try {
       const userId = await req.user.id; // Бо req.user це не об`єкт, а проміс
 
@@ -112,6 +118,26 @@ class AuthController {
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Server error" });
+    }
+  }
+
+  async validateToken(req, res) {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({ error: "No token provided" });
+    }
+
+    try {
+      const decoded = await tokenService.validateAccessToken(token);
+
+      if (!decoded) {
+        return res.status(401).json({ error: "Invalid token structure" });
+      }
+
+      return res.json({ user: decoded });
+    } catch (e) {
+      return res.status(401).json({ error: "Token verification failed" });
     }
   }
 }

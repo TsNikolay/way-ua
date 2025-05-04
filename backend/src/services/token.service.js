@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import tokenModel from "../models/token.model.js";
-import userModel from "../models/user.model.js";
 
 class TokenService {
   generateTokens(payload) {
@@ -37,7 +36,7 @@ class TokenService {
       const userData = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET);
       return userData;
     } catch (err) {
-      return null;
+      throw new Error("Invalid access token: " + err);
     }
   }
 

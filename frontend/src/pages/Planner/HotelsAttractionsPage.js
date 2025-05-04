@@ -6,7 +6,6 @@ import PlannerFormContext from "../../contexts/PlannerFormContext";
 import HotelList from "../../components/HotelList/HotelList";
 import { useNavigate } from "react-router-dom";
 import AttractionList from "../../components/AttractionList/AttractionList";
-import { countTripDays } from "../../utils/plannerUtils";
 
 const HotelsAttractionsPage = () => {
   const {
@@ -17,16 +16,25 @@ const HotelsAttractionsPage = () => {
     setPage,
     getWeather,
     city,
-    date,
+    dates,
   } = useContext(PlannerFormContext);
 
   const navigate = useNavigate();
 
+  //Щоб зпобігти перехід на цю сторінку через адресну стрічку якщо не заповнені минулі поля
+  if (
+    dates.length === 0 ||
+    !city ||
+    hotels.length === 0 ||
+    attractions.length === 0
+  ) {
+    navigate("/planner/step1", { replace: true });
+  }
+
   const handleContinue = async () => {
-    const numberOfDays = countTripDays(date[0], date[1]);
     const { lat, lng } = city.coordinates;
     try {
-      await getWeather(lat, lng, numberOfDays);
+      await getWeather(lat, lng); // Не передаю кількість днів бо завжди проситиму максимум, а вже потім фільтрувати по датам
       navigate("/planner/step3");
     } catch (err) {
       console.error(
@@ -44,16 +52,6 @@ const HotelsAttractionsPage = () => {
   useEffect(() => {
     //Ставимо правильну сторінку
     setPage(1);
-
-    //Щоб зпобігти перехід на цю сторінку через адресну стрічку якщо не заповнені минулі поля
-    if (
-      date.length === 0 ||
-      !city ||
-      hotels.length === 0 ||
-      attractions.length === 0
-    ) {
-      navigate("/planner/step1", { replace: true });
-    }
   }, []);
 
   // Зберігаємо в localStorage при змінах

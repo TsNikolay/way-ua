@@ -3,11 +3,14 @@ import styles from "./Homepage.module.css";
 import AboutSection from "../../components/AboutSection/AboutSection";
 import { useLocation, useNavigate } from "react-router-dom";
 import PlannerFormContext from "../../contexts/PlannerFormContext";
+import { validateTokenRequest } from "../../api/authApi";
+import AuthContext from "../../contexts/AuthContext";
 
 const Homepage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { resetPlannerState } = useContext(PlannerFormContext);
+  const { refresh } = useContext(AuthContext);
 
   useEffect(() => {
     //Щоб скролити до секції (в нашому випадку about)
@@ -23,6 +26,25 @@ const Homepage = () => {
     resetPlannerState();
     navigate("/planner/step1");
   };
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const response = await validateTokenRequest(token);
+
+        if (response.status === 200) {
+          refresh();
+        }
+      } catch (err) {
+        console.warn("Access token invalid or expired");
+      }
+    };
+
+    checkAuth(); // вызываем async-функцию
+  }, []);
 
   return (
     <div>

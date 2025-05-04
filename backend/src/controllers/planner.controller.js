@@ -24,12 +24,8 @@ class PlannerController {
 
   async getWeather(req, res) {
     try {
-      const { latitude, longitude, numberOfDays } = req.body;
-      const result = await PlannerService.getWeather(
-        latitude,
-        longitude,
-        numberOfDays,
-      );
+      const { latitude, longitude } = req.body;
+      const result = await PlannerService.getWeather(latitude, longitude);
 
       res.json(result);
     } catch (err) {

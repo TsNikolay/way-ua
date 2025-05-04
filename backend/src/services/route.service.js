@@ -103,7 +103,7 @@ class RouteService {
 
   async deleteRoute(userId, routeId) {
     const result = await RouteModel.delete(userId, routeId);
-    console.log(result);
+
     return result.rowCount > 0; // перевірка чи видалився маршрут. Якщо видалилося більше 0 рядків то true
   }
 }

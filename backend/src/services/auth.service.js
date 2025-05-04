@@ -4,6 +4,7 @@ import userModel from "../models/user.model.js";
 import mailService from "./mail.service.js";
 import tokenService from "./token.service.js";
 import tokenModel from "../models/token.model.js";
+import ApiError from "../exceptions/ApiError..js";
 
 class AuthService {
   async register({ email, name, password, avatar_url }) {
@@ -44,15 +45,14 @@ class AuthService {
 
   async login({ email, password }) {
     const user = await userModel.findUserByEmail(email);
-
     if (!user) {
-      throw new Error("User does not exist");
+      throw ApiError.unauthorized("User does not exist");
     }
 
     const isValidPassword = await bcrypt.compare(password, user.password_hash);
 
     if (!isValidPassword) {
-      throw new Error("Invalid email or password");
+      throw ApiError.unauthorized("Invalid email or password");
     }
 
     //Генеруємо токени
