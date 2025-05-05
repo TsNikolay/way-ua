@@ -27,5 +27,8 @@ export const registerValidator = [
     .matches(/^[a-zA-Zа-яА-ЯёЁ\s]+$/)
     .withMessage("Name must contain only letters"),
 
-  body("avatar_url").optional().isURL().withMessage("URL must be a valid URL"),
+  body("avatar_url")
+    .optional()
+    .isString()
+    .withMessage("URL must be a valid URL"),
 ];

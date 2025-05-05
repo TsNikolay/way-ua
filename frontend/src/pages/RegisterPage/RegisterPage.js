@@ -1,16 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../../contexts/AuthContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import styles from "./LoginPage.module.css";
+import styles from "./RegisterPage.module.css";
 
-const LoginPage = () => {
-  const { isAuth, login, refresh, logout, ...state } = useContext(AuthContext);
+const RegisterPage = () => {
+  const { isAuth, register, refresh, logout, ...state } =
+    useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("");
   const [error, setError] = useState("");
 
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuth) {
+      navigate(from, { replace: true });
+    }
+  }, [isAuth]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -19,19 +28,23 @@ const LoginPage = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (isAuth) {
-      navigate(from, { replace: true });
-    }
-  }, [isAuth]);
-
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
     try {
-      await login(email, password);
+      if (password !== confirmPassword) {
+        setError("Passwords do not match");
+        return;
+      }
+      const avatar_url = "/images/default-avatar.png";
+      await register(email, password, name, avatar_url);
     } catch (err) {
-      const message = err.response?.data?.message || "Login failed";
+      console.log(err);
+      const message =
+        err.response?.data?.errors?.[0]?.msg ||
+        err.response?.data?.message ||
+        "Register failed";
+
       setError(message);
     }
   };
@@ -45,18 +58,6 @@ const LoginPage = () => {
   //   }
   // };
 
-  // const handleLogout = async () => {
-  //   try {
-  //     await logout();
-  //     clearUserInfo();
-  //   } catch (err) {
-  //     console.error(
-  //         "Logout failed:",
-  //         err.response?.data?.message || err.message,
-  //     );
-  //   }
-  // };
-
   if (state.isLoading) {
     return <h1>Loading...</h1>;
   }
@@ -66,8 +67,17 @@ const LoginPage = () => {
 
   return (
     <div className={styles.card}>
-      <h2>Log in</h2>
-      <form onSubmit={(e) => handleLogin(e)} className={styles.form}>
+      <h2>Register</h2>
+      <form onSubmit={(e) => handleRegister(e)} className={styles.form}>
+        <label className={styles.label}>Name</label>
+        <input
+          className={styles.input}
+          type="text"
+          value={name}
+          placeholder="Enter your name"
+          onChange={(e) => setName(e.target.value)}
+        />
+
         <label className={styles.label}>Email</label>
         <input
           className={styles.input}
@@ -85,16 +95,26 @@ const LoginPage = () => {
           placeholder="Enter your password"
           onChange={(e) => setPassword(e.target.value)}
         />
+
+        <label className={styles.label}>Confirm password</label>
+        <input
+          className={styles.input}
+          type="password"
+          value={confirmPassword}
+          placeholder="Repeat your password"
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+
         {error && <p className={styles.error}>{error}</p>}
         <button className={styles.button} type="submit">
-          LOG IN
+          SIGN UP
         </button>
-        <Link className={styles.register} to={"/auth/register"}>
-          New here? Register now
+        <Link className={styles.register} to={"/auth/login"}>
+          Already a user? Log in
         </Link>
       </form>
     </div>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

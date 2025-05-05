@@ -33,7 +33,10 @@ class AuthController {
         //...tokens,
       });
     } catch (error) {
-      console.log(error);
+      if (error instanceof ApiError) {
+        return res.status(error.status).json({ message: error.message });
+      }
+
       res.status(500).json({ message: "Registration failed" });
     }
   }

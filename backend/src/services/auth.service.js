@@ -10,7 +10,7 @@ class AuthService {
   async register({ email, name, password, avatar_url }) {
     const existingUser = await userModel.findUserByEmail(email);
     if (existingUser) {
-      throw new Error("User already exists");
+      throw new ApiError(409, "User with this email already exists");
     }
 
     const salt = await bcrypt.genSalt(10);
