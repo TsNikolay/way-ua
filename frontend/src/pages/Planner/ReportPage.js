@@ -1,22 +1,44 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PlannerFormContext from "../../contexts/PlannerFormContext";
 
 import { calculateTripDays, getTripDaysWeather } from "../../utils/datesUtils";
 import styles from "./ReportPage.module.css";
 import WeatherList from "../../components/WeatherList/WeatherList";
 import { Link } from "react-router-dom";
+import SpinnerLoader from "../../components/SpinnerLoader/SpinnerLoader";
 
 const ReportPage = () => {
-  const { weather, dates, city, selectedHotel } =
+  const { weather, dates, city, selectedHotel, tripPlan } =
     useContext(PlannerFormContext);
 
-  const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
   const [tripTitle, setTripTitle] = useState("");
+  const [loading, setLoading] = useState(true);
+  const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
+
   const cityShortLabel = city.label.split(",").slice(0, 2).join(",");
   const startDate = new Date(dates[0]).toLocaleDateString();
   const endDate = new Date(dates[1]).toLocaleDateString();
-  const numberOfTripsDays = calculateTripDays(dates);
+  const numberOfTripDays = calculateTripDays(dates);
   const tripDaysWeather = getTripDaysWeather(weather, dates);
+
+  useEffect(() => {
+    if (tripPlan) {
+      console.log("Trip plan", tripPlan);
+      setLoading(false);
+    }
+  }, [tripPlan]);
+
+  if (loading) {
+    return (
+      <div className={`${styles.container} ${styles.loadingContainer}`}>
+        <h3 className={styles.loadingText}>🧭 Planning your adventure...</h3>
+        <h3 className={styles.loadingText}>
+          This will only take a few seconds!
+        </h3>
+        <SpinnerLoader />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -46,7 +68,7 @@ const ReportPage = () => {
             </h2>
             <h2>
               #️⃣ Days:{" "}
-              <span className={styles.infoValue}> {numberOfTripsDays}</span>
+              <span className={styles.infoValue}> {numberOfTripDays}</span>
             </h2>
 
             <div className={styles.tripWeather}>

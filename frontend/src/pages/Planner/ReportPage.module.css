@@ -5,6 +5,10 @@
     border-radius: 15px;
     padding: 20px 40px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.loadingContainer{
+    width: max-content;
 
 }
 
@@ -127,5 +131,11 @@
     padding: 0 10px;
     margin-top: 10px;
     justify-self: end;
+}
+
+.loadingText{
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 400;
 }
 

@@ -4,6 +4,7 @@ import {
   attractionsRequest,
   weatherRequest,
   cityCoordinatesRequest,
+  tripPlanRequest,
 } from "../api/plannerApi";
 
 //Початковий стан або підтягуємо з локал стореджу (при наявності), або ж пусті значення
@@ -18,6 +19,7 @@ const initialState = {
     localStorage.getItem("selectedAttractions") || "[]",
   ),
   weather: JSON.parse(localStorage.getItem("plannerWeather") || "null"),
+  tripPlan: JSON.parse(localStorage.getItem("plannerTripPlan") || "null"),
 };
 
 function formReducer(state, action) {
@@ -52,6 +54,9 @@ function formReducer(state, action) {
           ),
         ],
       };
+    case "SET_TRIP_PLAN":
+      return { ...state, tripPlan: action.payload };
+
     case "RESET_FORM":
       return initialState;
     default:
@@ -90,6 +95,10 @@ export const PlannerFormProvider = ({ children }) => {
   const setSelectedHotel = (hotel) => {
     localStorage.setItem("selectedHotel", JSON.stringify(hotel));
     dispatch({ type: "SET_SELECTED_HOTEL", payload: hotel });
+  };
+
+  const setTripPlan = (tripPlan) => {
+    dispatch({ type: "SET_TRIP_PLAN", payload: tripPlan });
   };
 
   const addSelectedAttraction = (attraction) => {
@@ -164,6 +173,16 @@ export const PlannerFormProvider = ({ children }) => {
     }
   };
 
+  const getTripPlan = async (dataForPlan) => {
+    try {
+      const response = await tripPlanRequest(dataForPlan);
+      localStorage.setItem("plannerTripPlan", JSON.stringify(response.data));
+      setTripPlan(response.data);
+    } catch (err) {
+      console.error("Error creating a trip plan:", err);
+    }
+  };
+
   const resetPlannerState = () => {
     resetPage();
     resetCity();
@@ -172,6 +191,8 @@ export const PlannerFormProvider = ({ children }) => {
     resetSelectedHotels();
     resetAttractions();
     resetSelectedAttractions();
+    resetWeather();
+    resetTripPlan();
   };
 
   const resetPage = () => {
@@ -214,6 +235,11 @@ export const PlannerFormProvider = ({ children }) => {
     localStorage.removeItem("plannerWeather");
   };
 
+  const resetTripPlan = () => {
+    setTripPlan(null);
+    localStorage.removeItem("plannerTripPlan");
+  };
+
   return (
     <PlannerFormContext.Provider
       value={{
@@ -242,6 +268,7 @@ export const PlannerFormProvider = ({ children }) => {
         resetSelectedAttractions,
         resetWeather,
         getCityCoordinates,
+        getTripPlan,
       }}
     >
       {children}

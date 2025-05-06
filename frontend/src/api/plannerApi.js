@@ -22,3 +22,9 @@ export const cityCoordinatesRequest = async (city) => {
     city,
   });
 };
+
+export const tripPlanRequest = async (dataForPlan) => {
+  return api.post("planner/generatePlan", {
+    dataForPlan,
+  });
+};

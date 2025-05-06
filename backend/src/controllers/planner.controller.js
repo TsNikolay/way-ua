@@ -42,6 +42,17 @@ class PlannerController {
       res.status(500).json({ message: "Failed to get coordinates" });
     }
   }
+
+  async generatePlan(req, res) {
+    try {
+      const { dataForPlan } = req.body;
+      const result = await PlannerService.generatePlan(dataForPlan);
+
+      res.json(result);
+    } catch (err) {
+      res.status(500).json({ message: "Failed to generate a plan" });
+    }
+  }
 }
 
 export default new PlannerController();

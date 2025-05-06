@@ -8,34 +8,52 @@ import WeatherList from "../../components/WeatherList/WeatherList";
 import AuthContext from "../../contexts/AuthContext";
 
 const WeatherPage = () => {
-  const { weather, setPage, dates, city, selectedHotel, selectedAttractions } =
-    useContext(PlannerFormContext);
-  const navigate = useNavigate();
-  const { isAuth } = useContext(AuthContext);
+  const {
+    weather,
+    setPage,
+    dates,
+    city,
+    selectedHotel,
+    selectedAttractions,
+    hotels,
+    attractions,
+    getTripPlan,
+  } = useContext(PlannerFormContext);
 
+  useEffect(() => {
+    setPage(2);
+  }, []);
+
+  const { isAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
   const invalidData =
     !weather ||
     dates.length === 0 ||
     !city ||
-    !selectedHotel ||
-    selectedAttractions.length === 0;
+    hotels.length === 0 ||
+    attractions.length === 0;
 
-  useEffect(() => {
-    if (invalidData) {
-      navigate("/planner/step1", { replace: true });
-    } else {
-      //Ставимо правильну сторінку
-      setPage(2);
-    }
-  }, [invalidData]);
+  //Якщо даних не вистачає пересилаємо на початок форми
+  if (invalidData) {
+    navigate("/planner/step1", { replace: true });
+    return null;
+  }
 
-  if (invalidData) return null;
-
-  const tripDaysWeather = getTripDaysWeather(weather, dates);
-  const numberOfTripsDays = calculateTripDays(dates);
+  const cityShortLabel = city.label.split(",").slice(0, 2).join(",");
   const startDate = new Date(dates[0]).toLocaleDateString();
   const endDate = new Date(dates[1]).toLocaleDateString();
-  const cityShortLabel = city.label.split(",").slice(0, 2).join(",");
+  const numberOfTripDays = calculateTripDays(dates);
+  const tripDaysWeather = getTripDaysWeather(weather, dates);
+  const localDates = [startDate, endDate];
+
+  const dataForPlan = {
+    city: cityShortLabel,
+    dates: localDates,
+    duration: numberOfTripDays,
+    hotel: selectedHotel,
+    attractions: selectedAttractions,
+    weather: tripDaysWeather,
+  };
 
   const handleBack = () => {
     navigate("/planner/step2");
@@ -52,8 +70,9 @@ const WeatherPage = () => {
     navigate("/auth/login", { state: { from: "/planner/report" } }); // Ось тут шлях ще під питанням
   };
 
-  const handlePlanTrip = () => {
+  const handlePlanTrip = async () => {
     navigate("/planner/report");
+    await getTripPlan(dataForPlan);
   };
 
   return (
@@ -82,7 +101,7 @@ const WeatherPage = () => {
             </h2>
             <h2>
               Days:{" "}
-              <span className={styles.infoValue}> {numberOfTripsDays}</span>
+              <span className={styles.infoValue}> {numberOfTripDays}</span>
             </h2>
 
             <button

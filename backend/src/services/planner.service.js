@@ -1,5 +1,6 @@
 import GoogleMapsAPI from "../utils/googleMaps.js";
 import OpenWeatherAPI from "../utils/openWeather.js";
+import OpenAIAPI from "../utils/openAI.js";
 
 class PlannerService {
   async getHotels(city) {
@@ -20,6 +21,11 @@ class PlannerService {
     const coordinates = await GoogleMapsAPI.getCoordinates(city);
 
     return coordinates;
+  }
+
+  async generatePlan(dataForPlan) {
+    const plan = await OpenAIAPI.generatePlan(dataForPlan);
+    return plan;
   }
 }
 

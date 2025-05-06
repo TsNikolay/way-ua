@@ -28,8 +28,8 @@ const WeatherList = ({ weatherDays, type = "full" }) => {
 
   return (
     <div className={type === "full" ? styles.list : styles.shortList}>
-      {weatherDays.map((weatherDay) => {
-        return <WeatherCard weatherDay={weatherDay} type={type} />;
+      {weatherDays.map((weatherDay, i) => {
+        return <WeatherCard key={i} weatherDay={weatherDay} type={type} />;
       })}
       {isEmptyDays && renderEmptyCards()}
     </div>
