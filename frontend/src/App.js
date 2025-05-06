@@ -8,6 +8,7 @@ import HotelsAttractionsPage from "./pages/Planner/HotelsAttractionsPage";
 import WeatherPage from "./pages/Planner/WeatherPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import ReportPage from "./pages/Planner/ReportPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="step1" element={<LocationDatesPage />} />
             <Route path="step2" element={<HotelsAttractionsPage />} />
             <Route path="step3" element={<WeatherPage />} />
+            <Route path="report" element={<ReportPage />} />
           </Route>
 
           <Route path="/auth" element={<PlannerPage />}>

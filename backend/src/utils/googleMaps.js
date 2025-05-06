@@ -27,7 +27,7 @@ const GoogleMapsAPI = {
           address: hotel.formatted_address,
           rating: hotel.rating,
           imageUrl: hotel.photos?.[0]
-            ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${hotel.photos[0].photo_reference}&key=${API_KEY}`
+            ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1200&photo_reference=${hotel.photos[0].photo_reference}&key=${API_KEY}`
             : null,
           attribution: hotel.photos?.[0]?.html_attributions?.[0] || null,
           user_ratings_total: hotel.user_ratings_total,
@@ -60,7 +60,7 @@ const GoogleMapsAPI = {
           address: attraction.formatted_address,
           rating: attraction.rating,
           imageUrl: attraction.photos?.[0]
-            ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${attraction.photos[0].photo_reference}&key=${API_KEY}`
+            ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1200&photo_reference=${attraction.photos[0].photo_reference}&key=${API_KEY}`
             : null,
           attribution: attraction.photos?.[0]?.html_attributions?.[0] || null,
           user_ratings_total: attraction.user_ratings_total,

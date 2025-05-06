@@ -35,6 +35,7 @@ const WeatherPage = () => {
   const numberOfTripsDays = calculateTripDays(dates);
   const startDate = new Date(dates[0]).toLocaleDateString();
   const endDate = new Date(dates[1]).toLocaleDateString();
+  const cityShortLabel = city.label.split(",").slice(0, 2).join(",");
 
   const handleBack = () => {
     navigate("/planner/step2");
@@ -69,7 +70,7 @@ const WeatherPage = () => {
               🗺️City:{" "}
               <span className={styles.infoValue}>
                 {/*Обрізаємо "Ukraine", бо це і так очевидно*/}
-                {city.label.split(",").slice(0, 2).join(",")}
+                {cityShortLabel}
               </span>
             </h2>
             <h2>

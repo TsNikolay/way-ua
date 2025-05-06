@@ -4,8 +4,20 @@
     gap: 20px;
     padding: 20px;
     justify-items: center;
+    background: #f7f7f7;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 1px 1px 0 #efe6e6;
 }
 
+.shortList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 10px;
+    padding: 20px;
+    justify-items: center;
+    background: #f7f7f7;
+    border-radius: 10px;
+}
 
 @media (max-width: 480px) {
     .list {

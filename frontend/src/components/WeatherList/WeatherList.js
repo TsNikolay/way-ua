@@ -1,13 +1,37 @@
-import React from "react";
-import WeatherItem from "../WeatherItem/WeatherItem";
+import React, { useContext } from "react";
+import WeatherCard from "../WeatherCard/WeatherCard";
 import styles from "./WeatherList.module.css";
+import { calculateTripDays } from "../../utils/datesUtils";
+import PlannerFormContext from "../../contexts/PlannerFormContext";
 
-const WeatherList = ({ weatherDays }) => {
+const WeatherList = ({ weatherDays, type = "full" }) => {
+  const { dates } = useContext(PlannerFormContext);
+
+  const numberOfTripsDays = calculateTripDays(dates);
+  const isEmptyDays = weatherDays.length < numberOfTripsDays;
+
+  const renderEmptyCards = () => {
+    const cards = [];
+    const missingCount = numberOfTripsDays - weatherDays.length;
+    for (let i = 0; i < missingCount; i++) {
+      cards.push(
+        <WeatherCard
+          key={`empty-${i}`}
+          weatherDay={null}
+          type={type}
+          empty={true}
+        />,
+      );
+    }
+    return cards;
+  };
+
   return (
-    <div className={styles.list}>
+    <div className={type === "full" ? styles.list : styles.shortList}>
       {weatherDays.map((weatherDay) => {
-        return <WeatherItem weatherDay={weatherDay} />;
+        return <WeatherCard weatherDay={weatherDay} type={type} />;
       })}
+      {isEmptyDays && renderEmptyCards()}
     </div>
   );
 };

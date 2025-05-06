@@ -5,6 +5,7 @@
     border-radius: 15px;
     padding: 20px 40px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+
 }
 
 .button {
@@ -60,7 +61,7 @@
     align-items: center;
     padding:  10px;
     background-color: #ffffff;
-    border-radius: 10px;
+    border-radius: 10px 10px 0 0;
     box-shadow: 1px 1px 4px #dcc6c6;
 
 }
