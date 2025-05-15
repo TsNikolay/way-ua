@@ -5,7 +5,6 @@ import PlannerFormContext from "../../contexts/PlannerFormContext";
 import { useNavigate } from "react-router-dom";
 import { calculateTripDays, getTripDaysWeather } from "../../utils/datesUtils";
 import WeatherList from "../../components/WeatherList/WeatherList";
-import AuthContext from "../../contexts/AuthContext";
 
 const WeatherPage = () => {
   const {
@@ -24,7 +23,6 @@ const WeatherPage = () => {
     setPage(2);
   }, []);
 
-  const { isAuth } = useContext(AuthContext);
   const navigate = useNavigate();
   const invalidData =
     !weather ||
@@ -64,10 +62,6 @@ const WeatherPage = () => {
 
   const handleEditTrip = () => {
     navigate("/planner/step1");
-  };
-
-  const handleLogin = () => {
-    navigate("/auth/login", { state: { from: "/planner/report" } }); // Ось тут шлях ще під питанням
   };
 
   const handlePlanTrip = async () => {
@@ -122,23 +116,9 @@ const WeatherPage = () => {
           >
             Back
           </button>
-          {isAuth ? (
-            <button className={styles.button} onClick={() => handlePlanTrip()}>
-              Plan my trip
-            </button>
-          ) : (
-            <div>
-              <button
-                className={`${styles.button} ${styles.guestButton}`}
-                onClick={() => handlePlanTrip()}
-              >
-                Plan as guest
-              </button>{" "}
-              <button className={styles.button} onClick={() => handleLogin()}>
-                Log in to save trip
-              </button>{" "}
-            </div>
-          )}
+          <button className={styles.button} onClick={() => handlePlanTrip()}>
+            Plan my trip
+          </button>
         </div>
       </div>
     </div>

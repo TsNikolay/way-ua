@@ -269,6 +269,7 @@ export const PlannerFormProvider = ({ children }) => {
         resetWeather,
         getCityCoordinates,
         getTripPlan,
+        resetTripPlan,
       }}
     >
       {children}

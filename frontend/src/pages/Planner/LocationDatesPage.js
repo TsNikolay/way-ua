@@ -7,11 +7,12 @@ import PlannerFormContext from "../../contexts/PlannerFormContext";
 //Стилі для вибору дат подорожі
 import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
 import "react-calendar/dist/Calendar.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const LocationDatesPage = () => {
   const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     city,
     dates,
@@ -26,6 +27,8 @@ const LocationDatesPage = () => {
     resetSelectedAttractions,
     resetWeather,
     getCityCoordinates,
+    resetPlannerState,
+    resetTripPlan,
   } = useContext(PlannerFormContext);
 
   const handleContinue = async () => {
@@ -52,13 +55,19 @@ const LocationDatesPage = () => {
     if (savedCity) setCity(JSON.parse(savedCity));
     if (savedDates) setDates(JSON.parse(savedDates));
 
-    //Коли сюди переходять по кнопці чи по адресній стрічці треба чистити стейт
+    //Якщо ресетнулись зі сторінки з планом, то чистимо весь стейт
+    if (location.state?.from === "/planner/report") {
+      resetPlannerState();
+    }
+
+    //Якщо сюди перейшли то треба чистите весь стейт крім днів і локації
     resetPage();
     resetHotels();
     resetSelectedHotels();
     resetAttractions();
     resetSelectedAttractions();
     resetWeather();
+    resetTripPlan();
   }, []);
 
   // Зберігаємо в localStorage при змінах

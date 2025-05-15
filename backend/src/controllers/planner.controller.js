@@ -53,6 +53,19 @@ class PlannerController {
       res.status(500).json({ message: "Failed to generate a plan" });
     }
   }
+
+  async getImage(req, res) {
+    try {
+      const { photo_reference } = req.query;
+
+      const result = await PlannerService.getImage(photo_reference);
+      // Встановлюємо тип контенту на зображення
+      res.set("Content-Type", result.headers["content-type"]);
+      res.send(result.data);
+    } catch (err) {
+      res.status(500).json({ message: "Failed to generate a plan" });
+    }
+  }
 }
 
 export default new PlannerController();

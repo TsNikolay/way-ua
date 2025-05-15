@@ -8,5 +8,6 @@ router.post("/attractions", PlannerController.getAttractions);
 router.post("/weather", PlannerController.getWeather);
 router.post("/coordinates", PlannerController.getCoordinates);
 router.post("/generatePlan", PlannerController.generatePlan);
+router.get("/image", PlannerController.getImage);
 
 export default router;

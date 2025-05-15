@@ -6,7 +6,8 @@ import { Link } from "react-router-dom";
 import PlannerFormContext from "../../contexts/PlannerFormContext";
 
 const AttractionCard = ({ attraction }) => {
-  const { place_id, name, address, imageUrl, rating, attribution } = attraction;
+  const { place_id, name, address, photo_reference, rating, attribution } =
+    attraction;
 
   const {
     addSelectedAttraction,
@@ -25,6 +26,7 @@ const AttractionCard = ({ attraction }) => {
       ? removeSelectedAttraction(attraction)
       : addSelectedAttraction(attraction);
   };
+  const API_URL = process.env.REACT_APP_API_URL;
 
   return (
     <div
@@ -38,7 +40,10 @@ const AttractionCard = ({ attraction }) => {
     >
       <div className={styles.image}>
         <img
-          src={imageUrl || "/images/default-attraction.png"}
+          src={
+            `${API_URL}/planner/image?photo_reference=${photo_reference}` ||
+            "/images/default-attraction.png"
+          }
           alt={name}
           onError={(e) => {
             e.target.src = "/images/default-attraction.png";

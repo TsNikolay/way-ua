@@ -27,6 +27,11 @@ class PlannerService {
     const plan = await OpenAIAPI.generatePlan(dataForPlan);
     return plan;
   }
+
+  async getImage(photo_reference) {
+    const image = await GoogleMapsAPI.getImage(photo_reference);
+    return image;
+  }
 }
 
 export default new PlannerService();

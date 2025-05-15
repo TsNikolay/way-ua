@@ -5,10 +5,12 @@ import { CiCircleMore } from "react-icons/ci";
 import { Link } from "react-router-dom";
 
 const HotelCard = ({ hotel }) => {
-  const { place_id, name, imageUrl, address, rating, attribution } = hotel;
+  const { place_id, name, address, rating, attribution, photo_reference } =
+    hotel;
   const { setSelectedHotel, selectedHotel } = useContext(PlannerFormContext);
   const isAnySelected = !!selectedHotel;
   const isSelected = selectedHotel?.place_id === place_id;
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const selectHotel = (hotel) => {
     selectedHotel
@@ -36,7 +38,10 @@ const HotelCard = ({ hotel }) => {
     >
       <img
         className={styles.image}
-        src={imageUrl || "/images/default-hotel.png"}
+        src={
+          `${API_URL}/planner/image?photo_reference=${photo_reference}` ||
+          "/images/default-hotel.png"
+        }
         alt={name}
         onError={(e) => {
           e.target.src = "/images/default-hotel.png";

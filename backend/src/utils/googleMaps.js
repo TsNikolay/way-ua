@@ -26,9 +26,7 @@ const GoogleMapsAPI = {
           name: hotel.name,
           address: hotel.formatted_address,
           rating: hotel.rating,
-          imageUrl: hotel.photos?.[0]
-            ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1200&photo_reference=${hotel.photos[0].photo_reference}&key=${API_KEY}`
-            : null,
+          photo_reference: hotel.photos?.[0]?.photo_reference,
           attribution: hotel.photos?.[0]?.html_attributions?.[0] || null,
           user_ratings_total: hotel.user_ratings_total,
         }));
@@ -59,9 +57,7 @@ const GoogleMapsAPI = {
           name: attraction.name,
           address: attraction.formatted_address,
           rating: attraction.rating,
-          imageUrl: attraction.photos?.[0]
-            ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1200&photo_reference=${attraction.photos[0].photo_reference}&key=${API_KEY}`
-            : null,
+          photo_reference: attraction.photos?.[0]?.photo_reference,
           attribution: attraction.photos?.[0]?.html_attributions?.[0] || null,
           user_ratings_total: attraction.user_ratings_total,
         }))
@@ -93,6 +89,19 @@ const GoogleMapsAPI = {
       return { lat, lng };
     } catch (err) {
       console.error("Geocoding failed:", err.message);
+    }
+  },
+
+  async getImage(photo_reference) {
+    const imageUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1200&photo_reference=${photo_reference}&key=${API_KEY}`;
+    try {
+      const response = await axios.get(imageUrl, {
+        responseType: "arraybuffer", // Щоб отримати зображення в бінарному форматі
+      });
+
+      return response;
+    } catch (err) {
+      console.error("Failed to get an image:", err.message);
     }
   },
 };

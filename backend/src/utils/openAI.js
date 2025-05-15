@@ -9,16 +9,20 @@ const OpenAIAPI = {
         dataForPlan;
       // Формуємо рядок опису пам'яток
       const attractionsText = attractions
-        .map((place) => `- ${place.name} (${place.address})`)
+        .map(
+          (place) =>
+            `- ${place.name} (${place.address}), photo_reference: ${place.photo_reference}`,
+        )
         .join("\n");
 
       // Формуємо рядок з прогнозом погоди
+
       const weatherText = weather
         .map(
           (w, i) =>
-            `- Day ${i + 1} (${w.date}): ${w.description}, Temperature: ${
-              w.temperature
-            }°C`,
+            `- Day ${i + 1}: ${w.weather[0].main} (${
+              w.weather[0].description
+            }), Temperature: ${w.temp.day}°C`,
         )
         .join("\n");
 
@@ -41,13 +45,16 @@ Create a JSON array under the key "days" where each object contains:
 - "activities": an array of objects with:
   - "place_name"
   - "address"
+  - "photo_reference" (use the reference provided in the attractions data)
   - "time_slot" (morning / afternoon / evening)
   - "notes" (contextual suggestions, e.g. "Due to rain, indoor activities are recommended")
 
 Distribute the attractions across the days so that:
-- Each attraction is visited once.
-- Activities match the weather (e.g., indoor museums on rainy days).
-- No day is empty. If there are more days than attractions, fill in the gaps with generic suggestions like “Free day for rest”, “Explore local cafes”, etc.
+- Each attraction is visited once, no repetition!
+- Activities match the weather (e.g., indoor museums on rainy days), do not plan outdoor activities in rainy days, plan something indoor instead
+- No day is empty. If there are more days than attractions, fill in the gaps with generic suggestions like “Free day for rest”, “Explore local cafes”, etc. For generic suggestions use approximate locations.
+- Minimum number of activities per day - 2
+- Every 2-3 days, offer evening activities
 
 Respond ONLY with valid JSON like:
 {
@@ -59,6 +66,7 @@ Respond ONLY with valid JSON like:
           "place_name": "Example Place",
           "address": "Example St, Kyiv",
           "time_slot": "morning",
+          "photo_reference": "AXQCQNQ4nvqmcG2dflZbw..."
           "notes": "Sunny day, good for outdoor visit"
         }
       ]
