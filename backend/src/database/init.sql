@@ -1,7 +1,8 @@
--- DROP TABLE route_days;
--- DROP TABLE routes;
--- DROP TABLE hotels;
--- DROP TABLE places;
+--  DROP TABLE route_days;
+--  DROP TABLE attractions;
+--  DROP TABLE weather;
+--  DROP TABLE routes;
+--  DROP TABLE hotels;
 
 
 CREATE TABLE IF NOT EXISTS users (
@@ -28,8 +29,8 @@ CREATE TABLE IF NOT EXISTS hotels (
     name VARCHAR(255),
     address TEXT,
     rating NUMERIC(2,1),
-    price VARCHAR(100),
-    image_url TEXT
+    attribution TEXT,
+    photo_reference TEXT
 );
 
 CREATE TABLE IF NOT EXISTS routes (
@@ -40,36 +41,37 @@ CREATE TABLE IF NOT EXISTS routes (
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     name VARCHAR(100) NOT NULL,
-    weather_summary TEXT,
     status VARCHAR(20) CHECK (status IN('planned','active','completed')),
-    created_at TIMESTAMP DEFAULT NOW(),
-    plan_summary TEXT
+    created_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE TABLE places (
+ CREATE TABLE IF NOT EXISTS attractions (
     id SERIAL PRIMARY KEY,
     google_place_id TEXT UNIQUE NOT NULL,
     name TEXT,
     address TEXT,
-    image_url TEXT,
-    description TEXT,
-    rating NUMERIC(2,1),
-    ticket_price TEXT
-    --можливо посилання на 3D модель в майбутньому
-);
-
-
-CREATE TABLE route_days (
-    id SERIAL PRIMARY KEY,
-    route_id INTEGER REFERENCES routes(id) ON DELETE CASCADE,
-    place_id INTEGER REFERENCES places(id) ON DELETE CASCADE,
-    day_number INTEGER NOT NULL,
-    time_slot VARCHAR(20) CHECK (time_slot IN ('morning', 'afternoon', 'evening')) NOT NULL,
-    visit_order INTEGER NOT NULL,
-    notes TEXT,
-    ticket_price TEXT,
+    photo_reference TEXT,
     rating NUMERIC(2,1)
 );
+
+
+ CREATE TABLE IF NOT EXISTS route_days (
+    id SERIAL PRIMARY KEY,
+    route_id INTEGER REFERENCES routes(id) ON DELETE CASCADE,
+    attraction_id INTEGER REFERENCES attractions(id) ON DELETE CASCADE,
+    day_number INTEGER NOT NULL,
+    time_slot VARCHAR(20) CHECK (time_slot IN ('morning', 'afternoon', 'evening')) NOT NULL,
+    notes TEXT
+);
+
+ CREATE TABLE weather (
+      id SERIAL PRIMARY KEY,
+      route_id INTEGER NOT NULL REFERENCES routes(id) ON DELETE CASCADE,
+      day INTEGER NOT NULL,
+      temperature REAL NOT NULL,
+      conditions TEXT NOT NULL
+ );
+
 
 
 

@@ -11,7 +11,7 @@ const OpenAIAPI = {
       const attractionsText = attractions
         .map(
           (place) =>
-            `- ${place.name} (${place.address}), photo_reference: ${place.photo_reference}`,
+            `- ${place.name} (${place.address}), photo_reference: ${place.photo_reference}, google_place_id: ${place.place_id}, rating: ${place.rating}`,
         )
         .join("\n");
 
@@ -48,9 +48,11 @@ Create a JSON array under the key "days" where each object contains:
   - "photo_reference" (use the reference provided in the attractions data)
   - "time_slot" (morning / afternoon / evening)
   - "notes" (contextual suggestions, e.g. "Due to rain, indoor activities are recommended")
+  - "google_place_id" (use the reference provided in the attractions data)
+  - "rating" (use the reference provided in the attractions data)
 
 Distribute the attractions across the days so that:
-- Each attraction is visited once, no repetition!
+- Each attraction is visited once, no repetition, any duplicates are strictly forbidden!
 - Activities match the weather (e.g., indoor museums on rainy days), do not plan outdoor activities in rainy days, plan something indoor instead
 - No day is empty. If there are more days than attractions, fill in the gaps with generic suggestions like “Free day for rest”, “Explore local cafes”, etc. For generic suggestions use approximate locations.
 - Minimum number of activities per day - 2
@@ -66,8 +68,10 @@ Respond ONLY with valid JSON like:
           "place_name": "Example Place",
           "address": "Example St, Kyiv",
           "time_slot": "morning",
-          "photo_reference": "AXQCQNQ4nvqmcG2dflZbw..."
-          "notes": "Sunny day, good for outdoor visit"
+          "photo_reference": "AXQCQNQ4nvqmcG2dflZbw...",
+          "notes": "Sunny day, good for outdoor visit",
+          "google_place_id": "ChIJzeiLW1DO1EAR3WGrIbDpvW8"
+          "rating": 4.5
         }
       ]
     }
@@ -76,7 +80,7 @@ Respond ONLY with valid JSON like:
 
       // Отправка запроса в OpenAI API
       const response = await client.chat.completions.create({
-        model: "gpt-4o",
+        model: "gpt-4.1-nano",
         messages: [
           {
             role: "user",

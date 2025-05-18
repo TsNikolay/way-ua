@@ -1,56 +1,157 @@
 import { body } from "express-validator";
 
-export const routeValidator = [
-  body("name").isString().notEmpty().withMessage("Route name is required"),
-  body("city").isString().notEmpty().withMessage("City is required"),
-  body("start_date").isISO8601().withMessage("Start date must be valid"),
-  body("end_date").isISO8601().withMessage("End date must be valid"),
+export const RouteValidator = [
+  body("name")
+    .exists()
+    .withMessage("Name is required")
+    .isString()
+    .withMessage("Name must be a string")
+    .trim()
+    .isLength({ max: 100 })
+    .withMessage("Name can be at most 100 characters"),
+
+  body("city")
+    .exists()
+    .withMessage("City is required")
+    .isString()
+    .withMessage("City must be a string")
+    .trim(),
+
+  body("start_date")
+    .exists()
+    .withMessage("Start date is required")
+    .isISO8601()
+    .withMessage("Start date must be a valid ISO8601 date"),
+
+  body("end_date")
+    .exists()
+    .withMessage("End date is required")
+    .isISO8601()
+    .withMessage("End date must be a valid ISO8601 date")
+    .custom((value, { req }) => {
+      if (new Date(value) < new Date(req.body.start_date)) {
+        throw new Error("End date must be equal to or after start date");
+      }
+      return true;
+    }),
+
+  body("created_at")
+    .exists()
+    .withMessage("Creation date is required")
+    .isISO8601()
+    .withMessage("Creation date must be a valid ISO8601 date"),
+
   body("status")
-    .optional()
+    .exists()
+    .withMessage("Status is required")
     .isIn(["planned", "active", "completed"])
-    .withMessage("Status must be planned, active, or completed"),
+    .withMessage("Status must be one of: planned, active, completed"),
 
-  body("hotel.google_place_id")
-    .isString()
-    .notEmpty()
-    .withMessage("Hotel place ID is required"),
+  // Hotel object
+  body("hotel").exists().withMessage("Hotel object is required"),
   body("hotel.name")
+    .exists()
+    .withMessage("Hotel name is required")
     .isString()
-    .notEmpty()
-    .withMessage("Hotel name is required"),
+    .withMessage("Hotel name must be a string")
+    .trim(),
   body("hotel.address")
+    .exists()
+    .withMessage("Hotel address is required")
     .isString()
-    .notEmpty()
-    .withMessage("Hotel address is required"),
+    .withMessage("Hotel address must be a string")
+    .trim(),
   body("hotel.rating")
-    .optional()
+    .exists()
+    .withMessage("Hotel rating is required")
     .isFloat({ min: 0, max: 5 })
-    .withMessage("Hotel rating must be between 0 and 5"),
-  body("hotel.price").optional().isString(),
-  body("hotel.image_url").optional().isString(),
+    .withMessage("Hotel rating must be a number between 0 and 5"),
+  body("hotel.google_place_id")
+    .exists()
+    .withMessage("Hotel google_place_id is required")
+    .isString()
+    .withMessage("Hotel google_place_id must be a string")
+    .trim(),
+  body("hotel.attribution")
+    .exists()
+    .withMessage("Hotel attribution is required")
+    .isString()
+    .withMessage("Hotel attribution must be a string")
+    .trim(),
+  body("hotel.photo_reference")
+    .exists()
+    .withMessage("Hotel photo_reference is required")
+    .isString()
+    .withMessage("Hotel photo_reference must be a string")
+    .trim(),
 
+  // Weather array
+  body("weather")
+    .exists()
+    .withMessage("Weather array is required")
+    .isArray({ min: 1 })
+    .withMessage("Weather must be a non-empty array"),
+  body("weather.*.day")
+    .exists()
+    .withMessage("Weather day is required")
+    .isInt({ min: 1 })
+    .withMessage("Weather day must be an integer >= 1"),
+  body("weather.*.temperature")
+    .exists()
+    .withMessage("Weather temperature is required")
+    .isFloat()
+    .withMessage("Weather temperature must be a number"),
+  body("weather.*.conditions")
+    .exists()
+    .withMessage("Weather conditions is required")
+    .isString()
+    .withMessage("Weather conditions must be a string")
+    .trim(),
+
+  // Route days array
   body("route_days")
+    .exists()
+    .withMessage("route_days array is required")
     .isArray({ min: 1 })
     .withMessage("route_days must be a non-empty array"),
-
-  body("route_days.*.google_place_id").isString().notEmpty(),
-  body("route_days.*.name").isString().notEmpty(),
-  body("route_days.*.address").isString().notEmpty(),
-  body("route_days.*.image_url").optional().isString(),
-  body("route_days.*.description").optional().isString(),
   body("route_days.*.day_number")
+    .exists()
+    .withMessage("Day number is required")
     .isInt({ min: 1 })
-    .withMessage("day_number must be an integer greater than 0"),
+    .withMessage("Day number must be an integer >= 1"),
   body("route_days.*.time_slot")
-    .isIn(["morning", "afternoon", "evening"])
-    .withMessage("time_slot must be morning, afternoon, or evening"),
-  body("route_days.*.visit_order")
-    .isInt({ min: 1 })
-    .withMessage("visit_order must be an integer greater than 0"),
-  body("route_days.*.ticket_price").optional().isString(),
-  body("route_days.*.rating")
-    .optional()
-    .isFloat({ min: 0, max: 5 })
-    .withMessage("rating must be between 0 and 5"),
-  body("route_days.*.notes").optional().isString(),
+    .exists()
+    .withMessage("Time slot is required")
+    .isIn(["morning", "afternoon", "evening", "night"])
+    .withMessage(
+      "Time slot must be one of: morning, afternoon, evening, night",
+    ),
+  body("route_days.*.notes")
+    .exists()
+    .withMessage("Notes are required")
+    .isString()
+    .withMessage("Notes must be a string")
+    .trim(),
+  // Attraction nested object
+  body("route_days.*.attraction")
+    .exists()
+    .withMessage("Attraction object is required"),
+  body("route_days.*.attraction.google_place_id")
+    .exists()
+    .withMessage("Attraction google_place_id is required")
+    .isString()
+    .withMessage("Attraction google_place_id must be a string")
+    .trim(),
+  body("route_days.*.attraction.name")
+    .exists()
+    .withMessage("Attraction name is required")
+    .isString()
+    .withMessage("Attraction name must be a string")
+    .trim(),
+  body("route_days.*.attraction.address")
+    .exists()
+    .withMessage("Attraction address is required")
+    .isString()
+    .withMessage("Attraction address must be a string")
+    .trim(),
 ];

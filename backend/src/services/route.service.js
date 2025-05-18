@@ -46,8 +46,9 @@
 
 import RouteModel from "../models/route.model.js";
 import HotelModel from "../models/hotel.model.js";
-import PlaceModel from "../models/place.model.js";
 import RouteDayModel from "../models/routeDay.model.js";
+import AttractionModel from "../models/attraction.model.js";
+import WeatherModel from "../models/weather.model.js";
 
 class RouteService {
   async createRoute(userId, data) {
@@ -57,8 +58,7 @@ class RouteService {
       start_date,
       end_date,
       hotel,
-      weather_summary,
-      plan_summary,
+      weather,
       status,
       route_days,
     } = data;
@@ -71,11 +71,20 @@ class RouteService {
 
     //Перевіряємо чи є вже в базі данних місця зазначені в route_days. Якщо ні то створимо
     for (const day of route_days) {
-      let placeId = await PlaceModel.findByPlaceId(day.google_place_id);
-      if (!placeId) {
-        placeId = await PlaceModel.create(day);
+      // 1) достаём вложенный объект с данными достопримечательности
+      const attractionData = day.attraction;
+      const googlePlaceId = attractionData.google_place_id;
+
+      // 2) ищем в БД по google_place_id
+      let attractionId = await AttractionModel.findByPlaceId(googlePlaceId);
+
+      // 3) если не нашли — создаём новую запись и берём её id
+      if (!attractionId) {
+        attractionId = await AttractionModel.create(attractionData);
       }
-      day.place_id = placeId;
+
+      // 4) запоминаем полученный id, чтобы позже положить его в поле attraction_id таблицы route_days
+      day.attraction_id = attractionId;
     }
 
     // 1. Створення маршруту
@@ -86,8 +95,6 @@ class RouteService {
       start_date,
       end_date,
       hotel_id,
-      weather_summary,
-      plan_summary,
       status,
     });
 
@@ -96,6 +103,15 @@ class RouteService {
       await RouteDayModel.addRouteDays(routeData.id, route_days);
     } else {
       throw new Error("No route days provided");
+    }
+
+    for (const w of weather) {
+      await WeatherModel.create({
+        route_id: routeData.id,
+        day: w.day,
+        temperature: w.temperature,
+        conditions: w.conditions,
+      });
     }
 
     return routeData;

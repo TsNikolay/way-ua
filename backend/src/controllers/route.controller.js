@@ -3,9 +3,11 @@ import { validationResult } from "express-validator";
 
 class RouteController {
   async createRoute(req, res) {
+    console.log(">>> BODY:", JSON.stringify(req.body, null, 2));
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
+        console.log("Validation failed:", errors.array());
         return res.status(400).json({ errors: errors.array() });
       }
 

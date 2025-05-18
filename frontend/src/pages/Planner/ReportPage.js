@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import SpinnerLoader from "../../components/SpinnerLoader/SpinnerLoader";
 import TripPlanList from "../../components/TripPlanList/TripPlanList";
 import AuthContext from "../../contexts/AuthContext";
+import { createRouteRequest } from "../../api/routesApi";
 
 const ReportPage = () => {
   const { weather, dates, city, selectedHotel, tripPlan } =
@@ -51,7 +52,50 @@ const ReportPage = () => {
   };
 
   const handleSaveTrip = async () => {
-    //Логіка збереження
+    const preparedWeatherSummary = tripDaysWeather.map((day, i) => {
+      return {
+        day: i + 1,
+        temperature: day.temp.day,
+        conditions: day.weather[0].main,
+      };
+    });
+
+    const preparedRouteDays = tripPlan.days.flatMap((day) =>
+      day.activities.map((activity) => ({
+        day_number: day.day_number,
+        time_slot: activity.time_slot,
+        notes: activity.notes,
+        attraction: {
+          google_place_id: activity.google_place_id,
+          name: activity.place_name,
+          address: activity.address,
+          rating: activity.rating,
+          photo_reference: activity.photo_reference,
+        },
+      })),
+    );
+
+    const dataForSaving = {
+      name: "Kyiv Trip",
+      city: city.label,
+      start_date: new Date(dates[0]),
+      end_date: new Date(dates[1]),
+      status: "planned",
+      created_at: new Date(),
+      hotel: {
+        name: selectedHotel.name,
+        address: selectedHotel.address,
+        rating: selectedHotel.rating,
+        google_place_id: selectedHotel.place_id,
+        attribution: selectedHotel.attribution,
+        photo_reference: selectedHotel.photo_reference,
+      },
+      weather: preparedWeatherSummary,
+      route_days: preparedRouteDays,
+    };
+    console.log(dataForSaving);
+    await createRouteRequest(dataForSaving);
+    navigate("/dashboard");
   };
 
   if (loading) {
