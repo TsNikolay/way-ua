@@ -1,6 +1,16 @@
 import db from "../config/db.js";
 
 class HotelModel {
+  async findById(id) {
+    const result = await db.query(
+      `SELECT id, name, address, rating, google_place_id, attribution, photo_reference
+         FROM hotels
+        WHERE id = $1;`,
+      [id],
+    );
+    return result.rows[0] || null;
+  }
+
   async findByPlaceId(placeId) {
     const result = await db.query(
       `SELECT id FROM hotels WHERE google_place_id = $1`,

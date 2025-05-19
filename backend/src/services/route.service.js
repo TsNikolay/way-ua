@@ -117,6 +117,41 @@ class RouteService {
     return routeData;
   }
 
+  async getRoutes(userId) {
+    // отримаємо всі маршрути
+    const routes = await RouteModel.findByUserId(userId);
+
+    // для кожного маршрута підтягуємо пов'язані дані
+    const detailed = await Promise.all(
+      routes.map(async (route) => {
+        const [hotel, weather, days] = await Promise.all([
+          HotelModel.findById(route.hotel_id),
+          WeatherModel.findByRouteId(route.id),
+          RouteDayModel.findByRouteId(route.id),
+        ]);
+
+        // для кожного дня підтягуємо пам'ятки
+        const daysWithAttraction = await Promise.all(
+          days.map(async (day) => {
+            const attraction = await AttractionModel.findById(
+              day.attraction_id,
+            );
+            return { ...day, attraction };
+          }),
+        );
+
+        return {
+          ...route,
+          hotel,
+          weather,
+          route_days: daysWithAttraction,
+        };
+      }),
+    );
+
+    return detailed;
+  }
+
   async deleteRoute(userId, routeId) {
     const result = await RouteModel.delete(userId, routeId);
 

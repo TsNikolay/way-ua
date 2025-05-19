@@ -1,0 +1,15 @@
+.container{
+    background-color: white;
+    width: 80%;
+    justify-self: center;
+    border-radius: 15px;
+    padding: 20px 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.title{
+    text-align: center;
+    color: white;
+    font-weight: 400;
+    font-size: 4vw;
+}

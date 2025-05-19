@@ -15,6 +15,25 @@ class RouteModel {
     return result.rows[0];
   }
 
+  async findByUserId(userId) {
+    const result = await db.query(
+      `SELECT id,
+                user_id,
+                name,
+                city,
+                start_date,
+                end_date,
+                hotel_id,
+                status,
+                created_at
+         FROM routes
+         WHERE user_id = $1
+         ORDER BY created_at DESC;`,
+      [userId],
+    );
+    return result.rows;
+  }
+
   async delete(userId, routeId) {
     const result = await db.query(
       `DELETE FROM routes WHERE user_id = $1 AND id = $2 RETURNING *`,

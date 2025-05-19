@@ -93,8 +93,14 @@ class AuthController {
   async refreshToken(req, res) {
     try {
       const { refreshToken } = req.cookies;
+      if (!refreshToken) {
+        return res
+          .status(401)
+          .json({ message: "No refresh token, please login" });
+      }
       const { user, tokens } = await authService.refresh(refreshToken);
       //Зберігаємо рефреш токен в cookies
+
       res.cookie("refreshToken", tokens.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,

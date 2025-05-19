@@ -6,6 +6,7 @@ import { RouteValidator } from "../validations/route.validator.js";
 const router = new Router();
 
 router.post("/", checkToken, ...RouteValidator, RoutesController.createRoute);
+router.get("/", checkToken, RoutesController.getRoutes);
 router.delete("/:id", checkToken, RoutesController.deleteRoute);
 
 export default router;

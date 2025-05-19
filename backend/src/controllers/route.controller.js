@@ -3,7 +3,6 @@ import { validationResult } from "express-validator";
 
 class RouteController {
   async createRoute(req, res) {
-    console.log(">>> BODY:", JSON.stringify(req.body, null, 2));
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -22,6 +21,16 @@ class RouteController {
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Failed to create route" });
+    }
+  }
+
+  async getRoutes(req, res) {
+    try {
+      const userId = req.user.id;
+      const routes = await RoutesService.getRoutes(userId);
+      res.json({ routes });
+    } catch (err) {
+      return res.status(500).json({ message: "Failed to load routes" });
     }
   }
 

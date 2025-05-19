@@ -9,6 +9,7 @@ import WeatherPage from "./pages/Planner/WeatherPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import ReportPage from "./pages/Planner/ReportPage";
+import RoutesPage from "./pages/RoutesPage/RoutesPage";
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
           </Route>
+
+          <Route path="/routes" element={<RoutesPage />}></Route>
         </Route>
       </Routes>
 

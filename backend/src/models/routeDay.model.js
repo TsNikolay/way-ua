@@ -24,6 +24,17 @@ class RouteDayModel {
       ]);
     }
   }
+
+  async findByRouteId(routeId) {
+    const result = await db.query(
+      `SELECT id, route_id, attraction_id, day_number, time_slot, notes
+         FROM route_days
+        WHERE route_id = $1
+        ORDER BY day_number;`,
+      [routeId],
+    );
+    return result.rows;
+  }
 }
 
 export default new RouteDayModel();

@@ -3,3 +3,7 @@ import api from "./axios";
 export const createRouteRequest = async (data) => {
   return api.post("/routes", data);
 };
+
+export const getRoutesRequest = async () => {
+  return api.get("/routes");
+};
