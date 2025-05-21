@@ -3,8 +3,14 @@ import { FaRegEdit, FaEye } from "react-icons/fa";
 import { IoMdDownload } from "react-icons/io";
 import { MdDeleteOutline } from "react-icons/md";
 import styles from "./RoutesList.module.css";
+import { useNavigate } from "react-router-dom";
 
 const RoutesList = ({ routesList }) => {
+  const navigate = useNavigate();
+
+  const handleGetRoute = async (routeId) => {
+    navigate("/routes/" + routeId);
+  };
   return (
     <div className={styles.tableContainer}>
       <table className={styles.table}>
@@ -29,7 +35,11 @@ const RoutesList = ({ routesList }) => {
                 <div className={styles.icons}>
                   <FaRegEdit className={styles.icon} title="Edit" />
                   <IoMdDownload className={styles.icon} title="Download" />
-                  <FaEye className={styles.icon} title="View" />
+                  <FaEye
+                    className={styles.icon}
+                    title="View"
+                    onClick={() => handleGetRoute(route.id)}
+                  />
                   <MdDeleteOutline className={styles.icon} title="Delete" />
                 </div>
               </td>

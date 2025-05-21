@@ -10,6 +10,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import ReportPage from "./pages/Planner/ReportPage";
 import RoutesPage from "./pages/RoutesPage/RoutesPage";
+import RoutePage from "./pages/RoutePage/RoutePage";
 
 function App() {
   return (
@@ -25,12 +26,11 @@ function App() {
             <Route path="report" element={<ReportPage />} />
           </Route>
 
-          <Route path="/auth" element={<PlannerPage />}>
-            <Route path="login" element={<LoginPage />} />
-            <Route path="register" element={<RegisterPage />} />
-          </Route>
+          <Route path="/auth/login" element={<LoginPage />} />
+          <Route path="/auth/register" element={<RegisterPage />} />
 
-          <Route path="/routes" element={<RoutesPage />}></Route>
+          <Route path="/routes" element={<RoutesPage />} />
+          <Route path="/routes/:id" element={<RoutePage />} />
         </Route>
       </Routes>
 

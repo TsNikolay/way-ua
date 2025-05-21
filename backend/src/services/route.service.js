@@ -131,7 +131,7 @@ class RouteService {
         ]);
 
         // для кожного дня підтягуємо пам'ятки
-        const daysWithAttraction = await Promise.all(
+        const daysWithAttractions = await Promise.all(
           days.map(async (day) => {
             const attraction = await AttractionModel.findById(
               day.attraction_id,
@@ -144,7 +144,7 @@ class RouteService {
           ...route,
           hotel,
           weather,
-          route_days: daysWithAttraction,
+          route_days: { days: daysWithAttractions },
         };
       }),
     );
@@ -152,10 +152,37 @@ class RouteService {
     return detailed;
   }
 
-  async deleteRoute(userId, routeId) {
-    const result = await RouteModel.delete(userId, routeId);
+  async getRouteById(routeId) {
+    try {
+      const routeData = await RouteModel.findById(routeId);
+      if (!routeData) {
+        throw new Error("Route not found");
+      }
+      const route = routeData[0];
 
-    return result.rowCount > 0; // перевірка чи видалився маршрут. Якщо видалилося більше 0 рядків то true
+      const [hotel, weather, days] = await Promise.all([
+        HotelModel.findById(route.hotel_id),
+        WeatherModel.findByRouteId(route.id),
+        RouteDayModel.findByRouteId(route.id),
+      ]);
+
+      const daysWithAttractions = await Promise.all(
+        days.map(async (day) => {
+          const attraction = await AttractionModel.findById(day.attraction_id);
+          return { ...day, attraction };
+        }),
+      );
+
+      return {
+        ...route,
+        hotel,
+        weather,
+        route_days: { days: daysWithAttractions },
+      };
+    } catch (error) {
+      console.error("Error fetching route:", error.message);
+      throw new Error("Failed to get route");
+    }
   }
 }
 

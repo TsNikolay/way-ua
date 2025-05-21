@@ -2,7 +2,12 @@ import React from "react";
 import { getDayAndMonth, getWeekday } from "../../utils/datesUtils";
 import styles from "./WeatherCard.module.css";
 
-const WeatherCard = ({ weatherDay, type = "full", empty = false }) => {
+const WeatherCard = ({
+  weatherDay,
+  type = "full",
+  empty = false,
+  datasource = "api",
+}) => {
   //Якщо нема погоди на цей день
   if (empty || !weatherDay) {
     if (type === "full") {

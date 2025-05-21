@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import styles from "./Header.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
@@ -10,7 +10,7 @@ import UserContext from "../../../contexts/UserContext";
 const Header = () => {
   const { logout } = useContext(AuthContext);
   const { clearUserInfo } = useContext(UserContext);
-  const { isAuth } = useContext(AuthContext);
+  const { isAuth, refresh } = useContext(AuthContext);
 
   //Наступні дві константи для респонсів навбару
   const navRef = useRef();
@@ -35,6 +35,13 @@ const Header = () => {
       );
     }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      refresh();
+    }
+  }, []);
 
   return (
     <header className={styles.header}>

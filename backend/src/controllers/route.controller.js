@@ -34,6 +34,16 @@ class RouteController {
     }
   }
 
+  async getRoute(req, res) {
+    try {
+      const routeId = req.params.id;
+      const route = await RoutesService.getRouteById(routeId);
+      res.json({ route });
+    } catch (err) {
+      return res.status(500).json({ message: "Failed to load route" });
+    }
+  }
+
   async deleteRoute(req, res) {
     try {
       const routeId = req.params.id;

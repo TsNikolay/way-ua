@@ -17,19 +17,22 @@ class RouteModel {
 
   async findByUserId(userId) {
     const result = await db.query(
-      `SELECT id,
-                user_id,
-                name,
-                city,
-                start_date,
-                end_date,
-                hotel_id,
-                status,
-                created_at
+      `SELECT id,user_id,name,city,start_date,end_date,hotel_id,status,created_at
          FROM routes
          WHERE user_id = $1
          ORDER BY created_at DESC;`,
       [userId],
+    );
+    return result.rows;
+  }
+
+  async findById(routeId) {
+    const result = await db.query(
+      `SELECT id,user_id,name,city,start_date,end_date,hotel_id,status,created_at
+         FROM routes
+         WHERE id = $1
+         ORDER BY created_at DESC;`,
+      [routeId],
     );
     return result.rows;
   }

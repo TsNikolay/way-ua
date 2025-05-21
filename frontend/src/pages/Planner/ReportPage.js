@@ -93,7 +93,7 @@ const ReportPage = () => {
       weather: preparedWeatherSummary,
       route_days: preparedRouteDays,
     };
-    console.log(dataForSaving);
+
     await createRouteRequest(dataForSaving);
     navigate("/dashboard");
   };

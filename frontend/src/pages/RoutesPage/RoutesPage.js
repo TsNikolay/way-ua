@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "../Planner/HotelsAttractionsPage.module.css";
 import RoutesList from "../../components/RoutesList/RoutesList";
 import { getRoutesRequest } from "../../api/routesApi";
+import { useParams } from "react-router-dom";
 
 const RoutesPage = () => {
   const [routesList, setRoutesList] = useState([]);
@@ -12,7 +13,6 @@ const RoutesPage = () => {
     const fetchRoutes = async () => {
       try {
         const response = await getRoutesRequest();
-        console.log(response);
         setRoutesList(response.data.routes || response.data);
       } catch (err) {
         console.error("Failed to load routes:", err);

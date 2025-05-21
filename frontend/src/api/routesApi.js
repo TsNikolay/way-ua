@@ -7,3 +7,7 @@ export const createRouteRequest = async (data) => {
 export const getRoutesRequest = async () => {
   return api.get("/routes");
 };
+
+export const getRouteRequest = async (id) => {
+  return api.get(`/routes/${id}`);
+};
