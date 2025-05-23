@@ -11,3 +11,7 @@ export const getRoutesRequest = async () => {
 export const getRouteRequest = async (id) => {
   return api.get(`/routes/${id}`);
 };
+
+export const deleteRouteRequest = async (id) => {
+  return api.delete(`/routes/${id}`);
+};

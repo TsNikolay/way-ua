@@ -36,7 +36,7 @@ const RoutesPage = () => {
     <div>
       <h1 className={styles.title}>TRIPS</h1>
       <div className={styles.container}>
-        <RoutesList routesList={routesList} />
+        <RoutesList routesList={routesList} setRoutesList={setRoutesList} />
       </div>
     </div>
   );

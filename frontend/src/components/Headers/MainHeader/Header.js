@@ -21,7 +21,7 @@ const Header = () => {
   };
 
   const handleLogin = () => {
-    navigate("/auth/login", { state: { from: "/dashboard" } });
+    navigate("/auth/login", { state: { from: "/routes" } });
   };
 
   const handleLogout = async () => {

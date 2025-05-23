@@ -48,6 +48,7 @@ class RouteController {
     try {
       const routeId = req.params.id;
       const userId = req.user.id;
+
       const deleted = await RoutesService.deleteRoute(userId, routeId);
 
       if (!deleted) {

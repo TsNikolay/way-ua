@@ -1,16 +1,27 @@
 import React from "react";
-import { FaRegEdit, FaEye } from "react-icons/fa";
+
 import { IoMdDownload } from "react-icons/io";
 import { MdDeleteOutline } from "react-icons/md";
 import styles from "./RoutesList.module.css";
 import { useNavigate } from "react-router-dom";
+import { deleteRouteRequest } from "../../api/routesApi";
 
-const RoutesList = ({ routesList }) => {
+const RoutesList = ({ routesList, setRoutesList }) => {
   const navigate = useNavigate();
+
+  const handleDelete = async (routeId) => {
+    try {
+      await deleteRouteRequest(routeId);
+      setRoutesList((prev) => prev.filter((route) => route.id !== routeId));
+    } catch (err) {
+      console.error("Failed to delete route:", err);
+    }
+  };
 
   const handleGetRoute = async (routeId) => {
     navigate("/routes/" + routeId);
   };
+
   return (
     <div className={styles.tableContainer}>
       <table className={styles.table}>
@@ -33,14 +44,17 @@ const RoutesList = ({ routesList }) => {
               <td>{route.status}</td>
               <td>
                 <div className={styles.icons}>
-                  <FaRegEdit className={styles.icon} title="Edit" />
                   <IoMdDownload className={styles.icon} title="Download" />
                   <FaEye
                     className={styles.icon}
                     title="View"
                     onClick={() => handleGetRoute(route.id)}
                   />
-                  <MdDeleteOutline className={styles.icon} title="Delete" />
+                  <MdDeleteOutline
+                    className={styles.icon}
+                    title="Delete"
+                    onClick={() => handleDelete(route.id)}
+                  />
                 </div>
               </td>
             </tr>

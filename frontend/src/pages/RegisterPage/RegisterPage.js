@@ -63,7 +63,7 @@ const RegisterPage = () => {
   }
 
   //Якщо є шлях повернення, беремо його, якщо ні — дефолтний
-  const from = location.state?.from || "/dashboard";
+  const from = location.state?.from || "/routes";
 
   return (
     <div className={styles.card}>

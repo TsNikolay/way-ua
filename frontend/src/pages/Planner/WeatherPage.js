@@ -5,6 +5,7 @@ import PlannerFormContext from "../../contexts/PlannerFormContext";
 import { useNavigate } from "react-router-dom";
 import { calculateTripDays, getTripDaysWeather } from "../../utils/datesUtils";
 import WeatherList from "../../components/WeatherList/WeatherList";
+import WeatherMapper from "../../mappers/weather.mapper";
 
 const WeatherPage = () => {
   const {
@@ -41,7 +42,11 @@ const WeatherPage = () => {
   const startDate = new Date(dates[0]).toLocaleDateString();
   const endDate = new Date(dates[1]).toLocaleDateString();
   const numberOfTripDays = calculateTripDays(dates);
-  const tripDaysWeather = getTripDaysWeather(weather, dates);
+  const weatherDaysView = weather.list.map((weatherDayApi) =>
+    WeatherMapper.apiToViewModel(weatherDayApi),
+  );
+  const tripDaysWeather = getTripDaysWeather(weatherDaysView, dates);
+
   const localDates = [startDate, endDate];
 
   const dataForPlan = {

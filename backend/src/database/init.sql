@@ -69,7 +69,8 @@ CREATE TABLE IF NOT EXISTS routes (
       route_id INTEGER NOT NULL REFERENCES routes(id) ON DELETE CASCADE,
       day INTEGER NOT NULL,
       temperature REAL NOT NULL,
-      conditions TEXT NOT NULL
+      conditions TEXT NOT NULL,
+      dt NUMERIC NOT NULL
  );
 
 

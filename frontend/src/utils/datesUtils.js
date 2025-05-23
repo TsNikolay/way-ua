@@ -15,7 +15,7 @@ export const getTripDaysWeather = (weather, tripDates) => {
 
   const [startISO, endISO] = tripDates.map(getLocalISODate);
 
-  return weather.list.filter((day) => {
+  return weather.filter((day) => {
     const dayISO = getLocalISODate(day.dt * 1000); // переводимо з UNIX у мілісекунди
     return dayISO >= startISO && dayISO <= endISO;
   });

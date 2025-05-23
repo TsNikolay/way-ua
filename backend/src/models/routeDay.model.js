@@ -35,6 +35,10 @@ class RouteDayModel {
     );
     return result.rows;
   }
+
+  async deleteByRouteId(routeId) {
+    await db.query(`DELETE FROM route_days WHERE route_id = $1`, [routeId]);
+  }
 }
 
 export default new RouteDayModel();

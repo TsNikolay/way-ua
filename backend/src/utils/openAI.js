@@ -45,10 +45,10 @@ Create a JSON array under the key "days" where each object contains:
 - "activities": an array of objects with:
   - "place_name"
   - "address"
-  - "photo_reference" (use the reference provided in the attractions data)
-  - "time_slot" (morning / afternoon / evening)
+  - "photo_reference" (use the reference provided in the attractions data, but only if there is one)
+  - "time_slot" (morning / afternoon / evening). These are the only possible time slots.
   - "notes" (contextual suggestions, e.g. "Due to rain, indoor activities are recommended")
-  - "google_place_id" (use the reference provided in the attractions data)
+  - "google_place_id" (use the reference provided in the attractions data or "" in case it is not provided)
   - "rating" (use the reference provided in the attractions data)
 
 Distribute the attractions across the days so that:
@@ -57,6 +57,7 @@ Distribute the attractions across the days so that:
 - No day is empty. If there are more days than attractions, fill in the gaps with generic suggestions like “Free day for rest”, “Explore local cafes”, etc. For generic suggestions use approximate locations.
 - Minimum number of activities per day - 2
 - Every 2-3 days, offer evening activities
+- Make sure to use EVERY attraction from the list
 
 Respond ONLY with valid JSON like:
 {

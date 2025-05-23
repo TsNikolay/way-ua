@@ -109,6 +109,7 @@ class RouteService {
       await WeatherModel.create({
         route_id: routeData.id,
         day: w.day,
+        dt: w.dt,
         temperature: w.temperature,
         conditions: w.conditions,
       });
@@ -183,6 +184,18 @@ class RouteService {
       console.error("Error fetching route:", error.message);
       throw new Error("Failed to get route");
     }
+  }
+
+  async deleteRoute(userId, routeId) {
+    const route = await RouteModel.findById(routeId);
+
+    if (!route || route[0].user_id !== userId) return false;
+
+    await WeatherModel.deleteByRouteId(routeId);
+    await RouteDayModel.deleteByRouteId(routeId);
+    await RouteModel.delete(userId, routeId);
+
+    return true;
   }
 }
 
