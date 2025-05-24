@@ -1,10 +1,9 @@
 import React from "react";
-
-import { IoMdDownload } from "react-icons/io";
 import { MdDeleteOutline } from "react-icons/md";
 import styles from "./RoutesList.module.css";
 import { useNavigate } from "react-router-dom";
 import { deleteRouteRequest } from "../../api/routesApi";
+import { FaEye } from "react-icons/fa";
 
 const RoutesList = ({ routesList, setRoutesList }) => {
   const navigate = useNavigate();
@@ -44,7 +43,6 @@ const RoutesList = ({ routesList, setRoutesList }) => {
               <td>{route.status}</td>
               <td>
                 <div className={styles.icons}>
-                  <IoMdDownload className={styles.icon} title="Download" />
                   <FaEye
                     className={styles.icon}
                     title="View"

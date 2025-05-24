@@ -8,12 +8,17 @@ const OpenAIAPI = {
       const { city, dates, duration, hotel, attractions, weather } =
         dataForPlan;
       // Формуємо рядок опису пам'яток
-      const attractionsText = attractions
-        .map(
-          (place) =>
-            `- ${place.name} (${place.address}), photo_reference: ${place.photo_reference}, google_place_id: ${place.place_id}, rating: ${place.rating}`,
-        )
-        .join("\n");
+      const attractionsText = JSON.stringify(
+        attractions.map((place) => ({
+          place_name: place.name,
+          address: place.address,
+          photo_reference: place.photo_reference || "",
+          google_place_id: place.place_id || "",
+          rating: place.rating || "",
+        })),
+        null,
+        2,
+      );
 
       // Формуємо рядок з прогнозом погоди
 
@@ -34,30 +39,37 @@ The user has selected the following hotel:
 - Name: ${hotel.name}
 - Address: ${hotel.address}
 
-The user wants to visit the following attractions:
-${attractionsText}
+The user wants to visit the following attractions (provided as a structured JSON list): ${attractionsText}  
 
 Here is the weather forecast for each day:
 ${weatherText}
 
+Your task:
+
 Create a JSON array under the key "days" where each object contains:
 - "day_number" (1, 2, ...)
 - "activities": an array of objects with:
-  - "place_name"
-  - "address"
-  - "photo_reference" (use the reference provided in the attractions data, but only if there is one)
-  - "time_slot" (morning / afternoon / evening). These are the only possible time slots.
-  - "notes" (contextual suggestions, e.g. "Due to rain, indoor activities are recommended")
-  - "google_place_id" (use the reference provided in the attractions data or "" in case it is not provided)
-  - "rating" (use the reference provided in the attractions data)
+- "place_name"
+- "address"
+- "photo_reference" (use the reference provided in the attractions data, or leave as "" if missing)
+- "time_slot" (morning / afternoon / evening)
+- "notes" (contextual suggestions, e.g., "Due to rain, indoor activities are recommended")
+- "google_place_id" (use the reference provided or leave as "" if missing)
+- "rating" (from the provided attractions data)
 
-Distribute the attractions across the days so that:
-- Each attraction is visited once, no repetition, any duplicates are strictly forbidden!
-- Activities match the weather (e.g., indoor museums on rainy days), do not plan outdoor activities in rainy days, plan something indoor instead
-- No day is empty. If there are more days than attractions, fill in the gaps with generic suggestions like “Free day for rest”, “Explore local cafes”, etc. For generic suggestions use approximate locations.
-- Minimum number of activities per day - 2
-- Every 2-3 days, offer evening activities
-- Make sure to use EVERY attraction from the list
+STRICT RULES:
+- Build plan for every day. Do not skip any.
+- Use every provided attraction. Do not skip any.
+- Assign each attraction to exactly one day. No duplicates allowed.
+- If there are more days than attractions, only then fill in extra days with generic suggestions like "Free day for rest" or "Explore local cafes".
+- When providing generic suggestions, always use approximate addresses and locations that are relevant to the destination city: ${city}. Do not use addresses or locations from other cities.
+- Ensure every day has at least 2 activities. Combine attractions and generic suggestions if needed.
+- Match activities to the weather (indoor on rainy days, outdoor on sunny days).
+- Every 2-3 days, include an evening activity.
+- Double-check before responding: make sure there are no missing or duplicated attractions.
+- Provide notes with recommendation for every attractions or use "" if there is no recommendations.
+- Always provide time slot, use one of these options : morning/afternoon/evening
+- Always provide google_place_id, or use "" if there is no one.
 
 Respond ONLY with valid JSON like:
 {
@@ -81,7 +93,7 @@ Respond ONLY with valid JSON like:
 
       // Отправка запроса в OpenAI API
       const response = await client.chat.completions.create({
-        model: "gpt-4.1-nano",
+        model: "gpt-4.1-nano", //Краща модель - "gpt-4.1"
         messages: [
           {
             role: "user",

@@ -24,6 +24,10 @@ const Header = () => {
     navigate("/auth/login", { state: { from: "/routes" } });
   };
 
+  const moveToRoutes = () => {
+    navigate("/routes");
+  };
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -70,11 +74,12 @@ const Header = () => {
         <ThemeSwitcher />
         <LanguageSwitcher />
         {isAuth ? (
-          <div>
+          <div className={styles.loggedInProfileContainer}>
             <img
               src="/images/default-avatar.png"
               alt=""
               className={styles.avatarImage}
+              onClick={moveToRoutes}
             />
             <button className={styles.loginBtn} onClick={() => handleLogout()}>
               LOGOUT

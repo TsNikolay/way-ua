@@ -79,6 +79,15 @@
     border: 2px solid white;
 }
 
+.loggedInProfileContainer{
+    display: flex;
+    gap: 1rem;
+}
+
+.loggedInProfileContainer img{
+  cursor: pointer;
+}
+
 
 
 

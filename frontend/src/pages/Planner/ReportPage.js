@@ -119,9 +119,7 @@ const ReportPage = () => {
     return (
       <div className={`${styles.container} ${styles.loadingContainer}`}>
         <h3 className={styles.loadingText}>🧭 Planning your adventure...</h3>
-        <h3 className={styles.loadingText}>
-          This will only take a few seconds!
-        </h3>
+        <h3 className={styles.loadingText}>It will take less than a minute!</h3>
         <SpinnerLoader />
       </div>
     );

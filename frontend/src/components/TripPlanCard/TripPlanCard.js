@@ -47,9 +47,11 @@ const TripPlanCard = ({ tripDay }) => {
                   </div>
                 </div>
                 <p className={styles.address}>
-                  📍 <i>{activity.address}</i>
+                  {activity.address && <i>📍 {activity.address}</i>}
                 </p>
-                <p className={styles.notes}>💡 {activity.notes}</p>
+                {activity.notes && (
+                  <p className={styles.notes}>💡 {activity.notes}</p>
+                )}
               </div>
             </div>
           ))}

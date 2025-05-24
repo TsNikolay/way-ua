@@ -120,3 +120,20 @@
         width: 40px;
     }
 }
+
+:global(.pdfMode) .activitiesList {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 20px !important;
+    justify-content: space-between !important;
+}
+
+:global(.pdfMode) .activityCard {
+    flex: 1 1 45% !important;
+    max-width: 45% !important;
+    box-sizing: border-box !important;
+    width: auto !important;
+}
+
+
