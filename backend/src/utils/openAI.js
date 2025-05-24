@@ -93,7 +93,7 @@ Respond ONLY with valid JSON like:
 
       // Отправка запроса в OpenAI API
       const response = await client.chat.completions.create({
-        model: "gpt-4.1-nano", //Краща модель - "gpt-4.1"
+        model: "gpt-4.1-mini", //Краща модель - "gpt-4.1"
         messages: [
           {
             role: "user",

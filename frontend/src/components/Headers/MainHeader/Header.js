@@ -6,11 +6,13 @@ import ThemeSwitcher from "../../ThemeSwitcher/ThemeSwitcher";
 import LanguageSwitcher from "../../LanguageSwitcher/LanguageSwitcher";
 import AuthContext from "../../../contexts/AuthContext";
 import UserContext from "../../../contexts/UserContext";
+import { useTranslation } from "react-i18next";
 
 const Header = () => {
   const { logout } = useContext(AuthContext);
   const { clearUserInfo } = useContext(UserContext);
   const { isAuth, refresh } = useContext(AuthContext);
+  const { t } = useTranslation();
 
   //Наступні дві константи для респонсів навбару
   const navRef = useRef();
@@ -49,16 +51,16 @@ const Header = () => {
 
   return (
     <header className={styles.header}>
-      <div className={styles.logo}>WAY.UA</div>
+      <div className={styles.logo}>{t("header.way_ua")}</div>
 
       <nav ref={navRef} className={styles.nav}>
-        <Link to="/">HOME</Link>
-        <Link to="/#about">ABOUT</Link>
-        <Link to="/">CONTACTS</Link>
+        <Link to="/">{t("header.home")}</Link>
+        <Link to="/#about">{t("header.about")}</Link>
+        <Link to="/">{t("header.contacts")}</Link>
 
         <div className={styles.mobileControls}>
           <ThemeSwitcher />
-          {isAuth && <Link to="/">ACCOUNT</Link>}
+          {isAuth && <Link to="/">{t("header.account")}</Link>}
           <LanguageSwitcher />
         </div>
 
@@ -82,12 +84,12 @@ const Header = () => {
               onClick={moveToRoutes}
             />
             <button className={styles.loginBtn} onClick={() => handleLogout()}>
-              LOGOUT
+              {t("header.logout")}
             </button>
           </div>
         ) : (
           <button className={styles.loginBtn} onClick={() => handleLogin()}>
-            LOGIN
+            {t("header.login")}
           </button>
         )}
 

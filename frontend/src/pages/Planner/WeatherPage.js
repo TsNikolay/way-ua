@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { calculateTripDays, getTripDaysWeather } from "../../utils/datesUtils";
 import WeatherList from "../../components/WeatherList/WeatherList";
 import WeatherMapper from "../../mappers/weather.mapper";
+import { useTranslation } from "react-i18next";
 
 const WeatherPage = () => {
   const {
@@ -19,6 +20,7 @@ const WeatherPage = () => {
     attractions,
     getTripPlan,
   } = useContext(PlannerFormContext);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setPage(2);
@@ -81,25 +83,25 @@ const WeatherPage = () => {
         <ProgressBar />
         <div className={styles.weather}>
           <h3 className={styles.question}>
-            ☀️ Let's check the weather for your trip
+            ☀️ {t("weatherpage.lets_check_the_weather_for_your_trip")}
           </h3>
           <div className={styles.info}>
             <h2>
-              🗺️City:{" "}
+              🗺️{t("weatherpage.city")}:{" "}
               <span className={styles.infoValue}>
                 {/*Обрізаємо "Ukraine", бо це і так очевидно*/}
                 {cityShortLabel}
               </span>
             </h2>
             <h2>
-              📅Dates:{" "}
+              📅{t("weatherpage.dates")}:{" "}
               <span className={styles.infoValue}>
                 {" "}
                 {startDate} - {endDate}
               </span>
             </h2>
             <h2>
-              Days:{" "}
+              {t("weatherpage.days")}:{" "}
               <span className={styles.infoValue}> {numberOfTripDays}</span>
             </h2>
 
@@ -107,7 +109,7 @@ const WeatherPage = () => {
               onClick={() => handleEditTrip()}
               className={`${styles.button} ${styles.changeButton}`}
             >
-              Edit trip
+              {t("weatherpage.edit_trip")}
             </button>
           </div>
 
@@ -119,10 +121,10 @@ const WeatherPage = () => {
             className={`${styles.button} ${styles.buttonBack}`}
             onClick={() => handleBack()}
           >
-            Back
+            {t("planner.back")}
           </button>
           <button className={styles.button} onClick={() => handlePlanTrip()}>
-            Plan my trip
+            {t("planner.plan_my_trip")}
           </button>
         </div>
       </div>

@@ -1,14 +1,15 @@
 import React, { useContext } from "react";
 import PlannerFormContext from "../../contexts/PlannerFormContext";
 import styles from "./ProgressBar.module.css";
+import { useTranslation } from "react-i18next";
 
 const ProgressBar = () => {
   const { page } = useContext(PlannerFormContext);
-
+  const { t } = useTranslation();
   const stepEmojis = {
-    0: "Step 1: 🗺️📅",
-    1: "Step 2: 🏨🎡",
-    2: "Step 3: 🌡️☀️",
+    0: `${t("progressbar.step")} 1: 🗺️📅`,
+    1: `${t("progressbar.step")} 2: 🏨🎡`,
+    2: `${t("progressbar.step")} 3: 🌡️☀️`,
   };
 
   const interval = 100 / Object.keys(stepEmojis).length;

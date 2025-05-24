@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import HotelCard from "../HotelCard/HotelCard";
 import styles from "./HotelList.module.css";
+import { useTranslation } from "react-i18next";
 
 const HotelList = ({ hotels }) => {
   const [visibleCount, setVisibleCount] = useState(8);
+  const { t } = useTranslation();
   if (!Array.isArray(hotels)) return null;
 
   const handleShowMore = () => {
@@ -19,7 +21,7 @@ const HotelList = ({ hotels }) => {
       </div>
       {visibleCount < hotels.length && (
         <button className={styles.showMoreButton} onClick={handleShowMore}>
-          Show More
+          {t("hotelsattractionspage.show_more")}
         </button>
       )}
     </>

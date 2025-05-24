@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import styles from "../Planner/HotelsAttractionsPage.module.css";
 import RoutesList from "../../components/RoutesList/RoutesList";
 import { getRoutesRequest } from "../../api/routesApi";
-import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const RoutesPage = () => {
   const [routesList, setRoutesList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchRoutes = async () => {
@@ -34,7 +35,7 @@ const RoutesPage = () => {
 
   return (
     <div>
-      <h1 className={styles.title}>TRIPS</h1>
+      <h1 className={styles.title}>{t("routeslist.trips")}</h1>
       <div className={styles.container}>
         <RoutesList routesList={routesList} setRoutesList={setRoutesList} />
       </div>

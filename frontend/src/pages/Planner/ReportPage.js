@@ -11,6 +11,7 @@ import AuthContext from "../../contexts/AuthContext";
 import { createRouteRequest } from "../../api/routesApi";
 import WeatherMapper from "../../mappers/weather.mapper";
 import RouteDayMapper from "../../mappers/routeDay.mapper";
+import { useTranslation } from "react-i18next";
 
 const ReportPage = () => {
   const { weather, dates, city, selectedHotel, tripPlan } =
@@ -23,6 +24,7 @@ const ReportPage = () => {
   const [loading, setLoading] = useState(true);
   const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
   const API_URL = process.env.REACT_APP_API_URL;
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (tripPlan) {
@@ -118,8 +120,12 @@ const ReportPage = () => {
   if (loading) {
     return (
       <div className={`${styles.container} ${styles.loadingContainer}`}>
-        <h3 className={styles.loadingText}>🧭 Planning your adventure...</h3>
-        <h3 className={styles.loadingText}>It will take less than a minute!</h3>
+        <h3 className={styles.loadingText}>
+          🧭 {t("reportpage.planning_your_adventure")}.
+        </h3>
+        <h3 className={styles.loadingText}>
+          {t("reportpage.it_will_take_less_than_a_minute")}
+        </h3>
         <SpinnerLoader />
       </div>
     );
@@ -128,16 +134,16 @@ const ReportPage = () => {
   return (
     <div>
       <h1 className={styles.title} ref={titleInputRef}>
-        YOUR TRAVEL PLAN
+        {t("reportpage.your_travel_plan")}
       </h1>
       <div className={styles.container}>
         <div className={styles.tripInfoContainer}>
           <div className={styles.tripInfo}>
             <div className={styles.nameInputContainer}>
-              <h2>Trip title</h2>
+              <h2>{t("reportpage.trip_title")}</h2>
               <input
                 type="text"
-                placeholder="Enter trip name"
+                placeholder={t("reportpage.enter_trip_title")}
                 value={tripTitle}
                 onChange={(e) => {
                   setTripTitle(e.target.value);
@@ -147,28 +153,28 @@ const ReportPage = () => {
               />
               {titleError && (
                 <p style={{ color: "red", marginTop: "4px" }}>
-                  Please enter a trip title before saving.
+                  {t("reportpage.trip_title_error")}
                 </p>
               )}
             </div>
             <div className={styles.infoValueContainer}>
               <h2>
-                🗺️ City:{" "}
+                🗺️ {t("reportpage.city")}:{" "}
                 <span className={styles.infoValue}>{cityShortLabel}</span>
               </h2>
               <h2>
-                📅 Dates:{" "}
+                📅 {t("reportpage.dates")}:{" "}
                 <span className={styles.infoValue}>
                   {startDate} - {endDate}
                 </span>
               </h2>
               <h2>
-                #️⃣ Days:{" "}
+                #️⃣ {t("reportpage.days")}:{" "}
                 <span className={styles.infoValue}> {numberOfTripDays}</span>
               </h2>
             </div>
             <div className={styles.tripWeather}>
-              <h2>⛅ Weather: </h2>
+              <h2>⛅ {t("reportpage.weather")}: </h2>
               <WeatherList weatherDays={tripWeatherDaysView} type="short" />
             </div>
           </div>
@@ -206,26 +212,28 @@ const ReportPage = () => {
           </div>
         </div>
         <div className={styles.tripPlan}>
-          <h2 className={styles.tripPlanTitle}>📝 Trip plan</h2>
+          <h2 className={styles.tripPlanTitle}>
+            📝 {t("reportpage.trip_plan")}
+          </h2>
           <TripPlanList trip={{ days: tripPlanView }} />
         </div>
         <div className={styles.buttons}>
           <button className={styles.button} onClick={() => handleStartOver()}>
-            Start over
+            {t("reportpage.start_over")}
           </button>
           {isAuth ? (
             <button className={styles.button} onClick={() => handleSaveTrip()}>
-              Save the trip
+              {t("reportpage.save_the_trip")}
             </button>
           ) : (
             <div>
               <button className={styles.button} onClick={() => handleLogin()}>
-                Log in to save trip
+                {t("reportpage.log_in_to_save_trip")}
               </button>
             </div>
           )}
         </div>
-        <div className={styles.logo}>WAY.UA</div>
+        <div className={styles.logo}>{t("footer.way_ua")}</div>
       </div>
     </div>
   );

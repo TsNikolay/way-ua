@@ -8,6 +8,7 @@ import PlannerFormContext from "../../contexts/PlannerFormContext";
 import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
 import "react-calendar/dist/Calendar.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const LocationDatesPage = () => {
   const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
@@ -30,6 +31,7 @@ const LocationDatesPage = () => {
     resetPlannerState,
     resetTripPlan,
   } = useContext(PlannerFormContext);
+  const { t } = useTranslation();
 
   const handleContinue = async () => {
     try {
@@ -81,11 +83,13 @@ const LocationDatesPage = () => {
 
   return (
     <div>
-      <h1 className={styles.title}>LET'S PLAN YOUR TRIP</h1>
+      <h1 className={styles.title}>{t("planner.lets_plan_your_trip")}</h1>
       <div className={styles.container}>
         <ProgressBar />
         <div className={styles.destination}>
-          <h3 className={styles.question}>🗺️ Where would you like to go?</h3>
+          <h3 className={styles.question}>
+            🗺️ {t("locationdatespage.where_would_you_like_to_go")}
+          </h3>
           <GooglePlacesAutocomplete
             apiKey={apiKey}
             debounce={1000}
@@ -96,7 +100,7 @@ const LocationDatesPage = () => {
               },
             }}
             selectProps={{
-              placeholder: "Select a city",
+              placeholder: t("locationdatespage.select_city"),
               value: city,
               city: city,
               onChange: (value) => {
@@ -108,7 +112,7 @@ const LocationDatesPage = () => {
         </div>
         <div className={styles.dates}>
           <h3 className={styles.question}>
-            📅 What dates are you planning a trip for?
+            📅 {t("locationdatespage.what_dates_are_you_planning")}
           </h3>
 
           <div className={styles.dateWrapper}>
@@ -147,7 +151,7 @@ const LocationDatesPage = () => {
             onClick={dates.length > 0 && city ? () => handleContinue() : null}
             disabled={!city || dates.length === 0}
           >
-            Continue
+            {t("planner.continue")}
           </button>
         </div>
       </div>

@@ -9,13 +9,16 @@ import WeatherMapper from "../../mappers/weather.mapper";
 import RouteDayMapper from "../../mappers/routeDay.mapper";
 import html2pdf from "html2pdf.js";
 import { IoMdDownload } from "react-icons/io";
+import { useTranslation } from "react-i18next";
 
 const RoutePage = () => {
   const [route, setRoute] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const [error, setError] = useState(null);
   const { id } = useParams();
   const pdfRef = useRef();
+  const { t } = useTranslation();
 
   const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
   const API_URL = process.env.REACT_APP_API_URL;
@@ -71,29 +74,40 @@ const RoutePage = () => {
 
   const handleDownloadPDF = async () => {
     if (pdfRef.current) {
-      pdfRef.current.classList.add("pdfMode");
+      if (window.innerWidth < 1024) {
+        pdfRef.current.classList.add("pdfMode");
+      }
 
-      await prepareImagesInRef(pdfRef);
+      pdfRef.current.classList.add("hideForPdf");
 
-      const opt = {
-        margin: 0,
-        filename: `${route.name}.pdf`,
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: {
-          scale: 2,
-          useCORS: true,
-        },
-        jsPDF: {
-          unit: "mm",
-          format: "a4",
-          orientation: "portrait",
-        },
-        pagebreak: { mode: ["avoid-all", "css", "legacy"] },
-      };
+      try {
+        await prepareImagesInRef(pdfRef);
 
-      await html2pdf().set(opt).from(pdfRef.current).save();
+        const opt = {
+          margin: 0,
+          filename: `${route.name}.pdf`,
+          image: { type: "jpeg", quality: 0.98 },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+          },
+          jsPDF: {
+            unit: "mm",
+            format: "a4",
+            orientation: "portrait",
+          },
+          pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+        };
 
-      pdfRef.current.classList.remove("pdfMode");
+        await html2pdf().set(opt).from(pdfRef.current).save();
+      } catch (error) {
+        console.error("Error during PDF generation:", error);
+      } finally {
+        if (pdfRef.current.classList.contains("pdfMode")) {
+          pdfRef.current.classList.remove("pdfMode");
+        }
+        pdfRef.current.classList.remove("hideForPdf");
+      }
     }
   };
 
@@ -165,41 +179,45 @@ const RoutePage = () => {
 
   return (
     <div>
-      <h1 className={styles.title}>YOUR TRAVEL PLAN</h1>
+      <h1 className={styles.title}>{t("routepage.your_travel_plan")}</h1>
 
       <div ref={pdfRef} className={styles.mainPdfWrapper}>
         <div className={styles.container}>
           <button onClick={handleDownloadPDF} className={styles.downloadButton}>
-            Download PDF <IoMdDownload />
+            {t("routepage.download_pdf")} <IoMdDownload />
           </button>
+
           <div className={styles.tripInfoContainer}>
             <div className={styles.tripInfo}>
               <div className={styles.nameInputContainer}>
-                <h2>Trip title {route.name}</h2>
+                <h2>
+                  {t("routepage.trip_title")}:{" "}
+                  <span className={styles.infoValue}>{route.name}</span>
+                </h2>
               </div>
               <div className={styles.infoValueContainer}>
                 <h2>
-                  🗺️ City:{" "}
+                  🗺️ {t("routepage.city")}:{" "}
                   <span className={styles.infoValue}>{cityShortLabel}</span>
                 </h2>
                 <h2>
-                  📅 Dates:{" "}
+                  📅 {t("routepage.dates")}:{" "}
                   <span className={styles.infoValue}>
                     {startDate} - {endDate}
                   </span>
                 </h2>
                 <h2>
-                  #️⃣ Days:{" "}
+                  #️⃣ {t("routepage.days")}:{" "}
                   <span className={styles.infoValue}> {numberOfTripDays}</span>
                 </h2>
               </div>
               <div className={styles.tripWeather}>
-                <h2>⛅ Weather: </h2>
+                <h2>⛅ {t("routepage.weather")}: </h2>
                 <WeatherList weatherDays={tripWeatherDaysView} type="short" />
               </div>
             </div>
             <div className={styles.hotelCard}>
-              <h2>Hotel:</h2>
+              <h2>{t("routepage.hotel")}:</h2>
               <div className={styles.hotelContent}>
                 <div className={styles.hotelImageWrapper}>
                   <Link
@@ -233,11 +251,13 @@ const RoutePage = () => {
             </div>
           </div>
           <div className={styles.tripPlan}>
-            <h2 className={styles.tripPlanTitle}>📝 Trip plan</h2>
+            <h2 className={styles.tripPlanTitle}>
+              📝 {t("routepage.trip_plan")}
+            </h2>
             <TripPlanList trip={tripPlanView} />
           </div>
 
-          <div className={styles.logo}>WAY.UA</div>
+          <div className={styles.logo}>{t("footer.way_ua")}</div>
         </div>
       </div>
     </div>

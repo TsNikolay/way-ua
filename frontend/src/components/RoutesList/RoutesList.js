@@ -4,9 +4,11 @@ import styles from "./RoutesList.module.css";
 import { useNavigate } from "react-router-dom";
 import { deleteRouteRequest } from "../../api/routesApi";
 import { FaEye } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const RoutesList = ({ routesList, setRoutesList }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleDelete = async (routeId) => {
     try {
@@ -26,10 +28,10 @@ const RoutesList = ({ routesList, setRoutesList }) => {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Tools</th>
+            <th>{t("routeslist.name")}</th>
+            <th>{t("routeslist.dates")}</th>
+            <th>{t("routeslist.status")}</th>
+            <th>{t("routeslist.actions")}</th>
           </tr>
         </thead>
         <tbody>

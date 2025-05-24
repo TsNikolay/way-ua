@@ -1,14 +1,18 @@
 import React from "react";
 import styles from "./TripPlanCard.module.css";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const TripPlanCard = ({ tripDay }) => {
   const API_URL = process.env.REACT_APP_API_URL;
+  const { t } = useTranslation();
 
   return (
     <div>
       <div key={tripDay.day_number} className={styles.dayCard}>
-        <h2 className={styles.dayTitle}>Day {tripDay.day_number}</h2>
+        <h2 className={styles.dayTitle}>
+          {t("tripdaycard.day")} {tripDay.day_number}
+        </h2>
         <div className={styles.activitiesList}>
           {tripDay.activities.map((activity, index) => (
             <div key={index} className={styles.activityCard}>

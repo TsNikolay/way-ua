@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import AttractionCard from "../AttractionCard/AttractionCard";
 import styles from "./AttractionList.module.css";
+import { useTranslation } from "react-i18next";
 const AttractionList = ({ attractions }) => {
   const [visibleCount, setVisibleCount] = useState(6);
-
+  const { t } = useTranslation();
   if (!Array.isArray(attractions)) return null;
 
   const handleShowMore = () => {
@@ -21,7 +22,7 @@ const AttractionList = ({ attractions }) => {
       </div>
       {visibleCount < attractions.length && (
         <button className={styles.showMoreButton} onClick={handleShowMore}>
-          Show More
+          {t("hotelsattractionspage.show_more")}
         </button>
       )}
     </>

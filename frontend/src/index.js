@@ -6,6 +6,7 @@ import { UserProvider } from "./contexts/UserContext";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import { PlannerFormProvider } from "./contexts/PlannerFormContext";
+import "./utils/translations/i18next";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

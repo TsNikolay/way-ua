@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../../contexts/AuthContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./LoginPage.module.css";
+import { useTranslation } from "react-i18next";
 
 const LoginPage = () => {
   const { isAuth, login, refresh, logout, ...state } = useContext(AuthContext);
@@ -11,6 +12,7 @@ const LoginPage = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -36,27 +38,6 @@ const LoginPage = () => {
     }
   };
 
-  // const handleGetMe = async () => {
-  //   try {
-  //     const response = await getMeRequest();
-  //     setUserInfo(response.data.user);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
-  // const handleLogout = async () => {
-  //   try {
-  //     await logout();
-  //     clearUserInfo();
-  //   } catch (err) {
-  //     console.error(
-  //         "Logout failed:",
-  //         err.response?.data?.message || err.message,
-  //     );
-  //   }
-  // };
-
   if (state.isLoading) {
     return <h1>Loading...</h1>;
   }
@@ -66,31 +47,31 @@ const LoginPage = () => {
 
   return (
     <div className={styles.card}>
-      <h2>Log in</h2>
+      <h2>{t("loginpage.log_in")}</h2>
       <form onSubmit={(e) => handleLogin(e)} className={styles.form}>
-        <label className={styles.label}>Email</label>
+        <label className={styles.label}>{t("loginpage.email")}</label>
         <input
           className={styles.input}
           type="email"
           value={email}
-          placeholder="Enter your email"
+          placeholder={t("loginpage.enter_your_email")}
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <label className={styles.label}>Password</label>
+        <label className={styles.label}>{t("loginpage.password")}</label>
         <input
           className={styles.input}
           type="password"
           value={password}
-          placeholder="Enter your password"
+          placeholder={t("loginpage.enter_your_password")}
           onChange={(e) => setPassword(e.target.value)}
         />
         {error && <p className={styles.error}>{error}</p>}
         <button className={styles.button} type="submit">
-          LOG IN
+          {t("loginpage.log_in_capital")}
         </button>
         <Link className={styles.register} to={"/auth/register"}>
-          New here? Register now
+          {t("loginpage.new_here_register_now")}
         </Link>
       </form>
     </div>

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../../contexts/AuthContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./RegisterPage.module.css";
+import { useTranslation } from "react-i18next";
 
 const RegisterPage = () => {
   const { isAuth, register, refresh, logout, ...state } =
@@ -14,6 +15,7 @@ const RegisterPage = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (isAuth) {
@@ -49,15 +51,6 @@ const RegisterPage = () => {
     }
   };
 
-  // const handleGetMe = async () => {
-  //   try {
-  //     const response = await getMeRequest();
-  //     setUserInfo(response.data.user);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
   if (state.isLoading) {
     return <h1>Loading...</h1>;
   }
@@ -67,9 +60,9 @@ const RegisterPage = () => {
 
   return (
     <div className={styles.card}>
-      <h2>Register</h2>
+      <h2>{t("registerpage.register")}</h2>
       <form onSubmit={(e) => handleRegister(e)} className={styles.form}>
-        <label className={styles.label}>Name</label>
+        <label className={styles.label}>{t("registerpage.name")}</label>
         <input
           className={styles.input}
           type="text"
@@ -78,39 +71,41 @@ const RegisterPage = () => {
           onChange={(e) => setName(e.target.value)}
         />
 
-        <label className={styles.label}>Email</label>
+        <label className={styles.label}>{t("registerpage.email")}</label>
         <input
           className={styles.input}
           type="email"
           value={email}
-          placeholder="Enter your email"
+          placeholder={t("registerpage.enter_your_email")}
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <label className={styles.label}>Password</label>
+        <label className={styles.label}>{t("registerpage.password")}</label>
         <input
           className={styles.input}
           type="password"
           value={password}
-          placeholder="Enter your password"
+          placeholder={t("registerpage.enter_your_password")}
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <label className={styles.label}>Confirm password</label>
+        <label className={styles.label}>
+          {t("registerpage.confirm_password")}
+        </label>
         <input
           className={styles.input}
           type="password"
           value={confirmPassword}
-          placeholder="Repeat your password"
+          placeholder={t("registerpage.repeat_your_password")}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
 
         {error && <p className={styles.error}>{error}</p>}
         <button className={styles.button} type="submit">
-          SIGN UP
+          {t("registerpage.sign_up")}
         </button>
         <Link className={styles.register} to={"/auth/login"}>
-          Already a user? Log in
+          {t("registerpage.already_a_user_log_in")}
         </Link>
       </form>
     </div>

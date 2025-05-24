@@ -6,6 +6,7 @@ import PlannerFormContext from "../../contexts/PlannerFormContext";
 import HotelList from "../../components/HotelList/HotelList";
 import { useNavigate } from "react-router-dom";
 import AttractionList from "../../components/AttractionList/AttractionList";
+import { useTranslation } from "react-i18next";
 
 const HotelsAttractionsPage = () => {
   const {
@@ -20,6 +21,7 @@ const HotelsAttractionsPage = () => {
   } = useContext(PlannerFormContext);
 
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   //Щоб зпобігти перехід на цю сторінку через адресну стрічку якщо не заповнені минулі поля
   if (
@@ -89,10 +91,11 @@ const HotelsAttractionsPage = () => {
         <ProgressBar />
         <div className={styles.hotels}>
           <h3 className={styles.question}>
-            🏨 Which hotel would you like to stay at?
+            🏨{" "}
+            {t("hotelsattractionspage.which_hotel_would_you_like_to_stay_at")}
           </h3>
           {hotels.length === 0 ? (
-            <p>Loading hotels...</p>
+            <p>{t("hotelsattractionspage.loading_hotels")}</p>
           ) : (
             <HotelList hotels={hotels} />
           )}
@@ -100,10 +103,13 @@ const HotelsAttractionsPage = () => {
 
         <div className={styles.attractions}>
           <h3 className={styles.question}>
-            🎡 What attractions would you like to visit?
+            🎡{" "}
+            {t(
+              "hotelsattractionspage.what_attractions_would_you_like_to_visit",
+            )}
           </h3>
           {attractions.length === 0 ? (
-            <p>Loading attractions...</p>
+            <p>{t("hotelsattractionspage.loading_attractions")}</p>
           ) : (
             <AttractionList attractions={attractions} />
           )}
@@ -111,7 +117,7 @@ const HotelsAttractionsPage = () => {
 
         <div className={styles.buttons}>
           <button className={styles.button} onClick={() => handleBack()}>
-            Back
+            {t("planner.back")}
           </button>
           <button
             className={
@@ -126,7 +132,7 @@ const HotelsAttractionsPage = () => {
             }
             disabled={!(selectedHotel && selectedAttractions.length > 0)}
           >
-            Continue
+            {t("planner.continue")}
           </button>
         </div>
       </div>

@@ -3,16 +3,18 @@ import styles from "./Footer.module.css";
 import { Link } from "react-router-dom";
 
 import { FaFacebook, FaInstagram, FaTelegram, FaYoutube } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <footer className={styles.footer}>
       <div className={styles.info}>
         <div className={styles.logo}>WAY.UA</div>
 
         <div className={styles.links}>
-          <Link to="#">HOME</Link>
-          <Link to="#">ABOUT US</Link>
-          <Link to="#">CONTACTS</Link>
+          <Link to="#">{t("footer.home")}</Link>
+          <Link to="#">{t("footer.about_us")}</Link>
+          <Link to="#">{t("footer.contacts")}</Link>
         </div>
       </div>
       <hr className={styles.line}></hr>
@@ -39,7 +41,7 @@ const Footer = () => {
           </span>
         </Link>
       </div>
-      <p className={styles.copyright}>©Copyright. All rights reserved</p>
+      <p className={styles.copyright}>{t("footer.copyright")}</p>
     </footer>
   );
 };
