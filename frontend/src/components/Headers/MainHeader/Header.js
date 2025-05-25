@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 
 const Header = () => {
   const { logout } = useContext(AuthContext);
-  const { clearUserInfo } = useContext(UserContext);
+  const { clearUserInfo, clearLanguage } = useContext(UserContext);
   const { isAuth, refresh } = useContext(AuthContext);
   const { t } = useTranslation();
 
@@ -34,6 +34,7 @@ const Header = () => {
     try {
       await logout();
       clearUserInfo();
+      clearLanguage();
     } catch (err) {
       console.error(
         "Logout failed:",

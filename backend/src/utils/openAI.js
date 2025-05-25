@@ -5,7 +5,7 @@ const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const OpenAIAPI = {
   async generatePlan(dataForPlan) {
     try {
-      const { city, dates, duration, hotel, attractions, weather } =
+      const { city, dates, duration, hotel, attractions, weather, language } =
         dataForPlan;
       // Формуємо рядок опису пам'яток
       const attractionsText = JSON.stringify(
@@ -68,6 +68,7 @@ STRICT RULES:
 - Every 2-3 days, include an evening activity.
 - Double-check before responding: make sure there are no missing or duplicated attractions.
 - Provide notes with recommendation for every attractions or use "" if there is no recommendations.
+- Notes should be in ${language} language
 - Always provide time slot, use one of these options : morning/afternoon/evening
 - Always provide google_place_id, or use "" if there is no one.
 

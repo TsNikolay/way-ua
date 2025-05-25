@@ -129,9 +129,9 @@ export const PlannerFormProvider = ({ children }) => {
 
   const resetForm = () => dispatch({ type: "RESET_FORM" });
 
-  const getHotels = async (city) => {
+  const getHotels = async (city, language) => {
     try {
-      const response = await hotelsRequest(city);
+      const response = await hotelsRequest(city, language);
       localStorage.setItem("plannerHotels", JSON.stringify(response.data));
       setHotels(response.data);
     } catch (err) {
@@ -139,9 +139,9 @@ export const PlannerFormProvider = ({ children }) => {
     }
   };
 
-  const getAttractions = async (city) => {
+  const getAttractions = async (city, language) => {
     try {
-      const response = await attractionsRequest(city);
+      const response = await attractionsRequest(city, language);
       localStorage.setItem("plannerAttractions", JSON.stringify(response.data));
       setAttractions(response.data);
     } catch (err) {
@@ -149,9 +149,9 @@ export const PlannerFormProvider = ({ children }) => {
     }
   };
 
-  const getWeather = async (latitude, longitude) => {
+  const getWeather = async (latitude, longitude, language) => {
     try {
-      const response = await weatherRequest(latitude, longitude);
+      const response = await weatherRequest(latitude, longitude, language);
       localStorage.setItem("plannerWeather", JSON.stringify(response.data));
       setWeather(response.data);
     } catch (err) {

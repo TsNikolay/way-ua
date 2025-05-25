@@ -3,7 +3,7 @@ import axios from "axios";
 const API_KEY = process.env.GOOGLE_MAPS_API_KEY_SERVER;
 
 const GoogleMapsAPI = {
-  async getHotels(city) {
+  async getHotels(city, language) {
     try {
       const response = await axios.get(
         `https://maps.googleapis.com/maps/api/place/textsearch/json`,
@@ -12,6 +12,7 @@ const GoogleMapsAPI = {
             query: `hotels in ${city.label}`, //раніше писав ще дати, але прибрав для ширшого пошуку
             location: `${city.coordinates.lat},${city.coordinates.lng}`,
             key: API_KEY,
+            language: language,
           },
         },
       );
@@ -36,7 +37,7 @@ const GoogleMapsAPI = {
     }
   },
 
-  async getAttractions(city) {
+  async getAttractions(city, language) {
     try {
       const response = await axios.get(
         `https://maps.googleapis.com/maps/api/place/textsearch/json`,
@@ -45,6 +46,7 @@ const GoogleMapsAPI = {
             query: `tourist attractions in ${city.label}`,
             location: `${city.coordinates.lat},${city.coordinates.lng}`,
             key: API_KEY,
+            language: language,
           },
         },
       );

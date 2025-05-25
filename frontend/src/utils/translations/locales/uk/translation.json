@@ -18,7 +18,7 @@
   "registerform.submit": "Зареєструватися",
   "routeslist.trips": "Подорожі",
   "routeslist.name": "Назва",
-  "routeslist.date": "Дата",
+  "routeslist.dates": "Дати",
   "routeslist.status": "Статус",
   "routeslist.actions": "Дії",
   "weathercard.no_weather_data_yet": "Поки що немає даних про погоду",
@@ -103,5 +103,10 @@
   "aboutsection.fourthText": "ЕКСПОРТУЙТЕ СВОЇ МАРШРУТИ ДЛЯ ОФЛАЙН-КОРИСТУВАННЯ",
   "aboutsection.fifthTitle": "БАГАТОМОВНІСТЬ",
   "aboutsection.fifthText": "КОРИСТУЙТЕСЯ ІНСТРУМЕНТОМ ТІЄЮ МОВОЮ, ЯКА ВАМ ЗРУЧНА",
-  "progressbar.step": "Крок"
+  "progressbar.step": "Крок",
+  "months": [
+    "Січень", "Лютий", "Березень", "Квітень",
+    "Травень", "Червень", "Липень", "Серпень",
+    "Вересень", "Жовтень", "Листопад", "Грудень"
+  ]
 }

@@ -9,6 +9,7 @@ import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
 import "react-calendar/dist/Calendar.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import userContext from "../../contexts/UserContext";
 
 const LocationDatesPage = () => {
   const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
@@ -31,14 +32,15 @@ const LocationDatesPage = () => {
     resetPlannerState,
     resetTripPlan,
   } = useContext(PlannerFormContext);
+  const { language } = useContext(userContext);
   const { t } = useTranslation();
 
   const handleContinue = async () => {
     try {
       localStorage.setItem("selectedCity", JSON.stringify(city));
       localStorage.setItem("selectedDates", JSON.stringify(dates));
-      await getAttractions(city);
-      await getHotels(city);
+      await getAttractions(city, language);
+      await getHotels(city, language);
 
       navigate("/planner/step2");
     } catch (err) {

@@ -3,9 +3,9 @@ import PlannerService from "../services/planner.service.js";
 class PlannerController {
   async getHotels(req, res) {
     try {
-      const { city } = req.body;
+      const { city, language } = req.body;
 
-      const result = await PlannerService.getHotels(city);
+      const result = await PlannerService.getHotels(city, language);
       res.json(result);
     } catch (err) {
       res.status(500).json({ message: "Failed to get hotels" });
@@ -14,8 +14,8 @@ class PlannerController {
 
   async getAttractions(req, res) {
     try {
-      const { city } = req.body;
-      const result = await PlannerService.getAttractions(city);
+      const { city, language } = req.body;
+      const result = await PlannerService.getAttractions(city, language);
       res.json(result);
     } catch (err) {
       res.status(500).json({ message: "Failed to get attractions" });
@@ -24,8 +24,12 @@ class PlannerController {
 
   async getWeather(req, res) {
     try {
-      const { latitude, longitude } = req.body;
-      const result = await PlannerService.getWeather(latitude, longitude);
+      const { latitude, longitude, language } = req.body;
+      const result = await PlannerService.getWeather(
+        latitude,
+        longitude,
+        language,
+      );
 
       res.json(result);
     } catch (err) {

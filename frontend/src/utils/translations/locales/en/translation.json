@@ -18,7 +18,7 @@
   "registerform.submit": "Register",
   "routeslist.trips": "TRIPS",
   "routeslist.name": "Name",
-  "routeslist.date": "Date",
+  "routeslist.dates": "Dates",
   "routeslist.status": "Status",
   "routeslist.actions": "Actions",
   "weathercard.no_weather_data_yet": "No weather data yet",
@@ -105,5 +105,11 @@
   "aboutsection.fourthText": "EXPORT YOUR ROUTES FOR OFFLINE USE",
   "aboutsection.fifthTitle": "MULTILINGUALISM",
   "aboutsection.fifthText": "USE THE TOOL IN THE LANGUAGE YOU ARE COMFORTABLE WITH",
-  "progressbar.step": "Step"
+  "progressbar.step": "Step",
+  "months": [
+    "January", "February", "March", "April",
+    "May", "June", "July", "August",
+    "September", "October", "November", "December"
+  ]
+
 }

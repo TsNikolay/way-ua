@@ -1,19 +1,21 @@
 import api from "./axios";
 
-export const hotelsRequest = async (city) => {
-  return api.post("/planner/hotels", { city });
+export const hotelsRequest = async (city, language) => {
+  return api.post("/planner/hotels", { city, language });
 };
 
-export const attractionsRequest = async (city) => {
+export const attractionsRequest = async (city, language) => {
   return api.post("/planner/attractions", {
     city,
+    language,
   });
 };
 
-export const weatherRequest = async (latitude, longitude) => {
+export const weatherRequest = async (latitude, longitude, language) => {
   return api.post("/planner/weather", {
     latitude,
     longitude,
+    language,
   });
 };
 

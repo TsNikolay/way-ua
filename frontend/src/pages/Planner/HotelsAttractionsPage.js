@@ -7,6 +7,7 @@ import HotelList from "../../components/HotelList/HotelList";
 import { useNavigate } from "react-router-dom";
 import AttractionList from "../../components/AttractionList/AttractionList";
 import { useTranslation } from "react-i18next";
+import UserContext from "../../contexts/UserContext";
 
 const HotelsAttractionsPage = () => {
   const {
@@ -19,6 +20,7 @@ const HotelsAttractionsPage = () => {
     city,
     dates,
   } = useContext(PlannerFormContext);
+  const { language } = useContext(UserContext);
 
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -36,7 +38,7 @@ const HotelsAttractionsPage = () => {
   const handleContinue = async () => {
     const { lat, lng } = city.coordinates;
     try {
-      await getWeather(lat, lng); // Не передаю кількість днів бо завжди проситиму максимум, а вже потім фільтрувати по датам
+      await getWeather(lat, lng, language); // Не передаю кількість днів бо завжди проситиму максимум, а вже потім фільтрувати по датам
       navigate("/planner/step3");
     } catch (err) {
       console.error(

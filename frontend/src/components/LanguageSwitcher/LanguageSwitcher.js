@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./LanguageSwitcher.module.css";
 import { FaGlobe } from "react-icons/fa";
 import { TiArrowSortedDown } from "react-icons/ti";
 import { useTranslation } from "react-i18next";
+import UserContext from "../../contexts/UserContext";
 
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
+  const { language, setLanguage } = useContext(UserContext);
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
   };
 
   const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
+    setLanguage(lng);
     setIsOpen(false); // закрываем меню после выбора
   };
 

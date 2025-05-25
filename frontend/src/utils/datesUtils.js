@@ -1,3 +1,5 @@
+import i18n from "../utils/translations/i18next";
+
 export const getLocalISODate = (d) => {
   const date = new Date(d);
   const year = date.getFullYear();
@@ -6,8 +8,21 @@ export const getLocalISODate = (d) => {
   return `${year}-${month}-${day}`;
 };
 
-export const getWeekday = (dateString, locale = "en-UK") => {
-  return new Date(dateString).toLocaleDateString(locale, { weekday: "long" });
+export const getWeekday = (dateString) => {
+  const currentLanguage = i18n.language;
+  const localeMap = {
+    en: "en-GB",
+    uk: "uk-UA",
+    de: "de-DE",
+  };
+  const locale = localeMap[currentLanguage] || "en-GB";
+
+  const weekday = new Date(dateString).toLocaleDateString(locale, {
+    weekday: "long",
+  });
+  const capitalized = weekday.charAt(0).toUpperCase() + weekday.slice(1);
+
+  return capitalized;
 };
 
 export const getTripDaysWeather = (weather, tripDates) => {
@@ -35,21 +50,8 @@ export const calculateTripDays = (dates) => {
 
 export const getDayAndMonth = (dateString) => {
   const date = new Date(dateString);
+  const months = i18n.t("months", { returnObjects: true });
 
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
   const day = date.getDate();
   const month = months[date.getMonth()];
 

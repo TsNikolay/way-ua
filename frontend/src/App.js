@@ -11,8 +11,20 @@ import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import ReportPage from "./pages/Planner/ReportPage";
 import RoutesPage from "./pages/RoutesPage/RoutesPage";
 import RoutePage from "./pages/RoutePage/RoutePage";
+import { useTranslation } from "react-i18next";
+import { useContext, useEffect } from "react";
+import UserContext from "./contexts/UserContext";
 
 function App() {
+  const { i18n } = useTranslation();
+  const { language } = useContext(UserContext);
+
+  useEffect(() => {
+    i18n.changeLanguage(language);
+    document.documentElement.classList.remove("en", "uk");
+    document.documentElement.classList.add(language);
+  }, [language]);
+
   return (
     <>
       <Routes>

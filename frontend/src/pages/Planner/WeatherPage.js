@@ -7,6 +7,7 @@ import { calculateTripDays, getTripDaysWeather } from "../../utils/datesUtils";
 import WeatherList from "../../components/WeatherList/WeatherList";
 import WeatherMapper from "../../mappers/weather.mapper";
 import { useTranslation } from "react-i18next";
+import UserContext from "../../contexts/UserContext";
 
 const WeatherPage = () => {
   const {
@@ -20,6 +21,8 @@ const WeatherPage = () => {
     attractions,
     getTripPlan,
   } = useContext(PlannerFormContext);
+  const { language } = useContext(UserContext);
+
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -58,6 +61,7 @@ const WeatherPage = () => {
     hotel: selectedHotel,
     attractions: selectedAttractions,
     weather: tripDaysWeather,
+    language: language,
   };
 
   const handleBack = () => {
