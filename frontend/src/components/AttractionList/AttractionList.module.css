@@ -7,7 +7,7 @@
 
 .showMoreButton {
     display: flex;
-    background-color: rgba(2, 91, 3, 0.8);
+    background-color: var(--color-primary-light);
     color: white;
     border: none;
     padding: 6px 16px;
@@ -18,7 +18,7 @@
 }
 
 .showMoreButton:hover {
-    background-color: #03824b;
+    background-color: var(--color-primary-lighter);
 }
 
 @media (max-width: 768px) {

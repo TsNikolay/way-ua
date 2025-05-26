@@ -1,8 +1,7 @@
 import React from "react";
 import styles from "./AboutSection.module.css";
 
-const AboutSection = ({ title, description, image }) => {
-  const imageLink = image || "https://placehold.co/125x75?text=No img";
+const AboutSection = ({ title, description, imageLink }) => {
   return (
     <div className={styles.aboutSection}>
       <div className={styles.textBlock}>

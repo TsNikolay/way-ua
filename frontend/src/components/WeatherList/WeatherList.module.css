@@ -4,9 +4,9 @@
     gap: 20px;
     padding: 20px;
     justify-items: center;
-    background: #f7f7f7;
+    background: var(--color-list-background);
     border-radius: 0 0 10px 10px;
-    box-shadow: 1px 1px 0 #efe6e6;
+    box-shadow: 1px 1px 0 var(--color-card-shadow);
 }
 
 .shortList {
@@ -15,8 +15,9 @@
     gap: 10px;
     padding: 20px;
     justify-items: center;
-    background: #f7f7f7;
+    background: var(--color-list-background);
     border-radius: 10px;
+    color: var(--color-font-dark);
 }
 
 @media (max-width: 480px) {
@@ -25,6 +26,4 @@
         gap: 10px;
         padding: 10px;
     }
-
-
 }

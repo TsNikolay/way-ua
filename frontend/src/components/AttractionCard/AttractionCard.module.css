@@ -1,18 +1,20 @@
 .card{
     display: flex;
     width: 100%;
-    background-color: #ffffff;
+    background-color: var(--color-card);
     border-radius: 10px;
-    box-shadow: 1px 1px 4px #dcc6c6;
+    box-shadow: 1px 1px 4px var(--color-card-shadow);
     padding: 15px;
     cursor: pointer;
     transition: transform 0.3s ease;
     position: relative;
+    color: var(--color-font-dark);
 }
 
 .card:hover {
     transform: scale(1.03);
 }
+
 .image{
     flex-basis: 50%;
     margin-right:20px ;
@@ -63,11 +65,10 @@
 }
 
 
-
 .selected {
-    background-color: rgb(255, 255, 255);
+    background-color: var(--color-card-selected);
     opacity: 1;
-    border: 3px solid rgba(67, 90, 47, 0.74);
+    border: 3px solid var(--color-card-shadow);
 }
 
 .selected::after {

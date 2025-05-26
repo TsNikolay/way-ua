@@ -1,5 +1,5 @@
 .container{
-    background-color: white;
+    background-color: var(--color-background);
     width: 80%;
     justify-self: center;
     border-radius: 15px;
@@ -9,7 +9,7 @@
 }
 
 .button {
-    background-color: rgba(2, 91, 3, 0.8);
+    background-color: var(--color-primary-light);
     color: white;
     border: none;
     padding: 6px 16px;
@@ -35,8 +35,9 @@
 }
 
 .button:hover, .changeButton:hover {
-    background-color: #03824b;
+    background-color: var(--color-primary-lighter);
 }
+
 
 .guestButton:hover{
     background-color: transparent;
@@ -53,6 +54,7 @@
     font-weight: 600;
     font-size: 1.4em;
     margin-bottom:  20px;
+    color: var(--color-font-dark);
 }
 
 .info{
@@ -60,15 +62,15 @@
     justify-content: space-between;
     align-items: center;
     padding:  10px;
-    background-color: #ffffff;
+    background: var(--color-card);
     border-radius: 10px 10px 0 0;
-    box-shadow: 1px 1px 4px #dcc6c6;
-
+    box-shadow: 1px  -1px 1px  0 var(--color-card-shadow);
 }
 
 .info h2{
     font-size: 1.4vw;
     font-weight: 500;
+    color: var(--color-font-dark);
 }
 
 .infoValue{

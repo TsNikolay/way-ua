@@ -1,4 +1,3 @@
-
 .content {
     display: flex;
     flex-direction: column;
@@ -19,12 +18,12 @@
     padding: 10px 45px;
     border-radius: 25px;
     font-size: 2.5rem;
-    color: #1B511C;
+    color: var(--color-primary);
     transition: background 0.3s ease, color 0.3s ease;
 }
 
 .callToAction button:hover {
-    background: #1B511C;
+    background: var(--color-primary);
     color: white;
 }
 
@@ -87,6 +86,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 80%;
 }
 
 .aboutTitle{

@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from "react";
-import styles from "../Planner/HotelsAttractionsPage.module.css";
+import React, { useContext, useEffect, useState } from "react";
+import styles from "./RoutesPage.module.css";
 import RoutesList from "../../components/RoutesList/RoutesList";
 import { getRoutesRequest } from "../../api/routesApi";
 import { useTranslation } from "react-i18next";
+import AuthContext from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const RoutesPage = () => {
   const [routesList, setRoutesList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { t } = useTranslation();
+  const { isAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRoutes = async () => {
@@ -25,6 +29,12 @@ const RoutesPage = () => {
 
     fetchRoutes();
   }, []);
+
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/");
+    }
+  }, [isAuth]);
 
   if (loading) {
     return <div className={styles.container}>Routes loading...</div>;

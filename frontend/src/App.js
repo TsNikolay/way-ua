@@ -17,13 +17,18 @@ import UserContext from "./contexts/UserContext";
 
 function App() {
   const { i18n } = useTranslation();
-  const { language } = useContext(UserContext);
+  const { language, theme } = useContext(UserContext);
 
   useEffect(() => {
     i18n.changeLanguage(language);
     document.documentElement.classList.remove("en", "uk");
     document.documentElement.classList.add(language);
   }, [language]);
+
+  useEffect(() => {
+    document.documentElement.classList.remove("light", "dark");
+    document.documentElement.classList.add(theme);
+  }, [theme]);
 
   return (
     <>

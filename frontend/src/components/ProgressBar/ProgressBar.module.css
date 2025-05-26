@@ -20,12 +20,12 @@
 }
 
 .progress::-webkit-progress-bar {
-    background-color: #8ab565;
+    background-color: var(--color-primary-lighter);
     border-radius: 10px;
 }
 
 .progress::-webkit-progress-value {
-    background-color: rgb(53, 123, 53);
+    background-color: var(--color-primary-light);
     transition: all 1s ease;
     border-radius: 10px;
 }
@@ -47,13 +47,14 @@
     top: 20%;
     height: 60%;
     width: 2px;
-    background-color: #551d1d;
+    background-color: var(--color-font-dark);
 }
 
 .stepLabel {
     font-size: 1.7rem;
     font-weight: 400;
     margin-right: 5px;
+    color: var(--color-font-dark);
 }
 
 

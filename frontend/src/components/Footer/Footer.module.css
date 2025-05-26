@@ -1,5 +1,5 @@
 .footer{
-    background: #074008;
+    background: var(--color-primary-darker);
     height: auto;
     padding: 20px 0;
     display: flex;

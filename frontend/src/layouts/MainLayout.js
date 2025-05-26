@@ -1,16 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Headers/MainHeader/Header";
 import { Outlet } from "react-router-dom";
 
 import styles from "./MainLayout.module.css";
+import UserContext from "../contexts/UserContext";
 
 const MainLayout = () => {
+  const { theme } = useContext(UserContext);
+  // backgroundImage: `url(/images/bg-lightmode.jpg)`
   return (
     <>
       <Header />
       <main
-        style={{ backgroundImage: `url(/images/bg-lightmode.jpg)` }}
+        style={
+          theme === "dark"
+            ? { backgroundImage: `url(/images/bg-darkmode.jpg)` }
+            : { backgroundImage: `url(/images/bg-lightmode.jpg)` }
+        }
         className={styles.container}
       >
         <div className={styles.content}>

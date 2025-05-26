@@ -1,6 +1,6 @@
 
 .card {
-    background: white;
+    background-color: var(--color-background);
     padding: 40px;
     border-radius: 24px;
     width: 320px;
@@ -14,7 +14,7 @@
     text-align: center;
     margin-bottom: 30px;
     font-weight: 500;
-    color: #5c2a2a;
+    color: var(--color-font-dark);
     font-size: 1.6rem;
 }
 
@@ -26,7 +26,7 @@
 
 .label {
     margin-bottom: -8px;
-    color: #333;
+    color: var(--color-font-dark);
     font-size: 1.3rem;
     font-weight: 500;
 }
@@ -35,14 +35,15 @@
     padding: 14px 20px;
     border-radius: 10px;
     outline: none;
-    color: #333;
+    color: var(--color-font-dark);
     font-family: 'Poppins', sans-serif;
-    border: 1px solid #0a5b1f;
+    border: 1px solid var(--color-primary);
     font-size: 0.9rem;
+    background-color: var(--color-card);
 }
 
 .button {
-    background-color: rgba(2, 91, 3, 0.8);
+    background-color: var(--color-primary-light);
     color: white;
     border: none;
     padding: 6px 16px;
@@ -55,7 +56,7 @@
 }
 
 .button:hover {
-    background: #0a5b1f;
+    background-color: var(--color-primary-lighter);
 }
 
 .error {

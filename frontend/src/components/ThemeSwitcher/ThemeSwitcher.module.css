@@ -1,17 +1,8 @@
-.wrapper {
-    display: flex;
-    align-items: center;
-
-}
-
-
 .switch {
     position: relative;
     display: inline-block;
     width: 50px;
-    height: 28px;
-    color: white;
-
+    height: 26px;
 }
 
 .checkbox {
@@ -20,50 +11,38 @@
     height: 0;
 }
 
-
 .sliderRound {
     position: absolute;
     cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: white;
-    transition: 0.4s;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    background-color: var(--color-primary);
     border-radius: 34px;
+    transition: background-color 0.4s;
+}
 
+.iconWrapper {
+    position: absolute;
+    top: 3px;
+    left: 4px;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding-left: 6px;
+    justify-content: center;
+    transition: transform 0.4s;
 }
 
-
-.sliderRound::before {
-    position: absolute;
-    content: "";
-    height: 22px;
-    width: 22px;
-    left: 3px;
-    top: 3px;
-    transition: 0.4s;
-    border-radius: 50%;
-    background: #0a5b1f;
+.icon{
+    color: var(--color-primary);
 }
-
 
 .checkbox:checked + .sliderRound {
-    justify-content: flex-end; /* при активации — вправо */
-    padding-left: 0;
-    padding-right: 5px;
+    background-color: var(--color-primary);
 }
 
-
-.checkbox:checked + .sliderRound::before {
-    transform: translateX(22px);
-}
-
-.icon {
-    font-size: 16px;
-    z-index: 2;
+.checkbox:checked + .sliderRound .iconWrapper {
+    transform: translateX(24px);
 }

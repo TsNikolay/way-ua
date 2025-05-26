@@ -1,18 +1,18 @@
 .dayCard {
-    background-color: #f5f9f6;
+
     border-radius: 15px;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
 
+    margin-bottom: 20px;
+    background: var(--color-list-background);
 }
 
 .dayTitle {
     font-size: 1.4rem;
     margin-bottom: 15px;
-    color: #000000;
     text-align: left;
     padding: 0 0 0 15px;
+    color: var(--color-font-dark);
 
 }
 
@@ -24,11 +24,10 @@
 }
 
 .activityCard {
-    background-color: #ffffff;
+    background: var(--color-card);
     border-radius: 12px;
     padding: 15px;
     width: calc(50% - 20px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -63,23 +62,25 @@
 .placeInfo {
     text-align: start;
     width: 100%;
+    color: var(--color-font-dark);
 }
 
 .placeName {
     font-size: 1.2rem;
     font-weight: bold;
     margin: 5px 0;
+    color: var(--color-font-dark);
 }
 
 .address {
     font-size: 0.9rem;
-    color: #555;
+    color: var(--color-font-dark);
 }
 
 .notes {
     font-size: 0.85rem;
-    color: #777;
     margin-top: 5px;
+    color: var(--color-font-dark);
 }
 
 .placeNameAndTime{

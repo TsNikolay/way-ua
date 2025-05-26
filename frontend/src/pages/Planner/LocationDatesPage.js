@@ -32,7 +32,7 @@ const LocationDatesPage = () => {
     resetPlannerState,
     resetTripPlan,
   } = useContext(PlannerFormContext);
-  const { language } = useContext(userContext);
+  const { language, theme } = useContext(userContext);
   const { t } = useTranslation();
 
   const handleContinue = async () => {
@@ -97,17 +97,64 @@ const LocationDatesPage = () => {
             debounce={1000}
             autocompletionRequest={{
               types: ["(cities)"],
-              componentRestrictions: {
-                country: ["ua"],
-              },
+              componentRestrictions: { country: ["ua"] },
             }}
             selectProps={{
               placeholder: t("locationdatespage.select_city"),
               value: city,
-              city: city,
               onChange: (value) => {
                 setCity(value);
                 getCityCoordinates(value);
+              },
+              styles: {
+                control: (provided, state) => ({
+                  ...provided,
+                  backgroundColor:
+                    theme === "light" ? "white" : "rgb(75, 75, 147)",
+                  borderColor: state.isFocused
+                    ? theme === "light"
+                      ? "#555"
+                      : "#888"
+                    : theme === "light"
+                    ? "#ccc"
+                    : "#444",
+                  boxShadow: state.isFocused
+                    ? theme === "light"
+                      ? "0 0 0 1px #555"
+                      : "0 0 0 1px #888"
+                    : "none",
+                  color: theme === "light" ? "black" : "white",
+                }),
+                placeholder: (provided) => ({
+                  ...provided,
+                  color: theme === "light" ? "#666" : "#ccc", // цвет placeholder
+                }),
+                singleValue: (provided) => ({
+                  ...provided,
+                  color: theme === "light" ? "black" : "white", // выбранное значение
+                }),
+                input: (provided) => ({
+                  ...provided,
+                  color: theme === "light" ? "black" : "white", // текст при вводе
+                }),
+                menu: (provided) => ({
+                  ...provided,
+                  backgroundColor:
+                    theme === "light" ? "white" : "rgb(75, 75, 147)",
+                  color: theme === "light" ? "black" : "white",
+                }),
+                option: (provided, state) => ({
+                  ...provided,
+                  backgroundColor: state.isFocused
+                    ? theme === "light"
+                      ? "#f0f0f0"
+                      : "#4f4f7f"
+                    : theme === "light"
+                    ? "white"
+                    : "rgb(75, 75, 147)",
+                  color: theme === "light" ? "black" : "white",
+                  cursor: "pointer",
+                }),
               },
             }}
           />

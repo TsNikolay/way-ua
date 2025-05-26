@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { getRouteRequest } from "../../api/routesApi";
 import styles from "./RoutePage.module.css";
 import WeatherList from "../../components/WeatherList/WeatherList";
@@ -10,12 +10,13 @@ import RouteDayMapper from "../../mappers/routeDay.mapper";
 import html2pdf from "html2pdf.js";
 import { IoMdDownload } from "react-icons/io";
 import { useTranslation } from "react-i18next";
+import UserContext from "../../contexts/UserContext";
 
 const RoutePage = () => {
   const [route, setRoute] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const [error, setError] = useState(null);
+  const { theme, setTheme } = useContext(UserContext);
   const { id } = useParams();
   const pdfRef = useRef();
   const { t } = useTranslation();
@@ -80,6 +81,11 @@ const RoutePage = () => {
 
       pdfRef.current.classList.add("hideForPdf");
 
+      const initialTheme = theme;
+      if (initialTheme === "dark") {
+        setTheme("light");
+      }
+
       try {
         await prepareImagesInRef(pdfRef);
 
@@ -106,6 +112,9 @@ const RoutePage = () => {
         if (pdfRef.current.classList.contains("pdfMode")) {
           pdfRef.current.classList.remove("pdfMode");
         }
+
+        setTheme(initialTheme);
+
         pdfRef.current.classList.remove("hideForPdf");
       }
     }

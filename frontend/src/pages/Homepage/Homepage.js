@@ -77,22 +77,27 @@ const Homepage = () => {
           <AboutSection
             title={t("aboutsection.firstTitle")}
             description={t("aboutsection.firstText")}
+            imageLink={"../images/about1.png"}
           />
           <AboutSection
             title={t("aboutsection.secondTitle")}
             description={t("aboutsection.secondText")}
+            imageLink={"../images/about2.png"}
           />
           <AboutSection
             title={t("aboutsection.thirdTitle")}
             description={t("aboutsection.thirdText")}
+            imageLink={"../images/about3.png"}
           />
           <AboutSection
             title={t("aboutsection.fourthTitle")}
             description={t("aboutsection.fourthText")}
+            imageLink={"../images/about4.png"}
           />
           <AboutSection
             title={t("aboutsection.fifthTitle")}
             description={t("aboutsection.fifthText")}
+            imageLink={"../images/about5.png"}
           />
         </div>
       </div>
