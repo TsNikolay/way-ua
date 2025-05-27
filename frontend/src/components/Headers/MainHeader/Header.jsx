@@ -55,13 +55,23 @@ const Header = () => {
       <div className={styles.logo}>{t("header.way_ua")}</div>
 
       <nav ref={navRef} className={styles.nav}>
-        <Link to="/">{t("header.home")}</Link>
-        <Link to="/#about">{t("header.about")}</Link>
-        <Link to="/contacts">{t("header.contacts")}</Link>
+        <Link to="/" onClick={toggleNavbar}>
+          {t("header.home")}
+        </Link>
+        <Link to="/#about" onClick={toggleNavbar}>
+          {t("header.about")}
+        </Link>
+        <Link to="/contacts" onClick={toggleNavbar}>
+          {t("header.contacts")}
+        </Link>
 
         <div className={styles.mobileControls}>
           <ThemeSwitcher />
-          {isAuth && <Link to="/">{t("header.account")}</Link>}
+          {isAuth && (
+            <Link to="/routes" onClick={toggleNavbar}>
+              {t("header.account")}
+            </Link>
+          )}
           <LanguageSwitcher />
         </div>
 

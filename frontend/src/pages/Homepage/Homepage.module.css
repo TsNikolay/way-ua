@@ -109,6 +109,7 @@
         font-size: 3rem;
     }
 
+
     .slogan span{
         padding: 0;
         line-height: 4rem;
@@ -120,6 +121,16 @@
 }
 
 @media (max-width: 768px) {
+
+    .slogan {
+        font-size: 2rem;
+    }
+
+    .ukraine{
+        font-size: 3rem;
+    }
+
+
     .callToAction button{
         width: 80%;
         font-size: 1.5rem;

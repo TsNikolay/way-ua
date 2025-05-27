@@ -111,7 +111,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: rgba(7, 64, 8, 0.95);
+        background-color: var(--color-primary-darker);
         gap: 2rem;
         z-index: 999;
     }

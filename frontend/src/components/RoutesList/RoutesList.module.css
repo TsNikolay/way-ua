@@ -63,3 +63,53 @@ td:last-child > div {
     color: var(--color-inactive);
     text-align: center;
 }
+
+@media (max-width: 768px) {
+    .table-container {
+        padding: 10px;
+        margin: 10px auto;
+    }
+
+    .table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 1rem;
+    }
+
+    .icon {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .table-container {
+        padding: 5px;
+        margin: 5px auto;
+    }
+
+    th, td {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .icon {
+        font-size: 1.4rem;
+    }
+
+    td:last-child {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    td:last-child > div {
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-start;
+    }
+}
+

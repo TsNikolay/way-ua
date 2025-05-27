@@ -2,7 +2,7 @@
     text-align: center;
     color: white;
     font-weight: 400;
-    font-size: 3vw;
+    font-size: 4vw;
 }
 
 .contactContainer {
@@ -95,3 +95,13 @@
 .submitButton:hover {
     background-color: var(--color-primary-light);
 }
+
+@media (max-width: 768px) {
+    .title {
+
+    }
+}
+
+
+
+

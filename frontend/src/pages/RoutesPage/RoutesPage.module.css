@@ -15,3 +15,25 @@
     font-weight: 400;
     font-size: 4vw;
 }
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 15px 20px;
+    }
+
+    .title {
+        font-size: 6vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 100%;
+        padding: 10px 15px;
+    }
+
+    .title {
+        font-size: 7vw;
+    }
+}

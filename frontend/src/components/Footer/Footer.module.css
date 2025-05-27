@@ -70,10 +70,63 @@
 
 
 @media (max-width: 768px) {
-    .info{
+    .info {
         justify-content: center;
         align-items: center;
         flex-direction: column;
         width: 100%;
+        padding: 10px 20px;
+        text-align: center;
+    }
+
+    .links {
+        margin-top: 10px;
+    }
+
+    .links a {
+        margin: 5px 10px;
+        font-size: 1rem;
+    }
+
+    .socMediaLinks {
+        gap: 15px;
+        margin: 15px 0;
+    }
+
+    .socMediaLinks span {
+        font-size: 1.5rem;
+        padding: 8px;
+    }
+
+    .logo {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+
+    .copyright {
+        font-size: 0.8rem;
+        text-align: center;
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .links a {
+        display: block;
+        margin: 8px 0;
+    }
+
+    .socMediaLinks {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .socMediaLinks span {
+        font-size: 1.4rem;
+        padding: 6px;
+    }
+
+    .logo {
+        font-size: 1.6rem;
     }
 }

@@ -26,7 +26,6 @@
     justify-content: start;
     margin-top: 20px;
     flex-basis: 45%;
-
 }
 
 .tripInfo h2{
@@ -199,4 +198,74 @@
 
 .button:hover {
     background-color: var(--color-primary-lighter);
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 15px 20px;
+    }
+
+    .tripInfoContainer {
+        flex-direction: column;
+    }
+
+    .tripInfo, .hotelCard {
+        flex-basis: 100%;
+        margin-bottom: 20px;
+    }
+
+    .hotelContent {
+        flex-direction: column;
+    }
+
+    .hotelImageWrapper, .hotelMapWrapper {
+        flex-basis: 100%;
+    }
+
+    .hotelImage, .hotelMap {
+        height: 200px;
+    }
+
+    .buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .button {
+        width: 100%;
+        font-size: 1rem;
+    }
+
+    .title {
+        font-size: 6vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 100%;
+        padding: 10px 15px;
+    }
+
+    .tripInfo h2, .tripPlanTitle {
+        font-size: 1.2rem;
+    }
+
+    .infoValue {
+        font-size: 1rem;
+    }
+
+    .hotelTitle, .hotelAddress {
+        font-size: 1rem;
+    }
+
+    .logo {
+        font-size: 1rem;
+        padding: 0 8px;
+    }
+
+    .loadingText {
+        font-size: 1.5rem;
+    }
 }

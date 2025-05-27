@@ -54,7 +54,7 @@ const ContactsForm = () => {
 
   return (
     <div>
-      <h2 className={styles.title}>Contact Us</h2>
+      <h2 className={styles.title}>{t("contactspage.contact_us")}</h2>
       <div className={styles.contactContainer}>
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.row}>
