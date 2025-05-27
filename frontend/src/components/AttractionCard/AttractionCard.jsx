@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import styles from "./AttractionCard.module.css";
-import { FaRegEye } from "react-icons/fa";
 import { CiCircleMore } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import PlannerFormContext from "../../contexts/PlannerFormContext";

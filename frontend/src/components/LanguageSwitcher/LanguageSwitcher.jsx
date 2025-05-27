@@ -8,7 +8,7 @@ import UserContext from "../../contexts/UserContext";
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const { language, setLanguage } = useContext(UserContext);
+  const { setLanguage } = useContext(UserContext);
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
