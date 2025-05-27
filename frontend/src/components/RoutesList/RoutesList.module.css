@@ -58,3 +58,8 @@ td:last-child > div {
 .icon:hover {
     color: var(--color-primary-lighter);
 }
+
+.noTrips{
+    color: var(--color-inactive);
+    text-align: center;
+}

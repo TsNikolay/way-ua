@@ -1,54 +1,9 @@
-//{
-//   "name": "Trip to Kyiv",
-//   "city": "Kyiv",
-//   "start_date": "2025-07-01",
-//   "end_date": "2025-07-07",
-//   "hotel": {
-//    "google_place_id": "ChIJkcO921PO1EAR3Fggzh18qnE",
-//    "name": "Hilton Kyiv",
-//     "address": "Tarasa Shevchenko Blvd, Kyiv",
-//     "rating": 4.7,
-//     "price": "$120",
-//     "image_url": "https://example.com/hilton.jpg"
-//   },
-//   "weather_summary": "Sunny, ~25°C",
-//   "plan_summary": "Day 1: Museum, Day 2: Lavra...",
-//   "status": "planned",
-//   "route_days": [
-//    {
-//     "google_place_id": "ChIJXzle44jO1EARNKSlXc90N8Y",
-//     "name": "St. Sophia Cathedral",
-//     "address": "Volodymyrska St, Kyiv",
-//     "image_url": "...",
-//     "description": "...",
-//     "day_number": 1,
-//     "time_slot": "morning",
-//     "visit_order": 1,
-//     "ticket_price": "200 UAH",
-//     "rating": 4.8,
-//     "notes": "Must-see historical place"
-//   },
-//   {
-//      "google_place_id": "ChIJXzle44jO1EARNKSlXc90N8Y",
-//      "name": "St. Sophia Cathedral",
-//      "address": "Volodymyrska St, Kyiv",
-//      "image_url": "...",
-//      "description": "...",
-//      "day_number": 1,
-//      "time_slot": "morning",
-//      "visit_order": 1,
-//      "ticket_price": "200 UAH",
-//      "rating": 4.8,
-//      "notes": "Must-see historical place"
-//    },
-// ]
-// }
-
 import RouteModel from "../models/route.model.js";
 import HotelModel from "../models/hotel.model.js";
 import RouteDayModel from "../models/routeDay.model.js";
 import AttractionModel from "../models/attraction.model.js";
 import WeatherModel from "../models/weather.model.js";
+import ActivityModel from "../models/activity.model.js";
 
 class RouteService {
   async createRoute(userId, data) {
@@ -71,20 +26,30 @@ class RouteService {
 
     //Перевіряємо чи є вже в базі данних місця зазначені в route_days. Якщо ні то створимо
     for (const day of route_days) {
-      // 1) достаём вложенный объект с данными достопримечательности
-      const attractionData = day.attraction;
-      const googlePlaceId = attractionData.google_place_id;
+      const itemData = day.item;
+      const googlePlaceId = itemData.google_place_id;
 
-      // 2) ищем в БД по google_place_id
-      let attractionId = await AttractionModel.findByPlaceId(googlePlaceId);
+      let item_id;
+      let item_type;
 
-      // 3) если не нашли — создаём новую запись и берём её id
-      if (!attractionId) {
-        attractionId = await AttractionModel.create(attractionData);
+      if (!googlePlaceId) {
+        // Це AI-активність бо нема googlePlaceId
+        const activity = await ActivityModel.create(itemData);
+        item_id = activity.id;
+        item_type = "activity";
+      } else {
+        // Це реальне місце, є googlePlaceId
+        let attraction = await AttractionModel.findByPlaceId(googlePlaceId);
+        if (!attraction) {
+          attraction = await AttractionModel.create(itemData);
+        }
+        item_id = attraction.id;
+        item_type = "attraction";
       }
 
-      // 4) запоминаем полученный id, чтобы позже положить его в поле attraction_id таблицы route_days
-      day.attraction_id = attractionId;
+      // Записуємо, щоб потім вставити в route_days
+      day.item_id = item_id;
+      day.item_type = item_type;
     }
 
     // 1. Створення маршруту
@@ -132,12 +97,17 @@ class RouteService {
         ]);
 
         // для кожного дня підтягуємо пам'ятки
-        const daysWithAttractions = await Promise.all(
+        const detailedDays = await Promise.all(
           days.map(async (day) => {
-            const attraction = await AttractionModel.findById(
-              day.attraction_id,
-            );
-            return { ...day, attraction };
+            let item = null;
+
+            if (day.item_type === "attraction") {
+              item = await AttractionModel.findById(day.item_id);
+            } else if (day.item_type === "activity") {
+              item = await ActivityModel.findById(day.item_id);
+            }
+
+            return { ...day, item };
           }),
         );
 
@@ -145,7 +115,7 @@ class RouteService {
           ...route,
           hotel,
           weather,
-          route_days: { days: daysWithAttractions },
+          route_days: { days: detailedDays },
         };
       }),
     );
@@ -167,10 +137,17 @@ class RouteService {
         RouteDayModel.findByRouteId(route.id),
       ]);
 
-      const daysWithAttractions = await Promise.all(
+      const detailedDays = await Promise.all(
         days.map(async (day) => {
-          const attraction = await AttractionModel.findById(day.attraction_id);
-          return { ...day, attraction };
+          let item = null;
+
+          if (day.item_type === "attraction") {
+            item = await AttractionModel.findById(day.item_id);
+          } else if (day.item_type === "activity") {
+            item = await ActivityModel.findById(day.item_id);
+          }
+
+          return { ...day, item };
         }),
       );
 
@@ -178,7 +155,7 @@ class RouteService {
         ...route,
         hotel,
         weather,
-        route_days: { days: daysWithAttractions },
+        route_days: { days: detailedDays },
       };
     } catch (error) {
       console.error("Error fetching route:", error.message);

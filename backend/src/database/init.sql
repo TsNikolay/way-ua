@@ -1,5 +1,6 @@
 --  DROP TABLE route_days;
 --  DROP TABLE attractions;
+--  DROP TABLE activities;
 --  DROP TABLE weather;
 --  DROP TABLE routes;
 --  DROP TABLE hotels;
@@ -45,24 +46,32 @@ CREATE TABLE IF NOT EXISTS routes (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
- CREATE TABLE IF NOT EXISTS attractions (
+CREATE TABLE IF NOT EXISTS attractions (
     id SERIAL PRIMARY KEY,
-    google_place_id TEXT UNIQUE NOT NULL,
+    google_place_id TEXT ,
     name TEXT,
     address TEXT,
     photo_reference TEXT,
     rating NUMERIC(2,1)
 );
 
+CREATE TABLE IF NOT EXISTS activities (
+   id SERIAL PRIMARY KEY,
+   name TEXT,
+   address TEXT,
+   category TEXT
+);
 
- CREATE TABLE IF NOT EXISTS route_days (
+CREATE TABLE route_days (
     id SERIAL PRIMARY KEY,
     route_id INTEGER REFERENCES routes(id) ON DELETE CASCADE,
-    attraction_id INTEGER REFERENCES attractions(id) ON DELETE CASCADE,
+    item_type VARCHAR(20) CHECK (item_type IN ('attraction', 'activity')) NOT NULL,
+    item_id INTEGER NOT NULL,
     day_number INTEGER NOT NULL,
     time_slot VARCHAR(20) CHECK (time_slot IN ('morning', 'afternoon', 'evening')) NOT NULL,
     notes TEXT
 );
+
 
  CREATE TABLE weather (
       id SERIAL PRIMARY KEY,

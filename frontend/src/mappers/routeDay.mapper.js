@@ -8,16 +8,18 @@ class RouteDayMapper {
    * @returns {Object} DB-compatible route_day record
    */
   apiToDb(apiActivity, dayNumber) {
+    //
     return {
       day_number: dayNumber,
       time_slot: apiActivity.time_slot,
       notes: apiActivity.notes,
-      attraction: {
+      item: {
         google_place_id: apiActivity.google_place_id,
         name: apiActivity.place_name,
         address: apiActivity.address,
         rating: apiActivity.rating,
         photo_reference: apiActivity.photo_reference,
+        category: apiActivity.category,
       },
     };
   }
@@ -29,13 +31,14 @@ class RouteDayMapper {
    */
   dbToView(dbItem) {
     return {
-      place_name: dbItem.attraction.name,
-      address: dbItem.attraction.address,
-      photo_reference: dbItem.attraction.photo_reference,
+      place_name: dbItem.item.name,
+      address: dbItem.item.address,
+      photo_reference: dbItem.item.photo_reference,
       time_slot: dbItem.time_slot,
       notes: dbItem.notes,
-      google_place_id: dbItem.attraction.google_place_id,
-      rating: dbItem.attraction.rating,
+      google_place_id: dbItem.item.google_place_id,
+      rating: dbItem.item.rating,
+      category: dbItem.item.category,
     };
   }
 
@@ -53,6 +56,7 @@ class RouteDayMapper {
       notes: apiActivity.notes,
       google_place_id: apiActivity.google_place_id,
       rating: apiActivity.rating,
+      category: apiActivity.category,
     };
   }
 }

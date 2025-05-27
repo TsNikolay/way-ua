@@ -1,16 +1,19 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import PlannerFormContext from "../../contexts/PlannerFormContext";
+import PlannerFormContext from "../../../contexts/PlannerFormContext";
 
-import { calculateTripDays, getTripDaysWeather } from "../../utils/datesUtils";
+import {
+  calculateTripDays,
+  getTripDaysWeather,
+} from "../../../utils/datesUtils";
 import styles from "./ReportPage.module.css";
-import WeatherList from "../../components/WeatherList/WeatherList";
+import WeatherList from "../../../components/WeatherList/WeatherList";
 import { Link, useNavigate } from "react-router-dom";
-import SpinnerLoader from "../../components/SpinnerLoader/SpinnerLoader";
-import TripPlanList from "../../components/TripPlanList/TripPlanList";
-import AuthContext from "../../contexts/AuthContext";
-import { createRouteRequest } from "../../api/routesApi";
-import WeatherMapper from "../../mappers/weather.mapper";
-import RouteDayMapper from "../../mappers/routeDay.mapper";
+import SpinnerLoader from "../../../components/SpinnerLoader/SpinnerLoader";
+import TripPlanList from "../../../components/TripPlanList/TripPlanList";
+import AuthContext from "../../../contexts/AuthContext";
+import { createRouteRequest } from "../../../api/routesApi";
+import WeatherMapper from "../../../mappers/weather.mapper";
+import RouteDayMapper from "../../../mappers/routeDay.mapper";
 import { useTranslation } from "react-i18next";
 
 const ReportPage = () => {

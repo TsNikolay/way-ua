@@ -47,6 +47,27 @@ class MailService {
             `,
     });
   }
+
+  async sendFeedback(firstName, lastName, fromEmail, message) {
+    const siteEmail = process.env.SMTP_USER;
+
+    await this.transporter.sendMail({
+      from: `"${firstName} ${lastName}" <${fromEmail}>`,
+      to: siteEmail,
+      subject: `New Feedback from ${firstName} ${lastName}`,
+      text: message,
+      html: `
+      <div style="font-family: Arial, sans-serif; padding: 20px;">
+        <h2>New Feedback Received</h2>
+        <p><strong>From:</strong> ${firstName} ${lastName} (${fromEmail})</p>
+        <p><strong>Message:</strong></p>
+        <p style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
+          ${message}
+        </p>
+      </div>
+    `,
+    });
+  }
 }
 
 export default new MailService();

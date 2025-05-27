@@ -133,25 +133,25 @@ export const RouteValidator = [
     .withMessage("Notes must be a string")
     .trim(),
   // Attraction nested object
-  body("route_days.*.attraction")
+  body("route_days.*.item")
     .exists()
-    .withMessage("Attraction object is required"),
-  body("route_days.*.attraction.google_place_id")
+    .withMessage("Attraction/Activity object is required"),
+  body("route_days.*.item.google_place_id")
     .exists()
-    .withMessage("Attraction google_place_id is required")
+    .withMessage("Attraction/Activity google_place_id is required")
     .isString()
-    .withMessage("Attraction google_place_id must be a string")
+    .withMessage("Attraction/Activity google_place_id must be a string")
     .trim(),
-  body("route_days.*.attraction.name")
+  body("route_days.*.item.name")
     .exists()
-    .withMessage("Attraction name is required")
+    .withMessage("Attraction/Activity name is required")
     .isString()
-    .withMessage("Attraction name must be a string")
+    .withMessage("Attraction/Activity name must be a string")
     .trim(),
-  body("route_days.*.attraction.address")
+  body("route_days.*.item.address")
     .exists()
-    .withMessage("Attraction address is required")
+    .withMessage("Attraction/Activity address is required")
     .isString()
-    .withMessage("Attraction address must be a string")
+    .withMessage("Attraction/Activity address must be a string")
     .trim(),
 ];

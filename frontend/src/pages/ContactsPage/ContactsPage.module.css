@@ -1,0 +1,97 @@
+.title {
+    text-align: center;
+    color: white;
+    font-weight: 400;
+    font-size: 3vw;
+}
+
+.contactContainer {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: var(--color-background);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    align-items: center;
+}
+
+.inputGroup {
+    position: relative;
+    flex: 1;
+}
+
+.inputGroup input,
+.inputGroup textarea{
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: transparent;
+    color: var(--color-font-dark);
+}
+
+.inputGroup input{
+    padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+}
+
+.inputGroup input::placeholder,
+.inputGroup textarea::placeholder{
+   color: var(--color-font-dark);
+}
+
+.inputGroup textarea{
+    padding: 0.75rem ;
+    margin-top: 0.75rem;
+}
+
+.icon {
+    position: absolute;
+    top: 50%;
+    left: 0.75rem;
+    transform: translateY(-50%);
+    color: var(--color-font-dark);
+}
+
+.checkboxGroup {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    gap: 0.25rem;
+    white-space: nowrap;
+    margin: 0.5rem 0 1rem 3px;
+    color: var(--color-font-dark);
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 100px;
+    padding-left: 1rem;
+    color: var(--color-font-dark);
+
+}
+
+.submitButton {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background-color: var(--color-primary-light );
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.submitButton:hover {
+    background-color: var(--color-primary-light);
+}

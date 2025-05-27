@@ -67,7 +67,7 @@
     padding: 7px 10px;
     border-radius: 5px;
     outline: none;
-    color: #ffffff;
+    color: var(--color-font-dark);
     font-family: 'Poppins', sans-serif;
     border: 2px solid var(--color-primary-light);
     background-color: var(--color-card);

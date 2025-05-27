@@ -55,9 +55,11 @@
     background-color:var(--color-inactive);
 }
 
+
 .dateRangePicker , .dateRangePickerForMobile {
-    background-color: var(--color-card);
+    background-color: transparent;
     color: var(--color-font-dark);
+
 }
 
 .dateRangePicker > *, .dateRangePickerForMobile > *{
@@ -66,19 +68,17 @@
     font-weight: 400;
     max-width: 400px;
     width: 100%;
-    background-color: var(--color-card);
+    background-color: transparent;
 }
 
 .dates{
     margin-bottom: 50px
 }
 
-
-
 .dateWrapper {
     width: 100%;
     max-width: 300px;
-    background-color: white;
+    background-color: transparent;
 }
 
 .dateRangePicker {

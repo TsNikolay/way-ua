@@ -26,7 +26,13 @@ const TripPlanCard = ({ tripDay }) => {
                   src={
                     activity.photo_reference
                       ? `${API_URL}/planner/image?photo_reference=${activity.photo_reference}`
-                      : "/images/default-leisure.png"
+                      : activity.category === "cityActivity"
+                      ? "/images/default-leisure-city.png"
+                      : activity.category === "hotelActivity"
+                      ? "/images/default-leisure-hotel.png"
+                      : activity.category === "natureActivity"
+                      ? "/images/default-leisure-nature.png"
+                      : "/images/default-leisure-city.png"
                   }
                   alt={activity.place_name}
                   onError={(e) => {

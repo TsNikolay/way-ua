@@ -32,7 +32,7 @@ const MainLayout = () => {
 export default MainLayout;
 
 // Outlet - вместо children то есть вместо него подставится тот компонент что передадим в App
-// В App.js вот так использовать:
+// В App.jsx вот так использовать:
 //     function App() {
 //         return (
 //             <Routes>

@@ -2,14 +2,14 @@ import React, { useContext, useEffect } from "react";
 import styles from "./LocationDatesPage.module.css";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker";
-import ProgressBar from "../../components/ProgressBar/ProgressBar";
-import PlannerFormContext from "../../contexts/PlannerFormContext";
+import ProgressBar from "../../../components/ProgressBar/ProgressBar";
+import PlannerFormContext from "../../../contexts/PlannerFormContext";
 //Стилі для вибору дат подорожі
 import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
 import "react-calendar/dist/Calendar.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import userContext from "../../contexts/UserContext";
+import userContext from "../../../contexts/UserContext";
 
 const LocationDatesPage = () => {
   const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
@@ -109,20 +109,15 @@ const LocationDatesPage = () => {
               styles: {
                 control: (provided, state) => ({
                   ...provided,
-                  backgroundColor:
-                    theme === "light" ? "white" : "rgb(75, 75, 147)",
+                  backgroundColor: theme === "light" ? "white" : "",
                   borderColor: state.isFocused
                     ? theme === "light"
                       ? "#555"
                       : "#888"
                     : theme === "light"
-                    ? "#ccc"
-                    : "#444",
-                  boxShadow: state.isFocused
-                    ? theme === "light"
-                      ? "0 0 0 1px #555"
-                      : "0 0 0 1px #888"
-                    : "none",
+                    ? "#606060"
+                    : "rgb(134,141,152)",
+
                   color: theme === "light" ? "black" : "white",
                 }),
                 placeholder: (provided) => ({
@@ -140,7 +135,7 @@ const LocationDatesPage = () => {
                 menu: (provided) => ({
                   ...provided,
                   backgroundColor:
-                    theme === "light" ? "white" : "rgb(75, 75, 147)",
+                    theme === "light" ? "white" : "rgb(73, 91, 179)",
                   color: theme === "light" ? "black" : "white",
                 }),
                 option: (provided, state) => ({
@@ -169,8 +164,8 @@ const LocationDatesPage = () => {
               <DateRangePicker
                 format="dd/MM/yyyy"
                 dayPlaceholder="_"
-                monthPlaceholder="__"
-                yearPlaceholder="____"
+                monthPlaceholder="_ _"
+                yearPlaceholder="_ _ _ _"
                 rangeDivider="-"
                 onChange={(value) => setDates(value || [])} // Щоб не мати помилку коли стираємо дати
                 value={dates}

@@ -1,13 +1,16 @@
 import React, { useContext, useEffect } from "react";
 import styles from "./WeatherPage.module.css";
-import ProgressBar from "../../components/ProgressBar/ProgressBar";
-import PlannerFormContext from "../../contexts/PlannerFormContext";
+import ProgressBar from "../../../components/ProgressBar/ProgressBar";
+import PlannerFormContext from "../../../contexts/PlannerFormContext";
 import { useNavigate } from "react-router-dom";
-import { calculateTripDays, getTripDaysWeather } from "../../utils/datesUtils";
-import WeatherList from "../../components/WeatherList/WeatherList";
-import WeatherMapper from "../../mappers/weather.mapper";
+import {
+  calculateTripDays,
+  getTripDaysWeather,
+} from "../../../utils/datesUtils";
+import WeatherList from "../../../components/WeatherList/WeatherList";
+import WeatherMapper from "../../../mappers/weather.mapper";
 import { useTranslation } from "react-i18next";
-import UserContext from "../../contexts/UserContext";
+import UserContext from "../../../contexts/UserContext";
 
 const WeatherPage = () => {
   const {

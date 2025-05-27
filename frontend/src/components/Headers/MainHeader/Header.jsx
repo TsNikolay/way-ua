@@ -57,7 +57,7 @@ const Header = () => {
       <nav ref={navRef} className={styles.nav}>
         <Link to="/">{t("header.home")}</Link>
         <Link to="/#about">{t("header.about")}</Link>
-        <Link to="/">{t("header.contacts")}</Link>
+        <Link to="/contacts">{t("header.contacts")}</Link>
 
         <div className={styles.mobileControls}>
           <ThemeSwitcher />

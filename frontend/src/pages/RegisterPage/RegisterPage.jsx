@@ -67,7 +67,7 @@ const RegisterPage = () => {
           className={styles.input}
           type="text"
           value={name}
-          placeholder="Enter your name"
+          placeholder={t("registerpage.enter_your_name")}
           onChange={(e) => setName(e.target.value)}
         />
 

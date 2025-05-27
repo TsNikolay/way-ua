@@ -169,6 +169,7 @@ const RoutePage = () => {
 
     route.route_days.days.forEach((entry) => {
       const activity = RouteDayMapper.dbToView(entry);
+      console.log(entry);
       const dayNumber = entry.day_number;
 
       if (!groupedByDay.has(dayNumber)) {

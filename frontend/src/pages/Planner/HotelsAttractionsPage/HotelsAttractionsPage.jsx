@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from "react";
 import styles from "./HotelsAttractionsPage.module.css";
 
-import ProgressBar from "../../components/ProgressBar/ProgressBar";
-import PlannerFormContext from "../../contexts/PlannerFormContext";
-import HotelList from "../../components/HotelList/HotelList";
+import ProgressBar from "../../../components/ProgressBar/ProgressBar";
+import PlannerFormContext from "../../../contexts/PlannerFormContext";
+import HotelList from "../../../components/HotelList/HotelList";
 import { useNavigate } from "react-router-dom";
-import AttractionList from "../../components/AttractionList/AttractionList";
+import AttractionList from "../../../components/AttractionList/AttractionList";
 import { useTranslation } from "react-i18next";
-import UserContext from "../../contexts/UserContext";
+import UserContext from "../../../contexts/UserContext";
 
 const HotelsAttractionsPage = () => {
   const {

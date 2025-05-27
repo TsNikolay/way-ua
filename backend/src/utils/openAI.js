@@ -39,7 +39,7 @@ The user has selected the following hotel:
 - Name: ${hotel.name}
 - Address: ${hotel.address}
 
-The user wants to visit the following attractions (provided as a structured JSON list): ${attractionsText}  
+The user wants to visit the following attractions (provided as a structured JSON list): ${attractionsText}
 
 Here is the weather forecast for each day:
 ${weatherText}
@@ -49,28 +49,31 @@ Your task:
 Create a JSON array under the key "days" where each object contains:
 - "day_number" (1, 2, ...)
 - "activities": an array of objects with:
-- "place_name"
-- "address"
-- "photo_reference" (use the reference provided in the attractions data, or leave as "" if missing)
-- "time_slot" (morning / afternoon / evening)
-- "notes" (contextual suggestions, e.g., "Due to rain, indoor activities are recommended")
-- "google_place_id" (use the reference provided or leave as "" if missing)
-- "rating" (from the provided attractions data)
+  - "place_name"
+  - "address"
+  - "photo_reference" (use the reference provided in the attractions data, or leave as "" if missing)
+  - "time_slot" (morning / afternoon / evening)
+  - "notes" (contextual suggestions, e.g., "Due to rain, indoor activities are recommended")
+  - "google_place_id" (use the reference provided or leave as "" if missing)
+  - "rating" (from the provided attractions data)
+  - "category" (cityActivity / hotelActivity / natureActivity)
 
 STRICT RULES:
 - Build plan for every day. Do not skip any.
 - Use every provided attraction. Do not skip any.
 - Assign each attraction to exactly one day. No duplicates allowed.
 - If there are more days than attractions, only then fill in extra days with generic suggestions like "Free day for rest" or "Explore local cafes".
-- When providing generic suggestions, always use approximate addresses and locations that are relevant to the destination city: ${city}. Do not use addresses or locations from other cities.
+- When providing generic suggestions, always use approximate addresses and locations relevant to the destination city: ${city}. Do not use addresses or locations from other cities.
 - Ensure every day has at least 2 activities. Combine attractions and generic suggestions if needed.
 - Match activities to the weather (indoor on rainy days, outdoor on sunny days).
 - Every 2-3 days, include an evening activity.
 - Double-check before responding: make sure there are no missing or duplicated attractions.
-- Provide notes with recommendation for every attractions or use "" if there is no recommendations.
-- Notes should be in ${language} language
-- Always provide time slot, use one of these options : morning/afternoon/evening
+- Provide notes with recommendations for every attraction, or use "" if there is no recommendation.
+- Notes should be in ${language} language.
+- Always provide time_slot, using one of these options: morning/afternoon/evening.
 - Always provide google_place_id, or use "" if there is no one.
+- Always provide "category" for every activity. Allowed values are ONLY: "cityActivity", "hotelActivity", "natureActivity".
+
 
 Respond ONLY with valid JSON like:
 {
@@ -84,8 +87,9 @@ Respond ONLY with valid JSON like:
           "time_slot": "morning",
           "photo_reference": "AXQCQNQ4nvqmcG2dflZbw...",
           "notes": "Sunny day, good for outdoor visit",
-          "google_place_id": "ChIJzeiLW1DO1EAR3WGrIbDpvW8"
-          "rating": 4.5
+          "google_place_id": "ChIJzeiLW1DO1EAR3WGrIbDpvW8",
+          "rating": 4.5,
+          "category": "cityActivity"
         }
       ]
     }
@@ -94,7 +98,7 @@ Respond ONLY with valid JSON like:
 
       // Отправка запроса в OpenAI API
       const response = await client.chat.completions.create({
-        model: "gpt-4.1-mini", //Краща модель - "gpt-4.1"
+        model: "gpt-4.1", //Краща модель - "gpt-4.1"
         messages: [
           {
             role: "user",
@@ -108,7 +112,7 @@ Respond ONLY with valid JSON like:
       const cleaned = rawContent.replace(/^```json\s*/, "").replace(/```$/, "");
 
       const data = JSON.parse(cleaned);
-      // console.log(data);
+
       return data;
     } catch (err) {
       console.error("Помилки при розборі JSON:", err.message);

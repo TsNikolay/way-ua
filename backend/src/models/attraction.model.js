@@ -13,6 +13,14 @@ class AttractionModel {
 
   async findByPlaceId(placeId) {
     const result = await db.query(
+      `SELECT * FROM attractions WHERE google_place_id = $1`,
+      [placeId],
+    );
+    return result.rows[0] || null;
+  }
+
+  async findIdByPlaceId(placeId) {
+    const result = await db.query(
       `SELECT id FROM attractions WHERE google_place_id = $1`,
       [placeId],
     );
@@ -28,7 +36,7 @@ class AttractionModel {
       [google_place_id, name, address, rating, photo_reference],
     );
 
-    return result.rows[0].id;
+    return result.rows[0];
   }
 }
 
