@@ -23,11 +23,7 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     console.log(error);
-    if (
-      error.response.status === 401 &&
-      error.config &&
-      !error.config._isRetry
-    ) {
+    if (error.response.status === 401 && error.config && !error.config._isRetry) {
       //Перевірка щоб програма на зациклилась якщо буде завжди приходити 401 і ми не зможемо оновити токени
       originalRequest._isRetry = true;
       try {
@@ -41,7 +37,7 @@ api.interceptors.response.use(
       }
     }
     throw error;
-  },
+  }
 );
 
 export default api;

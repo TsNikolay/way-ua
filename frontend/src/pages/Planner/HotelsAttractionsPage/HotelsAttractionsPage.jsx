@@ -36,6 +36,7 @@ const HotelsAttractionsPage = () => {
   }
 
   const handleContinue = async () => {
+    window.scrollTo(0, 0); // Вгору сторінки
     const { lat, lng } = city.coordinates;
     try {
       await getWeather(lat, lng, language); // Не передаю кількість днів бо завжди проситиму максимум, а вже потім фільтрувати по датам

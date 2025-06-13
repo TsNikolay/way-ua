@@ -33,7 +33,7 @@ const OpenAIAPI = {
 
       // Текст запиту
       const promptText = `
-You are a travel planning assistant. Based on the provided data, generate a detailed travel itinerary. The trip takes place in the city of ${city}, from ${dates[0]} to ${dates[1]}, for a total of ${duration} days.
+You are an expert travel planning assistant. Based on the provided data, generate a detailed travel itinerary. The trip takes place in the city of ${city}, from ${dates[0]} to ${dates[1]}, for a total of ${duration} days.
 
 The user has selected the following hotel:
 - Name: ${hotel.name}

@@ -30,7 +30,7 @@ class AuthController {
       res.status(201).json({
         message: "User registered successfully",
         user,
-        //...tokens,
+        ...tokens,
       });
     } catch (error) {
       if (error instanceof ApiError) {

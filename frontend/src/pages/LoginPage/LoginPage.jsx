@@ -42,6 +42,10 @@ const LoginPage = () => {
     return <h1>Loading...</h1>;
   }
 
+  const moveToRegister = async () => {
+    navigate("/auth/register", { state: { from: "/planner/report" } });
+  };
+
   //Якщо є шлях повернення, беремо його, якщо ні — дефолтний
   const from = location.state?.from || "/routes";
 
@@ -70,9 +74,9 @@ const LoginPage = () => {
         <button className={styles.button} type="submit">
           {t("loginpage.log_in_capital")}
         </button>
-        <Link className={styles.register} to={"/auth/register"}>
+        <button className={styles.register} onClick={moveToRegister}>
           {t("loginpage.new_here_register_now")}
-        </Link>
+        </button>
       </form>
     </div>
   );

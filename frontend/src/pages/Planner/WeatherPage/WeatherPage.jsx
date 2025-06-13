@@ -79,6 +79,7 @@ const WeatherPage = () => {
   };
 
   const handlePlanTrip = async () => {
+    window.scrollTo(0, 0);
     navigate("/planner/report");
     await getTripPlan(dataForPlan);
   };

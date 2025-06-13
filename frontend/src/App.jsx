@@ -38,13 +38,13 @@ function App() {
 
           <Route path="/contacts" element={<ContactsPage />} />
 
+          <Route path="/auth/login" element={<LoginPage />} />
+          <Route path="/auth/register" element={<RegisterPage />} />
+
           <Route path="/planner/step1" element={<LocationDatesPage />} />
           <Route path="/planner/step2" element={<HotelsAttractionsPage />} />
           <Route path="/planner/step3" element={<WeatherPage />} />
           <Route path="/planner/report" element={<ReportPage />} />
-
-          <Route path="/auth/login" element={<LoginPage />} />
-          <Route path="/auth/register" element={<RegisterPage />} />
 
           <Route path="/routes" element={<RoutesPage />} />
           <Route path="/routes/:id" element={<RoutePage />} />
