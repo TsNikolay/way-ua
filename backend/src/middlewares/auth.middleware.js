@@ -1,4 +1,3 @@
-import jwt from "jsonwebtoken";
 import tokenService from "../services/token.service.js";
 
 export const checkToken = async (req, res, next) => {
@@ -16,14 +15,17 @@ export const checkToken = async (req, res, next) => {
     }
 
     const token = tokenParts[1];
+    const userData = await tokenService.validateAccessToken(token);
 
-    const userData = await tokenService.validateAccessToken(token); //Поверенться пейлоад (зашиті дані юзера)
     if (!userData) {
       return res.status(401).json({ message: "Token not valid." });
     }
+
     req.user = userData;
     next();
   } catch (error) {
-    return res.status(403).json({ message: "Invalid token." });
+    return res
+      .status(401)
+      .json({ message: "Unauthorized. Token check failed." });
   }
 };

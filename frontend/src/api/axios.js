@@ -43,9 +43,11 @@ api.interceptors.response.use(
 
         // ❗ Видаляємо accessToken, якщо refresh також не вдався
         localStorage.removeItem("token");
-        window.location.href = "/auth/login";
-        // Можеш також зробити редірект на логін сторінку або викликати logout:
-        // window.location.href = "/login";
+
+        //Якщо нема обох токенів то пересилка на логін або реєстрацію
+        if (!window.location.pathname.startsWith("/auth")) {
+          window.location.href = "/auth/login";
+        }
 
         return Promise.reject(refreshError);
       }
