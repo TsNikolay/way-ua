@@ -2,15 +2,6 @@
 
 **Way UA** is a travel assistant web application designed for planning safe and exciting trips across Ukraine. Users can create detailed travel routes, explore landmarks, receive weather forecasts, and earn achievements.
 
-## 📚 Table of Contents
-
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Screenshots & Illustrations](#screenshots--illustrations)
-- [Installation](#installation)
-- [Usage](#usage)
-- [License](#license)
-
 ---
 
 ## 🚀 Features 
