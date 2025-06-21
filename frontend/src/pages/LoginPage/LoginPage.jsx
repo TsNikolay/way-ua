@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../../contexts/AuthContext";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./LoginPage.module.css";
 import { useTranslation } from "react-i18next";
 
@@ -15,15 +15,12 @@ const LoginPage = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      refresh();
-    }
-  }, []);
-
-  useEffect(() => {
     if (isAuth) {
-      navigate(from, { replace: true });
+      if (from) {
+        navigate(from, { replace: true });
+      } else {
+        navigate(`/`);
+      }
     }
   }, [isAuth]);
 

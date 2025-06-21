@@ -22,22 +22,37 @@ api.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    console.log(error);
-    if (error.response.status === 401 && error.config && !error.config._isRetry) {
-      //Перевірка щоб програма на зациклилась якщо буде завжди приходити 401 і ми не зможемо оновити токени
+
+    // Якщо помилка 401 і не пробували ще оновлювати токен
+    if (
+      error.response?.status === 401 &&
+      originalRequest &&
+      !originalRequest._isRetry
+    ) {
       originalRequest._isRetry = true;
+
       try {
         const response = await axios.get(`${API_URL}/auth/refresh`, {
           withCredentials: true,
         });
+
         localStorage.setItem("token", response.data.accessToken);
         return api.request(originalRequest);
-      } catch (error) {
-        console.error(error);
+      } catch (refreshError) {
+        console.error("Token refresh failed:", refreshError);
+
+        // ❗ Видаляємо accessToken, якщо refresh також не вдався
+        localStorage.removeItem("token");
+        window.location.href = "/auth/login";
+        // Можеш також зробити редірект на логін сторінку або викликати logout:
+        // window.location.href = "/login";
+
+        return Promise.reject(refreshError);
       }
     }
-    throw error;
-  }
+
+    return Promise.reject(error);
+  },
 );
 
 export default api;

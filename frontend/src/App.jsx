@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { useContext, useEffect } from "react";
 import UserContext from "./contexts/UserContext";
 import ContactsPage from "./pages/ContactsPage/ContactsPages";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 function App() {
   const { i18n } = useTranslation();
@@ -34,20 +35,21 @@ function App() {
     <>
       <Routes>
         <Route element={<MainLayout />}>
+          {/* Public */}
           <Route path="/" element={<Homepage />} />
-
           <Route path="/contacts" element={<ContactsPage />} />
-
           <Route path="/auth/login" element={<LoginPage />} />
           <Route path="/auth/register" element={<RegisterPage />} />
-
           <Route path="/planner/step1" element={<LocationDatesPage />} />
           <Route path="/planner/step2" element={<HotelsAttractionsPage />} />
           <Route path="/planner/step3" element={<WeatherPage />} />
           <Route path="/planner/report" element={<ReportPage />} />
 
-          <Route path="/routes" element={<RoutesPage />} />
-          <Route path="/routes/:id" element={<RoutePage />} />
+          {/* Private */}
+          <Route element={<PrivateRoute />}>
+            <Route path="/routes" element={<RoutesPage />} />
+            <Route path="/routes/:id" element={<RoutePage />} />
+          </Route>
         </Route>
       </Routes>
     </>

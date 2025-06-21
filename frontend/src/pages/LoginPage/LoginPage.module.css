@@ -41,6 +41,8 @@
     background-color: var(--color-card);
 }
 
+
+
 .button {
     background-color: var(--color-primary-light);
     color: white;
@@ -66,6 +68,7 @@
 
 .register {
     color: gray;
+    background: none;
     margin-top: 5px;
     font-size: 14px;
     font-weight: 400;

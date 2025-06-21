@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useRef } from "react";
 import styles from "./Header.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 const Header = () => {
   const { logout } = useContext(AuthContext);
   const { clearUserInfo, clearLanguage } = useContext(UserContext);
-  const { isAuth, refresh } = useContext(AuthContext);
+  const { isAuth } = useContext(AuthContext);
   const { t } = useTranslation();
 
   //Наступні дві константи для респонсів навбару
@@ -42,13 +42,6 @@ const Header = () => {
       );
     }
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      refresh();
-    }
-  }, []);
 
   return (
     <header className={styles.header}>

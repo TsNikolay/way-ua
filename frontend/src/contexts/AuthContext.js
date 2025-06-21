@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import { loginRequest, registerRequest, logoutRequest } from "../api/authApi";
 import axios from "axios";
 import { API_URL } from "../api/axios";
@@ -39,6 +39,27 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        dispatch({ type: "LOGOUT" }); // убрать isAuth = true, если токена вообще нет
+        return;
+      }
+
+      try {
+        // Здесь можно вызвать refresh даже если access истёк
+        await refresh();
+      } catch (err) {
+        console.warn("Auth check failed:", err);
+        localStorage.removeItem("token");
+        dispatch({ type: "LOGOUT" });
+      }
+    };
+
+    checkAuth();
+  }, []);
 
   const login = async (email, password) => {
     try {
@@ -81,7 +102,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", response.data.accessToken);
       dispatch({ type: "REFRESH_TOKENS", payload: response.data.user });
     } catch (err) {
-      throw err;
+      await logout();
     }
     dispatch({ type: "LOADING", payload: false });
   };
